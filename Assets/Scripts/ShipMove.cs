@@ -25,7 +25,6 @@ public class ShipMove : MonoBehaviour {
         {
             FireForwardThrusters();
             
-
         }
         else if(moveV<0.0f)
         {
@@ -33,13 +32,22 @@ public class ShipMove : MonoBehaviour {
         }
         if (moveH > 0.0f)
         {
-            FireTurnRightThrusters();
-
+            StrafeRight();
         }
         else if (moveH < 0.0f)
         {
-            FireTurnLeftThrusters();
+            StrafeLeft();
         }
+        if(Input.GetKey(KeyCode.Q))
+        {
+            TurnLeft();
+        }
+        else if(Input.GetKey(KeyCode.E))
+        {
+            TurnRight();
+        }
+        if (Input.GetKey(KeyCode.Space))
+            Stabilize();
 	}
 
     void FireForwardThrusters()
@@ -66,7 +74,30 @@ public class ShipMove : MonoBehaviour {
             }
         }
     }
-    void FireTurnRightThrusters()
+
+    void TurnRight()
+    {
+        FireForwardLeftThrusters();
+        FireRearRightThrusters();
+    }
+    void TurnLeft()
+    {
+        FireForwardRightThrusters();
+        FireRearLeftThrusters();
+    }
+    void StrafeRight()
+    {
+        FireForwardLeftThrusters();
+        FireRearLeftThrusters();
+    }
+    void StrafeLeft()
+    {
+        FireForwardRightThrusters();
+        FireRearRightThrusters();
+    }
+
+
+    void FireForwardLeftThrusters()
     {
         for (int i = 0; i < forwardLeftThrusters.Length; i++)
         {
@@ -76,16 +107,8 @@ public class ShipMove : MonoBehaviour {
                 thruster.FireThruster();
             }
         }
-        for (int i = 0; i < rearRightThrusters.Length; i++)
-        {
-            thruster = rearRightThrusters[i].GetComponent<ThrusterForce>();
-            if (!thruster.damaged)
-            {
-                thruster.FireThruster();
-            }
-        }
     }
-    void FireTurnLeftThrusters()
+    void FireForwardRightThrusters()
     {
         for (int i = 0; i < forwardRightThrusters.Length; i++)
         {
@@ -95,6 +118,9 @@ public class ShipMove : MonoBehaviour {
                 thruster.FireThruster();
             }
         }
+    }
+    void FireRearLeftThrusters()
+    {
         for (int i = 0; i < rearLeftThrusters.Length; i++)
         {
             thruster = rearLeftThrusters[i].GetComponent<ThrusterForce>();
@@ -104,6 +130,30 @@ public class ShipMove : MonoBehaviour {
             }
         }
     }
+    void FireRearRightThrusters()
+    {
+        for (int i = 0; i < rearRightThrusters.Length; i++)
+        {
+            thruster = rearRightThrusters[i].GetComponent<ThrusterForce>();
+            if (!thruster.damaged)
+            {
+                thruster.FireThruster();
+            }
+        }
+    }
+    void Stabilize()
+    {
+        Vector3 vel=rigidbody.velocity;
+        rigidbody.velocity = new Vector3(
+            Mathf.Lerp(vel.x,0f,Time.deltaTime),
+            Mathf.Lerp(vel.y, 0f, Time.deltaTime),
+            Mathf.Lerp(vel.z, 0f, Time.deltaTime));
+        Vector3 aVel = rigidbody.angularVelocity;
+        rigidbody.angularVelocity = new Vector3(
+            Mathf.Lerp(aVel.x, 0f, Time.deltaTime),
+            Mathf.Lerp(aVel.y, 0f, Time.deltaTime),
+            Mathf.Lerp(aVel.z, 0f, Time.deltaTime));
 
+    }
 }
 
