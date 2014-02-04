@@ -3,14 +3,20 @@ using System.Collections;
 
 public class ShipMove : MonoBehaviour {
 
+    public float fwdThrustForce = 7000.0f;
+    public float revThrustForce = 5000.0f;
+    public float turnForce = 1000f;
+    public float strafeForce = 1000f;
+    public float verticalForce = 1000f;
+    public float pitchForce = 1000f;
+    public float rollForce = 1000f;
+
     public GameObject[] forwardThrusters;
     public GameObject[] reverseThrusters;
     public GameObject[] forwardLeftThrusters;
     public GameObject[] forwardRightThrusters;
     public GameObject[] rearLeftThrusters;
     public GameObject[] rearRightThrusters;
-
-    //new
     public GameObject[] bottomLeftThrusters;
     public GameObject[] bottomRightThrusters;
     public GameObject[] topLeftThrusters;
@@ -19,9 +25,7 @@ public class ShipMove : MonoBehaviour {
     public GameObject[] bottomFwdThrusters;
     public GameObject[] topRearThrusters;
     public GameObject[] topFwdThrusters;
-    //new
-
-
+    
 
     private ThrusterForce thruster;
     // Use this for initialization
@@ -59,11 +63,7 @@ public class ShipMove : MonoBehaviour {
         {
             TurnRight();
         }
-        if (Input.GetKey(KeyCode.Space))
-            Stabilize();
-
-        //new
-        //move up
+        
         if (Input.GetKey(KeyCode.U))
             MoveUp();
         if (Input.GetKey(KeyCode.H))
@@ -76,53 +76,44 @@ public class ShipMove : MonoBehaviour {
             PitchForward();
         if(Input.GetKey(KeyCode.K))
             PitchBack();
-
-
-
-
-        //new
+        if (Input.GetKey(KeyCode.Space))
+            Stabilize();
 	}
 
-    //new
     void MoveUp()
     {
-        FireBottomThrusters();
+        FireBottomThrusters(verticalForce);
     }
     void MoveDown()
     {
-        FireTopThrusters();
+        FireTopThrusters(verticalForce);
     }
     void RollLeft()
     {
-        FireBottomRightThrusters();
-        FireTopLeftThrusters();
+        FireBottomRightThrusters(rollForce);
+        FireTopLeftThrusters(rollForce);
     }
 
     
     void RollRight()
     {
-        FireBottomLeftThrusters();
-        FireTopRightThrusters();
+        FireBottomLeftThrusters(rollForce);
+        FireTopRightThrusters(rollForce);
     }
 
     
     void PitchForward()
     {
-        FireBottomRearThrusters();
-        FireTopFwdThrusters();
+        FireBottomRearThrusters(pitchForce);
+        FireTopFwdThrusters(pitchForce);
     }
 
    
     void PitchBack()
     {
-        FireBottomFwdThrusters();
-        FireTopRearThrusters();
+        FireBottomFwdThrusters(pitchForce);
+        FireTopRearThrusters(pitchForce);
     }
-
-    
-    //new
-
-
 
     void FireForwardThrusters()
     {
@@ -131,8 +122,8 @@ public class ShipMove : MonoBehaviour {
             thruster = forwardThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = fwdThrustForce;
                 thruster.FireThruster();
-
             }
         }
         
@@ -144,6 +135,7 @@ public class ShipMove : MonoBehaviour {
             thruster = reverseThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = revThrustForce;
                 thruster.FireThruster();
             }
         }
@@ -151,66 +143,70 @@ public class ShipMove : MonoBehaviour {
 
     void TurnRight()
     {
-        FireForwardLeftThrusters();
-        FireRearRightThrusters();
+        FireForwardLeftThrusters(turnForce);
+        FireRearRightThrusters(turnForce);
     }
     void TurnLeft()
     {
-        FireForwardRightThrusters();
-        FireRearLeftThrusters();
+        FireForwardRightThrusters(turnForce);
+        FireRearLeftThrusters(turnForce);
     }
     void StrafeRight()
     {
-        FireForwardLeftThrusters();
-        FireRearLeftThrusters();
+        FireForwardLeftThrusters(strafeForce);
+        FireRearLeftThrusters(strafeForce);
     }
     void StrafeLeft()
     {
-        FireForwardRightThrusters();
-        FireRearRightThrusters();
+        FireForwardRightThrusters(strafeForce);
+        FireRearRightThrusters(strafeForce);
     }
 
 
-    void FireForwardLeftThrusters()
+    void FireForwardLeftThrusters(float thrustForce)
     {
         for (int i = 0; i < forwardLeftThrusters.Length; i++)
         {
             thruster = forwardLeftThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-    void FireForwardRightThrusters()
+    void FireForwardRightThrusters(float thrustForce)
     {
         for (int i = 0; i < forwardRightThrusters.Length; i++)
         {
             thruster = forwardRightThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-    void FireRearLeftThrusters()
+    void FireRearLeftThrusters(float thrustForce)
     {
         for (int i = 0; i < rearLeftThrusters.Length; i++)
         {
             thruster = rearLeftThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-    void FireRearRightThrusters()
+    void FireRearRightThrusters(float thrustForce)
     {
         for (int i = 0; i < rearRightThrusters.Length; i++)
         {
             thruster = rearRightThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
@@ -230,27 +226,14 @@ public class ShipMove : MonoBehaviour {
 
     }
 
-    //new
-
-    /*
-     * public GameObject[] bottomLeftThrusters;
-    public GameObject[] bottomRightThrusters;
-    public GameObject[] topLeftThrusters;
-    public GameObject[] topRightThrusters;
-    public GameObject[] bottomRearThrusters;
-    public GameObject[] bottomFwdThrusters;
-    public GameObject[] topRearThrusters;
-    public GameObject[] topFwdThrusters;
-     * */
-     
-    
-    void FireBottomThrusters()
+    void FireBottomThrusters(float thrustForce)
     {
         for (int i = 0; i < bottomRearThrusters.Length; i++)
         {
             thruster = bottomRearThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
@@ -259,17 +242,19 @@ public class ShipMove : MonoBehaviour {
             thruster = bottomFwdThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-    void FireTopThrusters()
+    void FireTopThrusters(float thrustForce)
     {
         for (int i = 0; i < topRearThrusters.Length; i++)
         {
             thruster = topRearThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
@@ -278,80 +263,87 @@ public class ShipMove : MonoBehaviour {
             thruster = topFwdThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-    private void FireTopLeftThrusters()
+    private void FireTopLeftThrusters(float thrustForce)
     {
         for (int i = 0; i < topLeftThrusters.Length; i++)
         {
             thruster = topLeftThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
 
-    private void FireBottomRightThrusters()
+    private void FireBottomRightThrusters(float thrustForce)
     {
         for (int i = 0; i < bottomRightThrusters.Length; i++)
         {
             thruster = bottomRightThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-    private void FireTopRightThrusters()
+    private void FireTopRightThrusters(float thrustForce)
     {
         for (int i = 0; i < topRightThrusters.Length; i++)
         {
             thruster = topRightThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
 
-    private void FireBottomLeftThrusters()
+    private void FireBottomLeftThrusters(float thrustForce)
     {
         for (int i = 0; i < bottomLeftThrusters.Length; i++)
         {
             thruster = bottomLeftThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-    private void FireTopFwdThrusters()
+    private void FireTopFwdThrusters(float thrustForce)
     {
         for (int i = 0; i < topFwdThrusters.Length; i++)
         {
             thruster = topFwdThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
 
-    private void FireBottomRearThrusters()
+    private void FireBottomRearThrusters(float thrustForce)
     {
         for (int i = 0; i < bottomRearThrusters.Length; i++)
         {
             thruster = bottomRearThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-    private void FireTopRearThrusters()
+    private void FireTopRearThrusters(float thrustForce)
     {
         
         for (int i = 0; i < topRearThrusters.Length; i++)
@@ -359,23 +351,23 @@ public class ShipMove : MonoBehaviour {
             thruster = topRearThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
 
-    private void FireBottomFwdThrusters()
+    private void FireBottomFwdThrusters(float thrustForce)
     {
         for (int i = 0; i < bottomFwdThrusters.Length; i++)
         {
             thruster = bottomFwdThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
+                thruster.maxThrustForce = thrustForce;
                 thruster.FireThruster();
             }
         }
     }
-
-    //new
 }
 

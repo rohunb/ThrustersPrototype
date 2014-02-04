@@ -6,18 +6,25 @@ public class ThrusterForce : MonoBehaviour {
     public float maxThrustForce = 100.0f;
     public bool damaged;
     private Rigidbody spaceship;
-    private ParticleSystem afterburner;
+    private ParticleSystem[] afterburners;
+    private MeshRenderer mesh;
     private bool firing;
-    private float originalLifetime;
-    private float originalStartSize;   
+    //private float originalLifetime;
+    //private float originalStartSize;   
 	// Use this for initialization
 	void Start () {
-        afterburner=gameObject.GetComponentInChildren<ParticleSystem>();
-        afterburner.active = false;
+        mesh = gameObject.GetComponentInChildren<MeshRenderer>();
+        mesh.enabled = false;
+        afterburners=gameObject.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem afterburner in afterburners)
+        {
+            afterburner.enableEmission = false;    
+        }
+        
         spaceship = transform.parent.gameObject.rigidbody;
         firing = false;
-        originalLifetime = afterburner.startLifetime;
-        originalStartSize = afterburner.startSize;
+        //originalLifetime = afterburners[0].startLifetime;
+        //originalStartSize = afterburners[0].startSize;
 	}
 	
 	// Update is called once per frame
@@ -25,12 +32,18 @@ public class ThrusterForce : MonoBehaviour {
 
         if (!firing)
         {
-            afterburner.active = false;    
+            foreach (ParticleSystem afterburner in afterburners)
+            {
+                afterburner.enableEmission = false;    
+            }
         }
 	}
     public void FireThruster()
     {
-        afterburner.active = true;
+        foreach (ParticleSystem afterburner in afterburners)
+        {
+            afterburner.enableEmission = true;    
+        }
         firing = true;
         spaceship.AddForceAtPosition(transform.forward * maxThrustForce, transform.position);
         Invoke("StopAfterburner", 0.5f);
