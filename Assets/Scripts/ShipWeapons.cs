@@ -46,9 +46,10 @@ public class ShipWeapons : MonoBehaviour {
     }
     IEnumerator FireMissiles()
     {
+        Transform target = GameObject.FindGameObjectWithTag("Target").transform;
         foreach (MissileLauncher missileLauncher in missileLaunchers)
         {
-            missileLauncher.Fire(missileDamage);
+            missileLauncher.Fire(missileDamage,target);
         }
         yield return new WaitForSeconds(missileReloadTimer);
         canFireMissiles = true;

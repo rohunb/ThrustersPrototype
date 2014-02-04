@@ -6,8 +6,9 @@ public class MissileLauncher : MonoBehaviour {
     public GameObject missile;
     public Transform shootPoint;
 
-    public void Fire(float damage)
+    public void Fire(float damage, Transform _target)
     {
-        Instantiate(missile, shootPoint.position, shootPoint.rotation);
+        GameObject missileClone = Instantiate(missile, shootPoint.position, shootPoint.rotation) as GameObject;
+        missile.GetComponent<HomingMissile>().target = _target;
     }
 }

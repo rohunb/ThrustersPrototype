@@ -6,7 +6,7 @@ public class HomingMissile : MonoBehaviour {
     public float missileSpeed;
     public float missileTurnSpeed;
     public float missileAcceleration;
-    public static GameObject target;
+    public Transform target;
 	// Use this for initialization
 	void Start () {
         
@@ -22,7 +22,7 @@ public class HomingMissile : MonoBehaviour {
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.transform.position - transform.position), missileTurnSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), missileTurnSpeed * Time.deltaTime);
             transform.position += transform.forward * missileSpeed * Time.deltaTime;
             
             
