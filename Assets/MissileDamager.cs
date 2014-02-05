@@ -15,7 +15,10 @@ public class MissileDamager : MonoBehaviour {
 	}
     public void OnTriggerEnter(Collider other)
     {
-        Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        if (other.tag == "Target")
+        {
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }

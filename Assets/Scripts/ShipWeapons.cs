@@ -34,6 +34,11 @@ public class ShipWeapons : MonoBehaviour {
             StartCoroutine("FireMissiles");
             canFireMissiles = false;
         }
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            StartCoroutine("FireClusterMissiles");
+            canFireMissiles = false;
+        }
 	}
     IEnumerator FireLasers()
     {
@@ -49,7 +54,17 @@ public class ShipWeapons : MonoBehaviour {
         Transform target = GameObject.FindGameObjectWithTag("Target").transform;
         foreach (MissileLauncher missileLauncher in missileLaunchers)
         {
-            missileLauncher.Fire(missileDamage,target);
+            missileLauncher.FireMissile(missileDamage,target);
+        }
+        yield return new WaitForSeconds(missileReloadTimer);
+        canFireMissiles = true;
+    }
+    IEnumerator FireClusterMissiles()
+    {
+        Transform target = GameObject.FindGameObjectWithTag("Target").transform;
+        foreach (MissileLauncher missileLauncher in missileLaunchers)
+        {
+            missileLauncher.FireClusterMissile(missileDamage,target);
         }
         yield return new WaitForSeconds(missileReloadTimer);
         canFireMissiles = true;
