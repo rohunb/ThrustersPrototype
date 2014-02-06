@@ -17,7 +17,7 @@ public class MissileDamager : MonoBehaviour {
     {
         if (other.tag == "Target")
         {
-            Instantiate(explosion, transform.position, Quaternion.identity);
+            //Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

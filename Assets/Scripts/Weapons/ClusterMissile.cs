@@ -16,7 +16,7 @@ public class ClusterMissile : MonoBehaviour {
 	
     void ClusterOpen()
     {
-        Instantiate(explosion, transform.position, Quaternion.identity);
+        //Instantiate(explosion, transform.position, Quaternion.identity);
         Vector3 spawnPos;
         for (int i = 0; i < numberOfMissiles; i++)
         {
