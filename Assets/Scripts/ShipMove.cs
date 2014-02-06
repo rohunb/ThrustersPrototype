@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ShipMove : MonoBehaviour {
 
+    //Movement Force
     public float fwdThrustForce = 7000.0f;
     public float revThrustForce = 5000.0f;
     public float turnForce = 1000f;
@@ -11,6 +12,7 @@ public class ShipMove : MonoBehaviour {
     public float pitchForce = 1000f;
     public float rollForce = 1000f;
 
+    //Thrusters
     public GameObject[] forwardThrusters;
     public GameObject[] reverseThrusters;
     public GameObject[] forwardLeftThrusters;
@@ -25,25 +27,109 @@ public class ShipMove : MonoBehaviour {
     public GameObject[] bottomFwdThrusters;
     public GameObject[] topRearThrusters;
     public GameObject[] topFwdThrusters;
-    
-
     private ThrusterForce thruster;
-    // Use this for initialization
-	void Start () {
-        
-	}
-	
+
+    //control variables
+    public enum ControlModes { Keyboard, Mouse, Hydra };
+    public ControlModes controlMode;
+    private bool stablizing=false;
+    private Vector2 mousePos;
+    public Vector2 mouseDeadZone=new Vector2(0.0f,0.0f);
+    private Quaternion initRot;
+    void Start()
+    {
+        initRot = transform.rotation;
+    }
 	// Update is called once per frame
-	void Update () {
+    void Update()
+    {
+
+        switch (controlMode)
+        {
+            case ControlModes.Hydra:
+
+                break;
+
+            case ControlModes.Keyboard:
+                UniversalKeyboardControls();
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    TurnLeft(1f);
+                }
+                else if (Input.GetKey(KeyCode.E))
+                {
+                    TurnRight(1f);
+                }
+                if (Input.GetKey(KeyCode.U))
+                    MoveUp();
+                if (Input.GetKey(KeyCode.H))
+                    MoveDown();
+                if (Input.GetKey(KeyCode.J))
+                    RollLeft();
+                if (Input.GetKey(KeyCode.L))
+                    RollRight();
+                if (Input.GetKey(KeyCode.I))
+                    PitchForward(1f);
+                if (Input.GetKey(KeyCode.K))
+                    PitchBack(1f);
+
+                break;
+
+            case ControlModes.Mouse:
+                UniversalKeyboardControls();
+                mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+                if (!stablizing)
+                {
+                    if (mousePos.x > 0.5f + mouseDeadZone.x)
+                    {
+                        TurnRight(mousePos.x - 0.5f - mouseDeadZone.x);
+                    }
+                    if (mousePos.x < 0.5f - mouseDeadZone.x)
+                    {
+                        TurnLeft(mousePos.x + (0.5f - mouseDeadZone.x));
+                    }
+                    if (mousePos.y > 0.5f + mouseDeadZone.y)
+                    {
+                        PitchBack(mousePos.y - 0.5f - mouseDeadZone.y);
+                    }
+                    if (mousePos.y < 0.5f - mouseDeadZone.y)
+                    {
+                        PitchForward(mousePos.y + 0.5f - mouseDeadZone.y);
+                    }
+                }
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    RollLeft();
+                }
+                else if (Input.GetKey(KeyCode.E))
+                {
+                    RollRight();
+                }
+
+
+                break;
+        }
         
+
+
+        //mouse controls
+
+
+
+
+
+    }
+
+    private void UniversalKeyboardControls()
+    {
         float moveV = Input.GetAxis("Vertical");
         float moveH = Input.GetAxis("Horizontal");
-        if(moveV>0.0f)
+        if (moveV > 0.0f)
         {
             FireForwardThrusters();
-            
+
         }
-        else if(moveV<0.0f)
+        else if (moveV < 0.0f)
         {
             FireReverseThrusters();
         }
@@ -55,30 +141,22 @@ public class ShipMove : MonoBehaviour {
         {
             StrafeLeft();
         }
-        if(Input.GetKey(KeyCode.Q))
-        {
-            TurnLeft();
-        }
-        else if(Input.GetKey(KeyCode.E))
-        {
-            TurnRight();
-        }
-        
         if (Input.GetKey(KeyCode.U))
             MoveUp();
         if (Input.GetKey(KeyCode.H))
             MoveDown();
-        if(Input.GetKey(KeyCode.J))
-            RollLeft();
-        if(Input.GetKey(KeyCode.L))
-            RollRight();
-        if(Input.GetKey(KeyCode.I))
-            PitchForward();
-        if(Input.GetKey(KeyCode.K))
-            PitchBack();
         if (Input.GetKey(KeyCode.Space))
             Stabilize();
-	}
+        if (Input.GetKey(KeyCode.R))
+        {
+            stablizing = true;
+            OrientZero();
+        }
+        else
+        {
+            stablizing = false;
+        }
+    }
 
     void MoveUp()
     {
@@ -102,17 +180,17 @@ public class ShipMove : MonoBehaviour {
     }
 
     
-    void PitchForward()
+    void PitchForward(float pitchSpeed)
     {
-        FireBottomRearThrusters(pitchForce);
-        FireTopFwdThrusters(pitchForce);
+        FireBottomRearThrusters(pitchForce * pitchSpeed);
+        FireTopFwdThrusters(pitchForce * pitchSpeed);
     }
 
-   
-    void PitchBack()
+
+    void PitchBack(float pitchSpeed)
     {
-        FireBottomFwdThrusters(pitchForce);
-        FireTopRearThrusters(pitchForce);
+        FireBottomFwdThrusters(pitchForce * pitchSpeed);
+        FireTopRearThrusters(pitchForce * pitchSpeed);
     }
 
     void FireForwardThrusters()
@@ -141,15 +219,15 @@ public class ShipMove : MonoBehaviour {
         }
     }
 
-    void TurnRight()
+    void TurnRight(float turnSpeed)
     {
-        FireForwardLeftThrusters(turnForce);
-        FireRearRightThrusters(turnForce);
+        FireForwardLeftThrusters(turnForce*turnSpeed);
+        FireRearRightThrusters(turnForce*turnSpeed);
     }
-    void TurnLeft()
+    void TurnLeft(float turnSpeed)
     {
-        FireForwardRightThrusters(turnForce);
-        FireRearLeftThrusters(turnForce);
+        FireForwardRightThrusters(turnForce * turnSpeed);
+        FireRearLeftThrusters(turnForce * turnSpeed);
     }
     void StrafeRight()
     {
@@ -225,7 +303,20 @@ public class ShipMove : MonoBehaviour {
             Mathf.Lerp(aVel.z, 0f, Time.deltaTime));
 
     }
-
+    void OrientZero()
+    {
+        Vector3 aVel = rigidbody.angularVelocity;
+        rigidbody.angularVelocity = new Vector3(
+            Mathf.Lerp(aVel.x, 0f, Time.deltaTime),
+            Mathf.Lerp(aVel.y, 0f, Time.deltaTime),
+            Mathf.Lerp(aVel.z, 0f, Time.deltaTime));
+        Vector3 rot=new Vector3(initRot.eulerAngles.x,transform.rotation.eulerAngles.y,initRot.eulerAngles.z);
+        
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(rot), Time.deltaTime);
+        
+        
+        
+    }
     void FireBottomThrusters(float thrustForce)
     {
         for (int i = 0; i < bottomRearThrusters.Length; i++)
