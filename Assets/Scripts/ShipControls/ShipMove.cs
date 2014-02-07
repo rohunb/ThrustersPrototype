@@ -38,16 +38,107 @@ public class ShipMove : MonoBehaviour {
     private Quaternion initRot;
     void Start()
     {
+
         initRot = transform.rotation;
     }
 	// Update is called once per frame
     void Update()
     {
+        //motion control
+        float inputXOne = 0;
+        float inputYOne = 0;
+        float inputXTwo = 0;
+        float inputYTwo = 0;
+
+        //motion inputs
+        float currLeftX, currRightX;
+
         
         switch (controlMode)
         {
             case ControlModes.Hydra:
 
+
+                //motion input code
+		//warning ... contains hacks and magic number. will fix. ... I promise -A
+        if (SixenseInput.Controllers[0].Enabled)
+        {
+            inputXOne = SixenseInput.Controllers[0].JoystickX;
+            inputYOne = SixenseInput.Controllers[0].JoystickY;
+        }
+
+        if (inputXOne > 0.5f)
+        {
+            StrafeRight(1f);
+        }
+
+        if (inputXOne < -0.5f)
+        {
+            StrafeLeft(1f);
+        }
+
+        if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
+        {
+            FireReverseThrusters(1f);
+        }
+
+        if (SixenseInput.Controllers[1].Trigger == 1) //right trigger
+        {
+            FireForwardThrusters(1f);
+        }
+
+        if (SixenseInput.Controllers[0].GetButtonDown(SixenseButtons.BUMPER))
+        {
+            MoveDown(1f);
+        }
+
+        if (SixenseInput.Controllers[1].GetButtonDown(SixenseButtons.BUMPER))
+        {
+            MoveUp(1f);
+        }
+        
+        if (SixenseInput.Controllers[0].Rotation.x < -0.25f || SixenseInput.Controllers[1].Rotation.x < -0.25f )
+        {
+            PitchBack(1f);
+        }
+
+        if (SixenseInput.Controllers[0].Rotation.x > 0.25f || SixenseInput.Controllers[1].Rotation.x > 0.25f )
+        {
+            PitchForward(1f);
+        }
+
+        if (SixenseInput.Controllers[0].Rotation.y < -0.25f || SixenseInput.Controllers[1].Rotation.y < -0.25f)
+        {
+            TurnLeft(1f);
+        }
+
+        if (SixenseInput.Controllers[0].Rotation.y > 0.25f || SixenseInput.Controllers[1].Rotation.y > 0.25f)
+        {
+            TurnRight(1f);
+        }
+
+        if (SixenseInput.Controllers[0].Rotation.z < -0.25f || SixenseInput.Controllers[1].Rotation.z < -0.25f)
+        {
+            RollRight(1f); 
+        }
+
+        if (SixenseInput.Controllers[0].Rotation.z > 0.25f || SixenseInput.Controllers[1].Rotation.z > 0.25f)
+        {
+            RollLeft(1f);
+        }
+
+        bool controller1Stable, controller2Stable;
+
+        controller1Stable = (SixenseInput.Controllers[0].Rotation.x < 0.2f && SixenseInput.Controllers[0].Rotation.y < 0.2f && SixenseInput.Controllers[0].Rotation.z < 0.2f);
+        controller2Stable = (SixenseInput.Controllers[1].Rotation.x < 0.2f && SixenseInput.Controllers[1].Rotation.y < 0.2f && SixenseInput.Controllers[1].Rotation.z < 0.2f);
+
+        if (controller2Stable && controller1Stable)
+        {
+            Stabilize();
+        }
+
+		//move a little bit in Bkg space
+        //BkgCamera.position = (transform.position / 2000f);
                 break;
 
             case ControlModes.Keyboard:
