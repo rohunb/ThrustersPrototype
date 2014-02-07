@@ -61,13 +61,13 @@ public class ShipMove : MonoBehaviour {
                     TurnRight(1f);
                 }
                 if (Input.GetKey(KeyCode.U))
-                    MoveUp();
+                    MoveUp(1f);
                 if (Input.GetKey(KeyCode.H))
-                    MoveDown();
+                    MoveDown(1f);
                 if (Input.GetKey(KeyCode.J))
-                    RollLeft();
+                    RollLeft(1f);
                 if (Input.GetKey(KeyCode.L))
-                    RollRight();
+                    RollRight(1f);
                 if (Input.GetKey(KeyCode.I))
                     PitchForward(1f);
                 if (Input.GetKey(KeyCode.K))
@@ -103,40 +103,27 @@ public class ShipMove : MonoBehaviour {
                 }
                 if (Input.GetKey(KeyCode.Q))
                 {
-                    RollLeft();
+                    RollLeft(1f);
                 }
                 else if (Input.GetKey(KeyCode.E))
                 {
-                    RollRight();
+                    RollRight(1f);
                 }
 
 
                 break;
 
         }
-
-        VelocityStabilize();
-
-
-        //mouse controls
-
-
-
-
-
     }
 
-    private void VelocityStabilize()
-    {
-        
-    }
+    
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(10, 10, 150, 150));
         GUILayout.BeginVertical();
         GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
         GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
-        GUILayout.Label("Rotation: " + transform.rotation.ToString());
+        GUILayout.Label("Rotation0: " + transform.rotation.ToString());
         GUILayout.EndVertical();
         GUILayout.EndArea();
     }
@@ -147,25 +134,25 @@ public class ShipMove : MonoBehaviour {
         float moveH = Input.GetAxis("Horizontal");
         if (moveV > 0.0f)
         {
-            FireForwardThrusters();
+            FireForwardThrusters(1f);
 
         }
         else if (moveV < 0.0f)
         {
-            FireReverseThrusters();
+            FireReverseThrusters(1f);
         }
         if (moveH > 0.0f)
         {
-            StrafeRight();
+            StrafeRight(1f);
         }
         else if (moveH < 0.0f)
         {
-            StrafeLeft();
+            StrafeLeft(1f);
         }
         if (Input.GetKey(KeyCode.U))
-            MoveUp();
+            MoveUp(1f);
         if (Input.GetKey(KeyCode.H))
-            MoveDown();
+            MoveDown(1f);
         if (Input.GetKey(KeyCode.Space))
             Stabilize();
         if (Input.GetKey(KeyCode.R))
@@ -179,86 +166,86 @@ public class ShipMove : MonoBehaviour {
         }
     }
 
-    void MoveUp()
+    void MoveUp(float amount)
     {
-        FireBottomThrusters(verticalForce);
+        FireBottomThrusters(verticalForce*amount);
     }
-    void MoveDown()
+    void MoveDown(float amount)
     {
-        FireTopThrusters(verticalForce);
+        FireTopThrusters(verticalForce * amount);
     }
-    void RollLeft()
+    void RollLeft(float amount)
     {
-        FireBottomRightThrusters(rollForce);
-        FireTopLeftThrusters(rollForce);
-    }
-
-    
-    void RollRight()
-    {
-        FireBottomLeftThrusters(rollForce);
-        FireTopRightThrusters(rollForce);
+        FireBottomRightThrusters(rollForce*amount);
+        FireTopLeftThrusters(rollForce * amount);
     }
 
     
-    void PitchForward(float pitchSpeed)
+    void RollRight(float amount)
     {
-        FireBottomRearThrusters(pitchForce * pitchSpeed);
-        FireTopFwdThrusters(pitchForce * pitchSpeed);
+        FireBottomLeftThrusters(rollForce * amount);
+        FireTopRightThrusters(rollForce * amount);
+    }
+
+    
+    void PitchForward(float amount)
+    {
+        FireBottomRearThrusters(pitchForce * amount);
+        FireTopFwdThrusters(pitchForce * amount);
     }
 
 
-    void PitchBack(float pitchSpeed)
+    void PitchBack(float amount)
     {
-        FireBottomFwdThrusters(pitchForce * pitchSpeed);
-        FireTopRearThrusters(pitchForce * pitchSpeed);
+        FireBottomFwdThrusters(pitchForce * amount);
+        FireTopRearThrusters(pitchForce * amount);
     }
 
-    void FireForwardThrusters()
+    void FireForwardThrusters(float amount)
     {
         for (int i = 0; i < forwardThrusters.Length; i++)
         {
             thruster = forwardThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
-                thruster.maxThrustForce = fwdThrustForce;
+                thruster.maxThrustForce = fwdThrustForce * amount;
                 thruster.FireThruster();
             }
         }
         
     }
-    void FireReverseThrusters()
+    void FireReverseThrusters(float amount)
     {
         for (int i = 0; i < reverseThrusters.Length; i++)
         {
             thruster = reverseThrusters[i].GetComponent<ThrusterForce>();
             if (!thruster.damaged)
             {
-                thruster.maxThrustForce = revThrustForce;
+                thruster.maxThrustForce = revThrustForce * amount;
                 thruster.FireThruster();
             }
         }
     }
 
-    void TurnRight(float turnSpeed)
+    void TurnRight(float amount)
     {
-        FireForwardLeftThrusters(turnForce*turnSpeed);
-        FireRearRightThrusters(turnForce*turnSpeed);
+        FireForwardLeftThrusters(turnForce * amount);
+        FireRearRightThrusters(turnForce * amount);
     }
-    void TurnLeft(float turnSpeed)
+    void TurnLeft(float amount)
     {
-        FireForwardRightThrusters(turnForce * turnSpeed);
-        FireRearLeftThrusters(turnForce * turnSpeed);
+        FireForwardRightThrusters(turnForce * amount);
+        FireRearLeftThrusters(turnForce * amount);
     }
-    void StrafeRight()
+    void StrafeRight(float amount)
     {
-        FireForwardLeftThrusters(strafeForce);
-        FireRearLeftThrusters(strafeForce);
+        FireForwardLeftThrusters(strafeForce * amount);
+        FireRearLeftThrusters(strafeForce * amount);
     }
-    void StrafeLeft()
+    void StrafeLeft(float amount)
     {
-        FireForwardRightThrusters(strafeForce);
-        FireRearRightThrusters(strafeForce);
+        FireForwardRightThrusters(strafeForce * amount);
+        FireRearRightThrusters(strafeForce * amount);
     }
 
 
