@@ -43,7 +43,7 @@ public class ShipMove : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-
+        
         switch (controlMode)
         {
             case ControlModes.Hydra:
@@ -72,6 +72,10 @@ public class ShipMove : MonoBehaviour {
                     PitchForward(1f);
                 if (Input.GetKey(KeyCode.K))
                     PitchBack(1f);
+
+                //temp mouse
+                
+                //temp mouse
 
                 break;
 
@@ -108,8 +112,10 @@ public class ShipMove : MonoBehaviour {
 
 
                 break;
+
         }
-        
+
+        VelocityStabilize();
 
 
         //mouse controls
@@ -118,6 +124,21 @@ public class ShipMove : MonoBehaviour {
 
 
 
+    }
+
+    private void VelocityStabilize()
+    {
+        
+    }
+    void OnGUI()
+    {
+        GUILayout.BeginArea(new Rect(10, 10, 150, 150));
+        GUILayout.BeginVertical();
+        GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
+        GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
+        GUILayout.Label("Rotation: " + transform.rotation.ToString());
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
     }
 
     private void UniversalKeyboardControls()

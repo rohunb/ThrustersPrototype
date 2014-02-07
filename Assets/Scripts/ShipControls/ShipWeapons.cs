@@ -146,10 +146,15 @@ public class ShipWeapons : MonoBehaviour {
         //GUI.DrawTexture(textRect, crosshair);
         //Vector2 pos = Camera.main.WorldToScreenPoint(transform.position+transform.forward*20);
 
-        Vector2 pos = Camera.main.WorldToScreenPoint(transform.position + transform.forward * 10);
-        float xMin = Screen.width - (crosshair.width / 2 / 10)-pos.x;
-        float yMin = Screen.height  - (crosshair.height / 2 / 10)-pos.y;
+        //Vector2 pos = Camera.main.WorldToScreenPoint(transform.position + transform.forward * 10);
+        //float xMin = Screen.width - (crosshair.width / 2 / 10)-pos.x;
+        //float yMin = Screen.height  - (crosshair.height / 2 / 10)-pos.y;
+        //GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
+
+        float xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
+        float yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
         GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
+        Screen.showCursor = false;
     }
 }
 
