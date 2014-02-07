@@ -21,7 +21,7 @@ public class ThrusterForce : MonoBehaviour {
             afterburner.enableEmission = false;    
         }
 
-        spaceship = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<Rigidbody>();
+        spaceship = transform.root.rigidbody;
         firing = false;
         //originalLifetime = afterburners[0].startLifetime;
         //originalStartSize = afterburners[0].startSize;
