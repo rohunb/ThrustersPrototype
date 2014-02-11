@@ -13,32 +13,122 @@ public class AI_Controller : MonoBehaviour
     //states
     public enum AI_Types { FlyBy,Assassin,Vulture}
     public AI_Types ai_type;
-    public enum AI_States { Hunting,Fleeing,Attacking}
+    public enum AI_States { Hunting,Fleeing,AttackMove,StopAndAttack,Waiting}
     public AI_States ai_state;
 
     //ai behaviour variables
     private float distToTarget;
-    //flyby
-    public float minRange = 20f;
-    public float maxRange = 200f;
+    
+    public float weaponsRange = 250f;
+    public float maxRange = 1000f;
+    public float minRange = 75f;
 
+    //flyby
+    public bool breakingAway = false;
+
+    //assassin
+    public float sightRange = 350f;
+    public bool spotted = false;
 
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("AI_Dest").transform;
+        switch (ai_type)
+        {
+            case AI_Types.FlyBy:
+                ai_state = AI_States.Hunting;
+                break;
+            case AI_Types.Assassin:
+                ai_state = AI_States.Waiting;
+                break;
+            case AI_Types.Vulture:
+                ai_state = AI_States.Waiting;
+                break;
+            default:
+                break;
+        }
+
+
         
     }
 	// Update is called once per frame
     void Update()
     {
-        distToTarget = Vector3.Distance(target.position,transform.position);
+        distToTarget = Vector3.Distance(target.position, transform.position);
 
         switch (ai_type)
         {
             case AI_Types.FlyBy:
+                //fly towards target
+                float angle = Vector3.Angle(transform.forward, target.position - transform.position);
+                //target is in front
+                //if (angle < 90)
+                //{
+                //    if (distToTarget > weaponsRange)
+                //        ai_state = AI_States.Hunting;
+                //    if (distToTarget <= minRange)
+                //    {
+                //        ai_state = AI_States.StopAndAttack;
+                //        Invoke("BreakAway", 3f);
+                //    }
+                //    else if (distToTarget <= weaponsRange)
+                //    {
+                //        ai_state = AI_States.AttackMove;
+                //        Invoke("BreakAway", 3f);
+                //    }
+                //}
+                //else if(breakingAway)
+                //{
+                //    if (distToTarget < maxRange)
+                //        ai_state = AI_States.Fleeing;
+                //    else
+                //    {
+                //        ai_state = AI_States.Hunting;
+                //        breakingAway = false;
+                //    }
+                //}
+                if (breakingAway)
+                {
+                    if (distToTarget < maxRange)
+                        ai_state = AI_States.Fleeing;
+                    else
+                    {
+                        ai_state = AI_States.Hunting;
+                        breakingAway = false;
+                    }
+                }
+                else
+                {
+                    if (distToTarget > weaponsRange)
+                        ai_state = AI_States.Hunting;
+                    if (distToTarget <= minRange)
+                    {
+                        ai_state = AI_States.StopAndAttack;
+                        Invoke("BreakAway", 3f);
+                    }
+                    else if (distToTarget <= weaponsRange)
+                    {
+                        ai_state = AI_States.AttackMove;
+                        Invoke("BreakAway", 3f);
+                    }
+                }
+                //shoot once in range
+                //keep flying 
+                //turn around at maxRange
 
                 break;
             case AI_Types.Assassin:
+                if (distToTarget < sightRange)
+                    spotted = true;
+                if (spotted)
+                {
+                    if (distToTarget < weaponsRange)
+                        ai_state = AI_States.Hunting;
+                    if (distToTarget <= minRange)
+                        ai_state = AI_States.StopAndAttack;
+                    else if (distToTarget <= weaponsRange)
+                        ai_state = AI_States.AttackMove;
+                }
                 break;
             case AI_Types.Vulture:
                 break;
@@ -46,28 +136,51 @@ public class AI_Controller : MonoBehaviour
                 break;
         }
 
+
         switch (ai_state)
         {
             case AI_States.Hunting:
+                LookAtTarget();
+                MoveForward();
                 break;
             case AI_States.Fleeing:
+                LookAwayFromTarget();
+                MoveForward();
                 break;
-            case AI_States.Attacking:
+            case AI_States.AttackMove:
+                Debug.Log("attacking");
+                LookAtTarget();
+                MoveForward();
+                break;
+            case AI_States.StopAndAttack:
+                LookAtTarget();
+                Debug.Log("attacking");
+                break;
+            case AI_States.Waiting:
+                Debug.Log("waiting");
                 break;
             default:
                 break;
         }
 
-        LookAtTarget();
-        
-        MoveForward();
+    }    
         
         
         
+        
+    void BreakAway()
+    {
+        ai_state = AI_States.Fleeing;
+        breakingAway = true;
     }
+    
     void LookAtTarget()
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), turnSpeed * Time.deltaTime);
+    }
+    void LookAwayFromTarget()
+    {
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(-target.position + transform.position), turnSpeed * Time.deltaTime);
     }
     void MoveForward()
     {
