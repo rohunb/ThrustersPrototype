@@ -66,6 +66,7 @@
      <None Include="Assets\Sample Assets\Effects\Particle Systems\Shaders\Priority Particle Alpha.shader" />
      <None Include="Assets\Sample Assets\Effects\Particle Systems\Particle Systems Guidelines.txt" />
      <None Include="Assets\Sample Assets\Effects\Particle Systems\Shaders\Priority Particle Add (Soft).shader" />
+     <None Include="Assets\Materials\Shield.shader" />
      <None Include="Assets\Sample Assets\Effects\Shaders\Mobile-Spec.shader" />
      <None Include="Assets\Sample Assets\Effects\Light Shafts\Shaders\Raymarch.shader" />
      <None Include="Assets\Sample Assets\Effects\Light Shafts\Shaders\FinalInterpolation.shader" />
