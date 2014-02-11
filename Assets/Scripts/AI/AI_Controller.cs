@@ -55,38 +55,12 @@ public class AI_Controller : MonoBehaviour
     void Update()
     {
         distToTarget = Vector3.Distance(target.position, transform.position);
-
+        //float angle = Vector3.Angle(transform.forward, target.position - transform.position);
         switch (ai_type)
         {
             case AI_Types.FlyBy:
-                //fly towards target
-                float angle = Vector3.Angle(transform.forward, target.position - transform.position);
-                //target is in front
-                //if (angle < 90)
-                //{
-                //    if (distToTarget > weaponsRange)
-                //        ai_state = AI_States.Hunting;
-                //    if (distToTarget <= minRange)
-                //    {
-                //        ai_state = AI_States.StopAndAttack;
-                //        Invoke("BreakAway", 3f);
-                //    }
-                //    else if (distToTarget <= weaponsRange)
-                //    {
-                //        ai_state = AI_States.AttackMove;
-                //        Invoke("BreakAway", 3f);
-                //    }
-                //}
-                //else if(breakingAway)
-                //{
-                //    if (distToTarget < maxRange)
-                //        ai_state = AI_States.Fleeing;
-                //    else
-                //    {
-                //        ai_state = AI_States.Hunting;
-                //        breakingAway = false;
-                //    }
-                //}
+               
+                
                 if (breakingAway)
                 {
                     if (distToTarget < maxRange)
@@ -112,10 +86,6 @@ public class AI_Controller : MonoBehaviour
                         Invoke("BreakAway", 3f);
                     }
                 }
-                //shoot once in range
-                //keep flying 
-                //turn around at maxRange
-
                 break;
             case AI_Types.Assassin:
                 if (distToTarget < sightRange)
