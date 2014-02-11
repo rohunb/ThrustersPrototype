@@ -3,11 +3,17 @@ using System.Collections;
 
 public class AI_Controller : MonoBehaviour
 {
+    //Movement Force
+    public float fwdThrustForce = 7000.0f;
+    public float revThrustForce = 5000.0f;
+    //Thrusters
+    public GameObject[] forwardThrusters;
+    public GameObject[] reverseThrusters;
+    private ThrusterForce thruster;
 
-    
     //movement variables
     public Transform target;
-    public float turnSpeed = 4f;
+    public float turnSpeed = 2f;
     public float moveSpeed = 100f;
 
     //states
@@ -18,7 +24,7 @@ public class AI_Controller : MonoBehaviour
 
     //ai behaviour variables
     private float distToTarget;
-    
+    float angle;
     public float weaponsRange = 250f;
     public float maxRange = 1000f;
     public float minRange = 75f;
@@ -55,7 +61,7 @@ public class AI_Controller : MonoBehaviour
     void Update()
     {
         distToTarget = Vector3.Distance(target.position, transform.position);
-        //float angle = Vector3.Angle(transform.forward, target.position - transform.position);
+        angle = Vector3.Angle(rigidbody.velocity, target.position - transform.position);
         switch (ai_type)
         {
             case AI_Types.FlyBy:
@@ -111,11 +117,23 @@ public class AI_Controller : MonoBehaviour
         {
             case AI_States.Hunting:
                 LookAtTarget();
-                MoveForward();
+                if (angle <= 90)
+                    MoveForward();
+                else
+                {
+                    MoveForward();
+                    Brake();
+                }
                 break;
             case AI_States.Fleeing:
                 LookAwayFromTarget();
-                MoveForward();
+                if (angle <= 90)
+                {
+                    MoveForward();
+                    Brake();
+                }
+                else
+                    MoveForward();
                 break;
             case AI_States.AttackMove:
                 Debug.Log("attacking");
@@ -133,10 +151,22 @@ public class AI_Controller : MonoBehaviour
                 break;
         }
 
-    }    
-        
-        
-        
+    }
+
+    void Brake()
+    {
+        Vector3 vel = rigidbody.velocity;
+        rigidbody.velocity = new Vector3(
+            Mathf.Lerp(vel.x, 0f, Time.deltaTime),
+            Mathf.Lerp(vel.y, 0f, Time.deltaTime),
+            Mathf.Lerp(vel.z, 0f, Time.deltaTime));
+        Vector3 aVel = rigidbody.angularVelocity;
+        rigidbody.angularVelocity = new Vector3(
+            Mathf.Lerp(aVel.x, 0f, Time.deltaTime),
+            Mathf.Lerp(aVel.y, 0f, Time.deltaTime),
+            Mathf.Lerp(aVel.z, 0f, Time.deltaTime));
+
+    }
         
     void BreakAway()
     {
@@ -154,17 +184,47 @@ public class AI_Controller : MonoBehaviour
     }
     void MoveForward()
     {
-        transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        //transform.position += transform.forward * moveSpeed * Time.deltaTime;
+        //rigidbody.AddForce(transform.forward * 5000);
+        FireForwardThrusters(1f);
     }
+    void MoveBack()
+    {
+        FireReverseThrusters(1f);
+    }
+    void FireForwardThrusters(float amount)
+    {
+        for (int i = 0; i < forwardThrusters.Length; i++)
+        {
+            thruster = forwardThrusters[i].GetComponent<ThrusterForce>();
+            if (!thruster.damaged)
+            {
+                thruster.maxThrustForce = fwdThrustForce * amount;
+                thruster.FireThruster();
+            }
+        }
 
-
+    }
+    void FireReverseThrusters(float amount)
+    {
+        for (int i = 0; i < reverseThrusters.Length; i++)
+        {
+            thruster = reverseThrusters[i].GetComponent<ThrusterForce>();
+            if (!thruster.damaged)
+            {
+                thruster.maxThrustForce = revThrustForce * amount;
+                thruster.FireThruster();
+            }
+        }
+    }
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(10, 10, 150, 150));
         GUILayout.BeginVertical();
         GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
         GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
-        GUILayout.Label("Rotation0: " + transform.rotation.ToString());
+        GUILayout.Label("Rotation: " + transform.rotation.ToString());
+        GUILayout.Label("Angle: " + angle.ToString());
         GUILayout.EndVertical();
         GUILayout.EndArea();
     }
