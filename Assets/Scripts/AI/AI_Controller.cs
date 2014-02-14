@@ -21,7 +21,7 @@ public class AI_Controller : MonoBehaviour
     public AI_Types ai_type;
     public enum AI_States { Hunting,Fleeing,AttackMove,StopAndAttack,Waiting}
     public AI_States ai_state;
-
+    public bool attacking;
     //ai behaviour variables
     private float distToTarget;
     float angle;
@@ -53,7 +53,7 @@ public class AI_Controller : MonoBehaviour
             default:
                 break;
         }
-
+        attacking = false;
 
         
     }
@@ -81,15 +81,18 @@ public class AI_Controller : MonoBehaviour
                 {
                     if (distToTarget > weaponsRange)
                         ai_state = AI_States.Hunting;
-                    if (distToTarget <= minRange)
+                    if (distToTarget <= weaponsRange)
                     {
-                        ai_state = AI_States.StopAndAttack;
-                        Invoke("BreakAway", 3f);
-                    }
-                    else if (distToTarget <= weaponsRange)
-                    {
-                        ai_state = AI_States.AttackMove;
-                        Invoke("BreakAway", 3f);
+                        if (distToTarget <= minRange)
+                        {
+                            ai_state = AI_States.StopAndAttack;
+                            Invoke("BreakAway", 3f);
+                        }
+                        else
+                        {
+                            ai_state = AI_States.AttackMove;
+                            Invoke("BreakAway", 3f);
+                        }
                     }
                 }
                 break;
@@ -98,12 +101,21 @@ public class AI_Controller : MonoBehaviour
                     spotted = true;
                 if (spotted)
                 {
-                    if (distToTarget < weaponsRange)
+                    if (distToTarget > weaponsRange)
                         ai_state = AI_States.Hunting;
-                    if (distToTarget <= minRange)
-                        ai_state = AI_States.StopAndAttack;
-                    else if (distToTarget <= weaponsRange)
-                        ai_state = AI_States.AttackMove;
+                    if (distToTarget <= weaponsRange)
+                    {
+                        if (distToTarget <= minRange)
+                        {
+                            ai_state = AI_States.StopAndAttack;
+                            Invoke("BreakAway", 3f);
+                        }
+                        else
+                        {
+                            ai_state = AI_States.AttackMove;
+                            Invoke("BreakAway", 3f);
+                        }
+                    }
                 }
                 break;
             case AI_Types.Vulture:
@@ -136,25 +148,31 @@ public class AI_Controller : MonoBehaviour
                     MoveForward();
                 break;
             case AI_States.AttackMove:
-                Debug.Log("attacking");
+                //Debug.Log("attacking");
                 LookAtTarget();
                 MoveForward();
                 break;
             case AI_States.StopAndAttack:
                 LookAtTarget();
-                Debug.Log("attacking");
+                Brake();
+                //Debug.Log("attacking");
                 break;
             case AI_States.Waiting:
-                Debug.Log("waiting");
+                //Debug.Log("waiting");
                 break;
             default:
                 break;
         }
 
+        if (ai_state == AI_States.AttackMove || ai_state == AI_States.StopAndAttack)
+            attacking = true;
+        else
+            attacking = false;
     }
 
     void Brake()
     {
+        Debug.Log("braking");
         Vector3 vel = rigidbody.velocity;
         rigidbody.velocity = new Vector3(
             Mathf.Lerp(vel.x, 0f, Time.deltaTime),
@@ -224,6 +242,7 @@ public class AI_Controller : MonoBehaviour
         GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
         GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
         GUILayout.Label("Rotation: " + transform.rotation.ToString());
+        GUILayout.Label("Distance: " + distToTarget.ToString());
         GUILayout.Label("Angle: " + angle.ToString());
         GUILayout.EndVertical();
         GUILayout.EndArea();

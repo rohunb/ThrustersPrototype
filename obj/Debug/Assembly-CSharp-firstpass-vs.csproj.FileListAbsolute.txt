@@ -1,0 +1,11 @@
+E:\GitHub\ThrustersPrototype\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
+E:\GitHub\ThrustersPrototype\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+E:\GitHub\ThrustersPrototype\Temp\bin\Debug\UnityEditor.dll
+E:\GitHub\ThrustersPrototype\Temp\bin\Debug\UnityEngine.dll
+E:\GitHub\ThrustersPrototype\Temp\bin\Debug\Mono.Cecil.dll
+E:\GitHub\ThrustersPrototype\Temp\bin\Debug\nunit.framework.dll
+E:\GitHub\ThrustersPrototype\Temp\bin\Debug\Unity.DataContract.dll
+E:\GitHub\ThrustersPrototype\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+E:\GitHub\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass-vs.csprojResolveAssemblyReference.cache
+E:\GitHub\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass.dll
+E:\GitHub\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass.pdb
