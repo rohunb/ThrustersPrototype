@@ -36,10 +36,33 @@ public class ShipMove : MonoBehaviour {
     private Vector2 mousePos;
     public Vector2 mouseDeadZone=new Vector2(0.0f,0.0f);
     private Quaternion initRot;
+
+    //hydra game object
+    GameObject hydraInput;
+
+    void Awake()
+    {
+        hydraInput = GameObject.FindGameObjectWithTag("HydraInput");
+        switch (controlMode)
+        {
+            case ControlModes.Keyboard:
+                hydraInput.SetActive(false);
+                break;
+            case ControlModes.Mouse:
+                hydraInput.SetActive(false);
+                break;
+            case ControlModes.Hydra:
+                hydraInput.SetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
     void Start()
     {
-
+        
         initRot = transform.rotation;
+
     }
 	// Update is called once per frame
     void Update()
@@ -53,92 +76,92 @@ public class ShipMove : MonoBehaviour {
         //motion inputs
         float currLeftX, currRightX;
 
-        
+
         switch (controlMode)
         {
             case ControlModes.Hydra:
 
-
+                
                 //motion input code
-		//warning ... contains hacks and magic number. will fix. ... I promise -A
-        if (SixenseInput.Controllers[0].Enabled)
-        {
-            inputXOne = SixenseInput.Controllers[0].JoystickX;
-            inputYOne = SixenseInput.Controllers[0].JoystickY;
-        }
+                //warning ... contains hacks and magic number. will fix. ... I promise -A
+                if (SixenseInput.Controllers[0].Enabled)
+                {
+                    inputXOne = SixenseInput.Controllers[0].JoystickX;
+                    inputYOne = SixenseInput.Controllers[0].JoystickY;
+                }
 
-        if (inputXOne > 0.5f)
-        {
-            StrafeRight(1f);
-        }
+                if (inputXOne > 0.5f)
+                {
+                    StrafeRight(1f);
+                }
 
-        if (inputXOne < -0.5f)
-        {
-            StrafeLeft(1f);
-        }
+                if (inputXOne < -0.5f)
+                {
+                    StrafeLeft(1f);
+                }
 
-        if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
-        {
-            FireReverseThrusters(1f);
-        }
+                if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
+                {
+                    FireReverseThrusters(1f);
+                }
 
-        if (SixenseInput.Controllers[1].Trigger == 1) //right trigger
-        {
-            FireForwardThrusters(1f);
-        }
+                if (SixenseInput.Controllers[1].Trigger == 1) //right trigger
+                {
+                    FireForwardThrusters(1f);
+                }
 
-        if (SixenseInput.Controllers[0].GetButtonDown(SixenseButtons.BUMPER))
-        {
-            MoveDown(1f);
-        }
+                if (SixenseInput.Controllers[0].GetButtonDown(SixenseButtons.BUMPER))
+                {
+                    MoveDown(1f);
+                }
 
-        if (SixenseInput.Controllers[1].GetButtonDown(SixenseButtons.BUMPER))
-        {
-            MoveUp(1f);
-        }
-        
-        if (SixenseInput.Controllers[0].Rotation.x < -0.25f || SixenseInput.Controllers[1].Rotation.x < -0.25f )
-        {
-            PitchBack(1f);
-        }
+                if (SixenseInput.Controllers[1].GetButtonDown(SixenseButtons.BUMPER))
+                {
+                    MoveUp(1f);
+                }
 
-        if (SixenseInput.Controllers[0].Rotation.x > 0.25f || SixenseInput.Controllers[1].Rotation.x > 0.25f )
-        {
-            PitchForward(1f);
-        }
+                if (SixenseInput.Controllers[0].Rotation.x < -0.25f || SixenseInput.Controllers[1].Rotation.x < -0.25f)
+                {
+                    PitchBack(1f);
+                }
 
-        if (SixenseInput.Controllers[0].Rotation.y < -0.25f || SixenseInput.Controllers[1].Rotation.y < -0.25f)
-        {
-            TurnLeft(1f);
-        }
+                if (SixenseInput.Controllers[0].Rotation.x > 0.25f || SixenseInput.Controllers[1].Rotation.x > 0.25f)
+                {
+                    PitchForward(1f);
+                }
 
-        if (SixenseInput.Controllers[0].Rotation.y > 0.25f || SixenseInput.Controllers[1].Rotation.y > 0.25f)
-        {
-            TurnRight(1f);
-        }
+                if (SixenseInput.Controllers[0].Rotation.y < -0.25f || SixenseInput.Controllers[1].Rotation.y < -0.25f)
+                {
+                    TurnLeft(1f);
+                }
 
-        if (SixenseInput.Controllers[0].Rotation.z < -0.25f || SixenseInput.Controllers[1].Rotation.z < -0.25f)
-        {
-            RollRight(1f); 
-        }
+                if (SixenseInput.Controllers[0].Rotation.y > 0.25f || SixenseInput.Controllers[1].Rotation.y > 0.25f)
+                {
+                    TurnRight(1f);
+                }
 
-        if (SixenseInput.Controllers[0].Rotation.z > 0.25f || SixenseInput.Controllers[1].Rotation.z > 0.25f)
-        {
-            RollLeft(1f);
-        }
+                if (SixenseInput.Controllers[0].Rotation.z < -0.25f || SixenseInput.Controllers[1].Rotation.z < -0.25f)
+                {
+                    RollRight(1f);
+                }
 
-        bool controller1Stable, controller2Stable;
+                if (SixenseInput.Controllers[0].Rotation.z > 0.25f || SixenseInput.Controllers[1].Rotation.z > 0.25f)
+                {
+                    RollLeft(1f);
+                }
 
-        controller1Stable = (SixenseInput.Controllers[0].Rotation.x < 0.2f && SixenseInput.Controllers[0].Rotation.y < 0.2f && SixenseInput.Controllers[0].Rotation.z < 0.2f);
-        controller2Stable = (SixenseInput.Controllers[1].Rotation.x < 0.2f && SixenseInput.Controllers[1].Rotation.y < 0.2f && SixenseInput.Controllers[1].Rotation.z < 0.2f);
+                bool controller1Stable, controller2Stable;
 
-        if (controller2Stable && controller1Stable)
-        {
-            Stabilize();
-        }
+                controller1Stable = (SixenseInput.Controllers[0].Rotation.x < 0.2f && SixenseInput.Controllers[0].Rotation.y < 0.2f && SixenseInput.Controllers[0].Rotation.z < 0.2f);
+                controller2Stable = (SixenseInput.Controllers[1].Rotation.x < 0.2f && SixenseInput.Controllers[1].Rotation.y < 0.2f && SixenseInput.Controllers[1].Rotation.z < 0.2f);
 
-		//move a little bit in Bkg space
-        //BkgCamera.position = (transform.position / 2000f);
+                if (controller2Stable && controller1Stable)
+                {
+                    Stabilize();
+                }
+
+                //move a little bit in Bkg space
+                //BkgCamera.position = (transform.position / 2000f);
                 break;
 
             case ControlModes.Keyboard:
@@ -165,7 +188,7 @@ public class ShipMove : MonoBehaviour {
                     PitchBack(1f);
 
                 //temp mouse
-                
+
                 //temp mouse
 
                 break;

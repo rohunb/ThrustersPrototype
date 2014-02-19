@@ -31,13 +31,15 @@ public class ShipWeapons : MonoBehaviour {
     private Weapons currentWeapon;
 	// Use this for initialization
 	void Start () {
+        Screen.showCursor = false;
         canFireLasers = true;
         canFireMissiles = true;
         canFireMassDriver = true;
         laserCannons = gameObject.GetComponentsInChildren<LaserCannon>();
         missileLaunchers = gameObject.GetComponentsInChildren<MissileLauncher>();
         massDrivers = gameObject.GetComponentsInChildren<MassDriver>();
-        target = GameObject.FindGameObjectWithTag("Target").transform;
+        //target = GameObject.FindGameObjectWithTag("Target").transform;
+        target = null;
         currentWeapon = Weapons.Lasers;
 
 	}
@@ -154,7 +156,13 @@ public class ShipWeapons : MonoBehaviour {
         float xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
         float yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
         GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
-        Screen.showCursor = false;
+        
+
+        GUILayout.BeginArea(new Rect(10, Screen.height-30, 150, 150));
+        GUILayout.BeginVertical();
+        GUILayout.Label("Weapon: " + currentWeapon.ToString());
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
     }
 }
 
