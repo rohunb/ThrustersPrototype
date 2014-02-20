@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class ShipMove : MonoBehaviour {
+    
+    public enum ControlModes { Keyboard, Mouse, Hydra };
+    public ControlModes controlMode;
 
     //Movement Force
     public float fwdThrustForce = 7000.0f;
@@ -30,33 +33,33 @@ public class ShipMove : MonoBehaviour {
     private ThrusterForce thruster;
 
     //control variables
-    public enum ControlModes { Keyboard, Mouse, Hydra };
-    public ControlModes controlMode;
+    
     private bool stablizing=false;
     private Vector2 mousePos;
     public Vector2 mouseDeadZone=new Vector2(0.0f,0.0f);
     private Quaternion initRot;
 
     //hydra game object
-    GameObject hydraInput;
+    SixenseInput hydraInput;
 
     void Awake()
     {
-        hydraInput = GameObject.FindGameObjectWithTag("HydraInput");
-        switch (controlMode)
-        {
-            case ControlModes.Keyboard:
-                hydraInput.SetActive(false);
-                break;
-            case ControlModes.Mouse:
-                hydraInput.SetActive(false);
-                break;
-            case ControlModes.Hydra:
-                hydraInput.SetActive(true);
-                break;
-            default:
-                break;
-        }
+        //hydraInput = GameObject.FindGameObjectWithTag("HydraInput").GetComponent<SixenseInput>();
+        
+        //switch (controlMode)
+        //{
+        //    case ControlModes.Keyboard:
+        //        hydraInput.enabled = false;
+        //        break;
+        //    case ControlModes.Mouse:
+        //        hydraInput.enabled = false;
+        //        break;
+        //    case ControlModes.Hydra:
+        //        hydraInput.enabled = true;
+        //        break;
+        //    default:
+        //        break;
+        //}
     }
     void Start()
     {
@@ -237,7 +240,7 @@ public class ShipMove : MonoBehaviour {
         GUILayout.BeginVertical();
         GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
         GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
-        GUILayout.Label("Rotation0: " + transform.rotation.ToString());
+        GUILayout.Label("Rotation: " + transform.rotation.ToString());
         GUILayout.EndVertical();
         GUILayout.EndArea();
     }
