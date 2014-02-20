@@ -202,8 +202,8 @@ public class AI_Controller : MonoBehaviour
     void MoveForward()
     {
         //transform.position += transform.forward * moveSpeed * Time.deltaTime;
-        rigidbody.AddForce(transform.forward * fwdThrustForce);
-        FireForwardThrusters(0.0f);
+        //rigidbody.AddForce(transform.forward * fwdThrustForce);
+        FireForwardThrusters(1.0f);
     }
     void MoveBack()
     {

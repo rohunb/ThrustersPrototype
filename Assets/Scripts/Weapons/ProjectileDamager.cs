@@ -1,16 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ProjectileDamager : MonoBehaviour {
+public class ProjectileDamager : MonoBehaviour
+{
     public int damage;
-	// Use this for initialization
+    public GameObject origin;
+    // Use this for initialization
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "EnemyShip")
+        if (origin)
         {
-            //Instantiate(explosion, transform.position, Quaternion.identity);
-            other.GetComponent<Health>().TakeDamage(damage);
-            Destroy(gameObject);
+            switch (origin.tag)
+            {
+                case "PlayerShip":
+
+                    if (other.tag == "EnemyShip")
+                    {
+                        //Instantiate(explosion, transform.position, Quaternion.identity);
+                        other.GetComponent<Health>().TakeDamage(damage);
+                        Destroy(gameObject);
+                    }
+                    break;
+                case "EnemyShip":
+                    if (other.tag == "PlayerShip")
+                    {
+                        //Instantiate(explosion, transform.position, Quaternion.identity);
+                        other.GetComponent<Health>().TakeDamage(damage);
+                        Destroy(gameObject);
+                    }
+                    break;
+            }
         }
     }
 }

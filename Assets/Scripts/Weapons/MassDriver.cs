@@ -10,6 +10,7 @@ public class MassDriver : MonoBehaviour {
     {
         GameObject projectileClone=Instantiate(projectile, shootPoint.position, shootPoint.rotation) as GameObject;
         projectileClone.rigidbody.AddForce(transform.forward * force, ForceMode.Impulse);
+        projectileClone.GetComponent<ProjectileDamager>().origin = ship.gameObject;
         ship.AddForce(transform.forward * -force,  ForceMode.Impulse);
 
 

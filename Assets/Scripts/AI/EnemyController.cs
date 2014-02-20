@@ -18,13 +18,14 @@ public class EnemyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        foreach (GameObject enemy in enemies)
+        foreach (GameObject enemy in enemies.ToArray())
         {
+
             if(enemy.GetComponent<Health>().health<=0)
             {
                 Instantiate(explosion, enemy.transform.position, Quaternion.identity);
-                GameObject.Destroy(enemy);
                 enemies.Remove(enemy);
+                GameObject.Destroy(enemy);
             }
         }
 	}

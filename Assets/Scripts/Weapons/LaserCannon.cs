@@ -5,8 +5,9 @@ public class LaserCannon : MonoBehaviour {
     public GameObject laser;
     public Transform shootPoint;
 	
-    public void Fire(float damage)
+    public void Fire(float damage,GameObject _origin)
     {
-        Instantiate(laser, shootPoint.position, shootPoint.rotation);
+        GameObject laserClone = Instantiate(laser, shootPoint.position, shootPoint.rotation) as GameObject;
+        laserClone.GetComponent<ProjectileDamager>().origin = _origin;
     }
 }

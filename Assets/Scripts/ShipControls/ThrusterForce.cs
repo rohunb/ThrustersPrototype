@@ -21,7 +21,8 @@ public class ThrusterForce : MonoBehaviour {
             afterburner.enableEmission = false;    
         }
 
-        spaceship = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<Rigidbody>();
+        //spaceship = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<Rigidbody>();
+        spaceship = transform.root.rigidbody;
         firing = false;
         //originalLifetime = afterburners[0].startLifetime;
         //originalStartSize = afterburners[0].startSize;
@@ -45,7 +46,7 @@ public class ThrusterForce : MonoBehaviour {
             afterburner.enableEmission = true;    
         }
         firing = true;
-        spaceship.AddForceAtPosition(transform.forward * maxThrustForce, transform.position);
+        spaceship.AddForceAtPosition(transform.forward * maxThrustForce, transform.position,ForceMode.Force );
         Invoke("StopAfterburner", 0.5f);
         //StopAfterburner();
 

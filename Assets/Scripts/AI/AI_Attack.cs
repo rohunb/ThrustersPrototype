@@ -44,7 +44,7 @@ public class AI_Attack : MonoBehaviour {
     {
         foreach (LaserCannon laserCannon in laserCannons)
         {
-            laserCannon.Fire(laserDamage);
+            laserCannon.Fire(laserDamage,gameObject );
         }
         yield return new WaitForSeconds(laserReloadTimer);
         canFireLasers = true;

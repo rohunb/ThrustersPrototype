@@ -190,9 +190,6 @@ public class ShipMove : MonoBehaviour {
                 if (Input.GetKey(KeyCode.K))
                     PitchBack(1f);
 
-                //temp mouse
-
-                //temp mouse
 
                 break;
 
@@ -207,7 +204,7 @@ public class ShipMove : MonoBehaviour {
                     }
                     if (mousePos.x < 0.5f - mouseDeadZone.x)
                     {
-                        TurnLeft(mousePos.x + (0.5f - mouseDeadZone.x));
+                        TurnLeft(Mathf.Abs(mousePos.x - 0.5f - mouseDeadZone.x));
                     }
                     if (mousePos.y > 0.5f + mouseDeadZone.y)
                     {
@@ -215,7 +212,7 @@ public class ShipMove : MonoBehaviour {
                     }
                     if (mousePos.y < 0.5f - mouseDeadZone.y)
                     {
-                        PitchForward(mousePos.y + 0.5f - mouseDeadZone.y);
+                        PitchForward(Mathf.Abs(mousePos.y - 0.5f - mouseDeadZone.y));
                     }
                 }
                 if (Input.GetKey(KeyCode.Q))
@@ -241,6 +238,7 @@ public class ShipMove : MonoBehaviour {
         GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
         GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
         GUILayout.Label("Rotation: " + transform.rotation.ToString());
+        GUILayout.Label("Mouse Pos: " + mousePos.ToString());
         GUILayout.EndVertical();
         GUILayout.EndArea();
     }

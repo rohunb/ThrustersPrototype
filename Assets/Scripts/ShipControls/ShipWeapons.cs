@@ -175,7 +175,7 @@ public class ShipWeapons : MonoBehaviour
     {
         foreach (LaserCannon laserCannon in laserCannons)
         {
-            laserCannon.Fire(laserDamage);
+            laserCannon.Fire(laserDamage,gameObject);
         }
         yield return new WaitForSeconds(laserReloadTimer);
         canFireLasers = true;
@@ -184,7 +184,7 @@ public class ShipWeapons : MonoBehaviour
     {
         foreach (MissileLauncher missileLauncher in missileLaunchers)
         {
-            missileLauncher.FireMissile(missileDamage, target);
+            missileLauncher.FireMissile(missileDamage, target,gameObject);
         }
         yield return new WaitForSeconds(missileReloadTimer);
         canFireMissiles = true;
@@ -193,7 +193,7 @@ public class ShipWeapons : MonoBehaviour
     {
         foreach (MissileLauncher missileLauncher in missileLaunchers)
         {
-            missileLauncher.FireClusterMissile(missileDamage, target);
+            missileLauncher.FireClusterMissile(missileDamage, target,gameObject);
         }
         yield return new WaitForSeconds(missileReloadTimer);
         canFireMissiles = true;
@@ -227,9 +227,10 @@ public class ShipWeapons : MonoBehaviour
         GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
 
 
-        GUILayout.BeginArea(new Rect(10, Screen.height - 70, 150, 150));
+        GUILayout.BeginArea(new Rect(10, Screen.height - 100, 150, 150));
         GUILayout.BeginVertical();
-        
+        GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
+        GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
         GUILayout.Label("Weapon: " + currentWeapon.ToString());
         if (target)
         {
@@ -245,7 +246,6 @@ public class ShipWeapons : MonoBehaviour
             size = Mathf.Clamp(size, 45f, 112f);
             Vector3 position = Camera.main.WorldToScreenPoint(target.position);
             position.y = Screen.height - position.y;
-            Debug.Log("Position: " + position.ToString());
             position.x = Mathf.Clamp(position.x, 0, Screen.width - size / 2);
             position.y = Mathf.Clamp(position.y, 0, Screen.height - size / 2);
             if (Vector3.Angle(targeter.forward, target.position - transform.position) > 90)
@@ -263,7 +263,8 @@ public class ShipWeapons : MonoBehaviour
             GUI.DrawTexture(new Rect((position.x - (size / 2)), (position.y - (size / 2)), size, size), targetBoxTexture);
             GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2)), size * 20, size * 2), "Target = " + target.name);
             GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 15), size * 20, size * 2), "Health = " + target.gameObject.GetComponent<Health>().health);
-            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 30), size * 20, size * 2), "Dist = " + Vector3.Distance(transform.position, target.position));
+            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 30), size * 20, size * 2), "Shield = " + target.gameObject.GetComponent<Health>().shieldStrength);
+            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 45), size * 20, size * 2), "Dist = " + Vector3.Distance(transform.position, target.position));
         }
     }
 }
