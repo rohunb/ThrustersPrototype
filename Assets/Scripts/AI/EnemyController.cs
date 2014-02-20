@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour {
     public static List<GameObject> enemies;
+    public GameObject explosion;
 	// Use this for initialization
 	void Start () {
         GameObject[] enemiesArray = GameObject.FindGameObjectsWithTag("EnemyShip");
@@ -17,7 +18,15 @@ public class EnemyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+        foreach (GameObject enemy in enemies)
+        {
+            if(enemy.GetComponent<Health>().health<=0)
+            {
+                Instantiate(explosion, enemy.transform.position, Quaternion.identity);
+                GameObject.Destroy(enemy);
+                enemies.Remove(enemy);
+            }
+        }
 	}
     void OnGUI()
     {

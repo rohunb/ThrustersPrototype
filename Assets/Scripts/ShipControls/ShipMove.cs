@@ -44,22 +44,22 @@ public class ShipMove : MonoBehaviour {
 
     void Awake()
     {
-        //hydraInput = GameObject.FindGameObjectWithTag("HydraInput").GetComponent<SixenseInput>();
-        
-        //switch (controlMode)
-        //{
-        //    case ControlModes.Keyboard:
-        //        hydraInput.enabled = false;
-        //        break;
-        //    case ControlModes.Mouse:
-        //        hydraInput.enabled = false;
-        //        break;
-        //    case ControlModes.Hydra:
-        //        hydraInput.enabled = true;
-        //        break;
-        //    default:
-        //        break;
-        //}
+        hydraInput = GameObject.FindGameObjectWithTag("HydraInput").GetComponent<SixenseInput>();
+
+        switch (controlMode)
+        {
+            case ControlModes.Keyboard:
+                hydraInput.enabled = false;
+                break;
+            case ControlModes.Mouse:
+                hydraInput.enabled = false;
+                break;
+            case ControlModes.Hydra:
+                hydraInput.enabled = true;
+                break;
+            default:
+                break;
+        }
     }
     void Start()
     {
