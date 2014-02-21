@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour {
         foreach (GameObject enemy in enemiesArray)
         {
             enemies.Add(enemy);
+            enemy.GetComponent<AI_Controller>().target = target;
         }
 
 	}

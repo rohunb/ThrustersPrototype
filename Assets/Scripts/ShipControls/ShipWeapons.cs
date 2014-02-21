@@ -18,7 +18,7 @@ public class ShipWeapons : MonoBehaviour
     public Transform targeter;
     public Texture2D crosshair;
     public Texture2D targetBoxTexture;
-
+    public Texture2D targetLeadTexture;
 
     private LaserCannon[] laserCannons;
     private bool canFireLasers;
@@ -30,6 +30,7 @@ public class ShipWeapons : MonoBehaviour
     private bool canFireMassDriver;
 
     private Transform target;
+    private Vector3 targetLead;
 
     enum Weapons { Lasers, Missiles, ClusterMissiles, MassDrivers }
     private Weapons currentWeapon;
@@ -110,14 +111,23 @@ public class ShipWeapons : MonoBehaviour
         {
             LockOn();
         }
-           if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            TargetNextEnemy();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+            TargetNearestEnemy();
+        if (target)
+        {
+            if (laserCannons.Length > 0)
             {
-                TargetNextEnemy();
+                float laserVelocity = laserCannons[0].laser.GetComponent<ProjectileMover>().laserSpeed;
+                float distToTarget = Vector3.Distance(transform.position, target.position);
+                float timeToTarget = distToTarget / laserVelocity;
+                Vector3 targetVel = target.rigidbody.velocity;
+                targetLead = target.position + target.rigidbody.velocity * timeToTarget;
             }
-            if (Input.GetKeyDown(KeyCode.T))
-                TargetNearestEnemy();
-      
-
+        }
     }
     
     private void TargetNextEnemy()
@@ -268,6 +278,15 @@ public class ShipWeapons : MonoBehaviour
                 else
                     position.y = Mathf.Clamp(position.y, 0, 0);
                 
+            }
+            Vector3 leadPos = Camera.main.WorldToScreenPoint(targetLead);
+            float leadSize = 15f;
+            leadPos.y = Screen.height - leadPos.y;
+            leadPos.x = Mathf.Clamp(leadPos.x, 0, Screen.width - leadSize / 2);
+            leadPos.y = Mathf.Clamp(leadPos.y, 0, Screen.height - leadSize / 2);
+            if(Vector3.Angle(targeter.forward,target.position-transform.position)<90)
+            {
+                GUI.DrawTexture(new Rect((leadPos.x - (leadSize / 2)), (leadPos.y - (leadSize / 2)), leadSize, leadSize), targetLeadTexture);
             }
             GUI.DrawTexture(new Rect((position.x - (size / 2)), (position.y - (size / 2)), size, size), targetBoxTexture);
             GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2)), size * 20, size * 2), "Target = " + target.name);
