@@ -230,24 +230,14 @@ public class ShipWeapons : MonoBehaviour
 
     void OnGUI()
     {
-        //Debug.Log("transform: "+transform.position);
-        //Debug.Log("pos: " + pos);
-        //Rect textRect = new Rect(pos.x, pos.y, crosshair.width, crosshair.height);
-        //GUI.DrawTexture(textRect, crosshair);
-        //Vector2 pos = Camera.main.WorldToScreenPoint(transform.position+transform.forward*20);
-
-        //Vector2 pos = Camera.main.WorldToScreenPoint(transform.position + transform.forward * 10);
-        //float xMin = Screen.width - (crosshair.width / 2 / 10)-pos.x;
-        //float yMin = Screen.height  - (crosshair.height / 2 / 10)-pos.y;
-        //GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
-
         float xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
         float yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
         GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
 
 
-        GUILayout.BeginArea(new Rect(10, Screen.height - 100, 150, 150));
+        GUILayout.BeginArea(new Rect(10, Screen.height - 120, 150, 150));
         GUILayout.BeginVertical();
+        GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
         GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
         GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
         GUILayout.Label("Weapon: " + currentWeapon.ToString());

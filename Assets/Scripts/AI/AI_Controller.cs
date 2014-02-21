@@ -28,7 +28,7 @@ public class AI_Controller : MonoBehaviour
     public float weaponsRange = 250f;
     public float maxRange = 1000f;
     public float minRange = 75f;
-
+    public float timeToBreakaway = 6f;
     //flyby
     public bool breakingAway = false;
 
@@ -83,15 +83,15 @@ public class AI_Controller : MonoBehaviour
                         ai_state = AI_States.Hunting;
                     if (distToTarget <= weaponsRange)
                     {
-                        if (distToTarget <= minRange)
-                        {
-                            ai_state = AI_States.StopAndAttack;
-                            Invoke("BreakAway", 3f);
-                        }
-                        else
+                        //if (distToTarget <= minRange)
+                        //{
+                        //    ai_state = AI_States.StopAndAttack;
+                        //    Invoke("BreakAway", timeToBreakaway);
+                        //}
+                        //else
                         {
                             ai_state = AI_States.AttackMove;
-                            Invoke("BreakAway", 3f);
+                            Invoke("BreakAway", timeToBreakaway);
                         }
                     }
                 }
@@ -109,12 +109,12 @@ public class AI_Controller : MonoBehaviour
                     //    if (distToTarget <= minRange)
                     //    {
                     //        ai_state = AI_States.StopAndAttack;
-                    //        Invoke("BreakAway", 3f);
+                    //        Invoke("BreakAway", timeToBreakaway);
                     //    }
                     //    else
                     //    {
                     //        ai_state = AI_States.AttackMove;
-                    //        Invoke("BreakAway", 3f);
+                    //        Invoke("BreakAway", timeToBreakaway);
                     //    }
                     //}
                 }
@@ -130,13 +130,14 @@ public class AI_Controller : MonoBehaviour
         {
             case AI_States.Hunting:
                 LookAtTarget();
-                if (angle <= 90)
-                    MoveForward();
-                else
+                if (angle > 90 && distToTarget <= maxRange)
+                    Brake();
+                if (angle > 90)
                 {
                     MoveForward();
                     Brake();
                 }
+                else MoveForward();
                 break;
             case AI_States.Fleeing:
                 LookAwayFromTarget();

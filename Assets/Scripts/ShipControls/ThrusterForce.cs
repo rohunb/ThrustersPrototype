@@ -9,8 +9,13 @@ public class ThrusterForce : MonoBehaviour {
     private ParticleSystem[] afterburners;
     private MeshRenderer mesh;
     private bool firing;
-    //private float originalLifetime;
-    //private float originalStartSize;   
+    
+    public Color minColour;
+    private float originalLifetime;
+    private float originalStartSize;
+    private Color originalStartColour;
+
+    public float thrustAmount = 1f;
 	// Use this for initialization
 	void Start () {
         mesh = gameObject.GetComponentInChildren<MeshRenderer>();
@@ -24,8 +29,9 @@ public class ThrusterForce : MonoBehaviour {
         //spaceship = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<Rigidbody>();
         spaceship = transform.root.rigidbody;
         firing = false;
-        //originalLifetime = afterburners[0].startLifetime;
-        //originalStartSize = afterburners[0].startSize;
+        originalLifetime = afterburners[0].startLifetime;
+        originalStartSize = afterburners[0].startSize;
+        originalStartColour = afterburners[0].startColor;
 	}
 	
 	// Update is called once per frame
@@ -35,8 +41,14 @@ public class ThrusterForce : MonoBehaviour {
         {
             foreach (ParticleSystem afterburner in afterburners)
             {
-                afterburner.enableEmission = false;    
+                afterburner.enableEmission = false;
             }
+        }
+        foreach (ParticleSystem afterburner in afterburners)
+        {
+            afterburner.startLifetime = Mathf.Lerp(0.0f, originalLifetime, thrustAmount);
+            afterburner.startSize = Mathf.Lerp(originalStartSize * .3f, originalStartSize, thrustAmount);
+            //afterburner.startColor = Color.Lerp(minColour, originalStartColour, thrustAmount);
         }
 	}
     public void FireThruster()

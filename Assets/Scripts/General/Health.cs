@@ -43,8 +43,7 @@ public class Health : MonoBehaviour {
             shieldStrength += shieldRechargeStrength;
 
         //prevent shield from going over max
-        if (shieldStrength > maxShield)
-            shieldStrength = maxShield;
+        shieldStrength = Mathf.Clamp(shieldStrength, 0, maxShield);
 
         if(shieldFlickering)
         {
