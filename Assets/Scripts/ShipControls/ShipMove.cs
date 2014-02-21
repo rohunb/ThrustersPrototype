@@ -204,7 +204,7 @@ public class ShipMove : MonoBehaviour {
                     }
                     if (mousePos.x < 0.5f - mouseDeadZone.x)
                     {
-                        TurnLeft(Mathf.Abs(mousePos.x - 0.5f - mouseDeadZone.x));
+                        TurnLeft(Mathf.Abs(mousePos.x - 0.5f) - mouseDeadZone.x);
                     }
                     if (mousePos.y > 0.5f + mouseDeadZone.y)
                     {
@@ -212,7 +212,7 @@ public class ShipMove : MonoBehaviour {
                     }
                     if (mousePos.y < 0.5f - mouseDeadZone.y)
                     {
-                        PitchForward(Mathf.Abs(mousePos.y - 0.5f - mouseDeadZone.y));
+                        PitchForward(Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y);
                     }
                 }
                 if (Input.GetKey(KeyCode.Q))

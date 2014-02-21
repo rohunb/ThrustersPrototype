@@ -14,9 +14,11 @@ public class ShipWeapons : MonoBehaviour
     public float massDriverReloadTimer = 1.0f;
     public float massDriverForce = 50f;
 
+    public float minTargetableDistance = 2000f;
     public Transform targeter;
     public Texture2D crosshair;
     public Texture2D targetBoxTexture;
+
 
     private LaserCannon[] laserCannons;
     private bool canFireLasers;
@@ -108,19 +110,23 @@ public class ShipWeapons : MonoBehaviour
         {
             LockOn();
         }
-        if(Input.GetKeyDown(KeyCode.Tab))
-        {
-            TargetNextEnemy();
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-            TargetNearestEnemy();
+           if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                TargetNextEnemy();
+            }
+            if (Input.GetKeyDown(KeyCode.T))
+                TargetNearestEnemy();
+      
 
     }
-
+    
     private void TargetNextEnemy()
     {
         if (!target)
+        {
             TargetNearestEnemy();
+            
+        }
         else
         {
             for (int i = 0; i < EnemyController.enemies.Count; i++)
@@ -142,21 +148,24 @@ public class ShipWeapons : MonoBehaviour
     private void TargetNearestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("EnemyShip");
+        float minDistance;
         if (enemies.Length > 0)
         {
-            float minDistance = Vector3.Distance(enemies[0].transform.position, transform.position);
-            target = enemies[0].transform;
+            minDistance = Vector3.Distance(enemies[0].transform.position, transform.position);
+            if(minDistance<minTargetableDistance)
+                target = enemies[0].transform;
             float distance = 0;
             foreach (GameObject enemy in enemies)
             {
                 distance = Vector3.Distance(enemy.transform.position, transform.position);
-                if (distance < minDistance)
+                if (distance < minDistance && distance < minTargetableDistance)
                 {
                     target = enemy.transform;
                     minDistance = distance;
                 }
             }
         }
+        
     }
     void LockOn()
     {

@@ -6,13 +6,17 @@ public class Health : MonoBehaviour {
     public int health = 1000;
     public int maxShield = 1000;
     public int shieldStrength;
-    public float shieldRechargeTimer = 4;
+    public float shieldRechargeTimer = 4f;
     public int shieldRechargeStrength = 1;
+    public float shieldFlickerTimer = 0.5f;
     public bool shieldRecharging = false;
     public bool shielded = true;
     public bool alive = true;
     public GameObject shield;
-    private float currentTimer=0f;
+    private float shieldRechargeCurrentTimer=0f;
+    private bool shieldFlickering = false;
+    private float shieldFlickerCurrentTimer = 0f;
+    private Color shieldColor;
 	// Use this for initialization
     void Start()
     {
@@ -20,23 +24,36 @@ public class Health : MonoBehaviour {
     }
     void Update()
     {
-        if(currentTimer>=shieldRechargeTimer)
-        {
+        if(shieldRechargeCurrentTimer>=shieldRechargeTimer)
             shieldRecharging = true;
-        }
+
+        if (shieldFlickerCurrentTimer >= shieldFlickerTimer)
+            shieldFlickering = false;
+
         if (shieldStrength > 0)
             shielded = true;
+
         if (shielded)
             shield.renderer.enabled = true;
         else
             shield.renderer.enabled = false;
+
         //recharge shield
         if (shieldRecharging && shieldStrength<maxShield)
             shieldStrength += shieldRechargeStrength;
+
         //prevent shield from going over max
         if (shieldStrength > maxShield)
             shieldStrength = maxShield;
-        currentTimer += Time.deltaTime;
+
+        if(shieldFlickering)
+        {
+            shieldColor = shield.renderer.material.color;
+            shieldColor.a = Mathf.Abs(Mathf.Cos(shieldFlickerCurrentTimer*25));
+            shield.renderer.material.color = shieldColor;
+        }
+        shieldRechargeCurrentTimer += Time.deltaTime;
+        shieldFlickerCurrentTimer += Time.deltaTime;
     }
 	public void TakeDamage(int damage)
     {
@@ -52,7 +69,11 @@ public class Health : MonoBehaviour {
         if (health <= 0)
             alive = false;
         shieldRecharging = false;
-        currentTimer = 0f;
+        shieldRechargeCurrentTimer = 0f;
+        shieldFlickering = true;
+        shieldFlickerCurrentTimer = 0f;
     }
+
+ 
     
 }

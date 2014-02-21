@@ -38,7 +38,7 @@ public class AI_Controller : MonoBehaviour
 
     void Start()
     {
-        target = GameObject.FindGameObjectWithTag("PlayerShip").transform;
+        //target = GameObject.FindGameObjectWithTag("PlayerShip").transform;
         switch (ai_type)
         {
             case AI_Types.FlyBy:
@@ -101,21 +101,22 @@ public class AI_Controller : MonoBehaviour
                     spotted = true;
                 if (spotted)
                 {
-                    if (distToTarget > weaponsRange)
-                        ai_state = AI_States.Hunting;
-                    if (distToTarget <= weaponsRange)
-                    {
-                        if (distToTarget <= minRange)
-                        {
-                            ai_state = AI_States.StopAndAttack;
-                            Invoke("BreakAway", 3f);
-                        }
-                        else
-                        {
-                            ai_state = AI_States.AttackMove;
-                            Invoke("BreakAway", 3f);
-                        }
-                    }
+                    ai_type = AI_Types.FlyBy;
+                    //if (distToTarget > weaponsRange)
+                    //    ai_state = AI_States.Hunting;
+                    //if (distToTarget <= weaponsRange)
+                    //{
+                    //    if (distToTarget <= minRange)
+                    //    {
+                    //        ai_state = AI_States.StopAndAttack;
+                    //        Invoke("BreakAway", 3f);
+                    //    }
+                    //    else
+                    //    {
+                    //        ai_state = AI_States.AttackMove;
+                    //        Invoke("BreakAway", 3f);
+                    //    }
+                    //}
                 }
                 break;
             case AI_Types.Vulture:
