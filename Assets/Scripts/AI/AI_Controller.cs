@@ -83,12 +83,12 @@ public class AI_Controller : MonoBehaviour
                         ai_state = AI_States.Hunting;
                     if (distToTarget <= weaponsRange)
                     {
-                        //if (distToTarget <= minRange)
-                        //{
-                        //    ai_state = AI_States.StopAndAttack;
-                        //    Invoke("BreakAway", timeToBreakaway);
-                        //}
-                        //else
+                        if (distToTarget <= minRange)
+                        {
+                            ai_state = AI_States.StopAndAttack;
+                            Invoke("BreakAway", timeToBreakaway);
+                        }
+                        else
                         {
                             ai_state = AI_States.AttackMove;
                             Invoke("BreakAway", timeToBreakaway);
@@ -236,8 +236,8 @@ public class AI_Controller : MonoBehaviour
             }
         }
     }
-    void OnGUI()
-    {
+    //void OnGUI()
+    //{
         //GUILayout.BeginArea(new Rect(10, 10, 150, 150));
         //GUILayout.BeginVertical();
         //GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
@@ -247,7 +247,7 @@ public class AI_Controller : MonoBehaviour
         //GUILayout.Label("Angle: " + angle.ToString());
         //GUILayout.EndVertical();
         //GUILayout.EndArea();
-    }
+    //}
 
 }
 

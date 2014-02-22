@@ -23,8 +23,9 @@ public class ClusterMissile : MonoBehaviour {
         {
             spawnPos = transform.position+Random.onUnitSphere*missileSpread;
             GameObject missileClone=Instantiate(missile, transform.position, Quaternion.identity) as GameObject;
-            Vector3 vel = (spawnPos - transform.position)*missileSpread*2;
-            missileClone.rigidbody.velocity = new Vector3(vel.x,vel.y,vel.z);
+            //Vector3 vel = (spawnPos - transform.position)*missileSpread*20;
+            missileClone.rigidbody.AddForce((spawnPos - transform.position)*40f,ForceMode.Impulse);
+            //missileClone.rigidbody.velocity = new Vector3(vel.x,vel.y,vel.z);
             missileClone.transform.LookAt(target);
             missileClone.GetComponent<HomingMissile>().target = this.target;
             missileClone.GetComponent<ProjectileDamager>().origin = this.origin;

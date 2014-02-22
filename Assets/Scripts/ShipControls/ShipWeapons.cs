@@ -56,22 +56,18 @@ public class ShipWeapons : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             currentWeapon = Weapons.Lasers;
-            Debug.Log("Lasers Selected");
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             currentWeapon = Weapons.Missiles;
-            Debug.Log("Missiles Selected");
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             currentWeapon = Weapons.ClusterMissiles;
-            Debug.Log("Cluster Missiles Selected");
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             currentWeapon = Weapons.MassDrivers;
-            Debug.Log("Mass Drivers Selected");
         }
         if (Input.GetButton("Fire1"))
         {
