@@ -22,7 +22,7 @@ public class ClusterMissile : MonoBehaviour {
         for (int i = 0; i < numberOfMissiles; i++)
         {
             spawnPos = transform.position+Random.onUnitSphere*missileSpread;
-            GameObject missileClone=Instantiate(missile, transform.position, Quaternion.identity) as GameObject;
+            GameObject missileClone=Instantiate(missile, transform.position, transform.rotation) as GameObject;
             //Vector3 vel = (spawnPos - transform.position)*missileSpread*20;
             missileClone.rigidbody.AddForce((spawnPos - transform.position)*40f,ForceMode.Impulse);
             //missileClone.rigidbody.velocity = new Vector3(vel.x,vel.y,vel.z);

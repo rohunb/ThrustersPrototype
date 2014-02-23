@@ -10,7 +10,8 @@ public class MissionController : MonoBehaviour {
         Assassinate, //kill a particular ship (likely to spawn with cronies)
         Gather, //mine or gather an item carried by an enemy
         FedEx, //deliver something to another base/planet
-        DistressCall
+        DistressCall,
+        DestroyStructure
     }
     public MissionType missionType;
     public Transform waypoint;
@@ -24,8 +25,10 @@ public class MissionController : MonoBehaviour {
     public bool missionFailed = false;
     public List<GameObject> missionEnemies;
     public Transform player;
-    public GameObject victim;
+    public GameObject victimPrefab;
     public GameObject currentVictim;
+    public GameObject enemyStructPrefab;
+    public GameObject currentEnemyStruct;
     // Use this for initialization
 	void Start () {
         enemyController = GameObject.FindGameObjectWithTag("EnemyController").GetComponent<EnemyController>();
@@ -50,11 +53,15 @@ public class MissionController : MonoBehaviour {
             case MissionType.DistressCall:
                 if (missionEnemies.Count <= 0)
                     missionComplete = true;
-                if (currentVictim && currentVictim.GetComponent<Health>().health <= 0f)
+                if (currentVictim && currentVictim.GetComponent<Health>().health <= 0)
                 {
                     missionFailed = true;
                     CancelMission();
                 }
+                break;
+            case MissionType.DestroyStructure:
+                if (missionEnemies.Count <= 0 && !currentEnemyStruct)
+                    missionComplete = true;
                 break;
             default:
                 break;
@@ -79,6 +86,8 @@ public class MissionController : MonoBehaviour {
                 DespawnMissionEnemies();
                 GameObject.Destroy(currentVictim);
                 break;
+            case MissionType.DestroyStructure:
+                break;
             default:
                 break;
         }
@@ -94,8 +103,17 @@ public class MissionController : MonoBehaviour {
     public void GenerateDistressMission(MissionType missionType, Transform _waypoint, Vector3 _victimPos, int _enemiesToKill, AI_Controller.AI_Types _ai_type)
     {
         this.missionType = missionType;
-        currentVictim = Instantiate(victim, _victimPos, Quaternion.identity) as GameObject;
+        currentVictim = Instantiate(victimPrefab, _victimPos, Quaternion.identity) as GameObject;
         enemyController.SpawnEnemy(_enemiesToKill, _victimPos, _ai_type, currentVictim.transform);
+        missionComplete = false;
+        missionFailed = false;
+        enemiesLeftToKill = _enemiesToKill;
+    }
+    public void GenerateDestroyStructureMission(MissionType missionType, Transform _waypoint, Vector3 _structurePos, int _enemiesToKill, AI_Controller.AI_Types _ai_type)
+    {
+        this.missionType = missionType;
+        currentEnemyStruct = Instantiate(enemyStructPrefab, _structurePos, Quaternion.identity) as GameObject;
+        enemyController.SpawnEnemy(_enemiesToKill, _structurePos, _ai_type, player);
         missionComplete = false;
         missionFailed = false;
         enemiesLeftToKill = _enemiesToKill;

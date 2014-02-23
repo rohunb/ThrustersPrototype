@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour {
 	void Update () {
         foreach (GameObject enemy in enemies.ToArray())
         {
+            
             Transform enemyTarget=enemy.GetComponent<AI_Controller>().target;
             float distToPlayer=Vector3.Distance(enemy.transform.position,playerTarget.position);
             if(enemyTarget!=playerTarget && distToPlayer<=enemy.GetComponent<AI_Controller>().sightRange)

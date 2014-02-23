@@ -13,7 +13,7 @@ public class ThrusterForce : MonoBehaviour {
     public Color minColour;
     private float originalLifetime;
     private float originalStartSize;
-    private Color originalStartColour;
+    //private Color originalStartColour;
 
     public float thrustAmount = 1f;
 	// Use this for initialization
@@ -31,7 +31,7 @@ public class ThrusterForce : MonoBehaviour {
         firing = false;
         originalLifetime = afterburners[0].startLifetime;
         originalStartSize = afterburners[0].startSize;
-        originalStartColour = afterburners[0].startColor;
+        //originalStartColour = afterburners[0].startColor;
 	}
 	
 	// Update is called once per frame

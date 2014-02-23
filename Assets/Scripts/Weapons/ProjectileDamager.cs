@@ -14,7 +14,7 @@ public class ProjectileDamager : MonoBehaviour
             {
                 case "PlayerShip":
 
-                    if (other.tag == "EnemyShip")
+                    if (other.tag == "EnemyShip" || other.tag == "EnemyStructure")
                     {
                         //Instantiate(explosion, transform.position, Quaternion.identity);
                         other.GetComponent<Health>().TakeDamage(damage);
@@ -22,7 +22,7 @@ public class ProjectileDamager : MonoBehaviour
                     }
                     break;
                 case "EnemyShip":
-                    if (other.tag == "PlayerShip" || other.tag=="Victim")
+                    if (other.tag == "PlayerShip" || other.tag=="Victim" )
                     {
                         //Instantiate(explosion, transform.position, Quaternion.identity);
                         other.GetComponent<Health>().TakeDamage(damage);

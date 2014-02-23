@@ -45,10 +45,10 @@ public class Health : MonoBehaviour {
         //prevent shield from going over max
         shieldStrength = Mathf.Clamp(shieldStrength, 0, maxShield);
 
-        if(shieldFlickering)
+        if (shieldFlickering)
         {
             shieldColor = shield.renderer.material.color;
-            shieldColor.a = Mathf.Abs(Mathf.Cos(shieldFlickerCurrentTimer*25));
+            shieldColor.a = Mathf.Abs(Mathf.Cos(shieldFlickerCurrentTimer * 25));
             shield.renderer.material.color = shieldColor;
         }
         shieldRechargeCurrentTimer += Time.deltaTime;

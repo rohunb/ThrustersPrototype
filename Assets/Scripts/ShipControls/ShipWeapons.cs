@@ -4,13 +4,13 @@ using System.Collections;
 public class ShipWeapons : MonoBehaviour
 {
 
-    public float laserDamage;
+    public int laserDamage;
     public float laserReloadTimer = 1.0f;
 
-    public float missileDamage;
+    public int missileDamage;
     public float missileReloadTimer = 1.0f;
 
-    public float massDriverDamage;
+    public int massDriverDamage;
     public float massDriverReloadTimer = 1.0f;
     public float massDriverForce = 50f;
 
@@ -120,7 +120,6 @@ public class ShipWeapons : MonoBehaviour
                 float laserVelocity = laserCannons[0].laser.GetComponent<ProjectileMover>().laserSpeed;
                 float distToTarget = Vector3.Distance(transform.position, target.position);
                 float timeToTarget = distToTarget / laserVelocity;
-                Vector3 targetVel = target.rigidbody.velocity;
                 targetLead = target.position + target.rigidbody.velocity * timeToTarget;
             }
         }
