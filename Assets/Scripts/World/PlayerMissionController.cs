@@ -34,13 +34,15 @@ public class PlayerMissionController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
-            GenerateNewExterminateMission();
-        if (Input.GetKeyDown(KeyCode.F2))
-            GenerateNewDistressMission();
-        if (Input.GetKeyDown(KeyCode.F3))
-            GenerateNewDestroyStructureMission();
-
+        if (!onMission)
+        {
+            if (Input.GetKeyDown(KeyCode.F1))
+                GenerateNewExterminateMission();
+            if (Input.GetKeyDown(KeyCode.F2))
+                GenerateNewDistressMission();
+            if (Input.GetKeyDown(KeyCode.F3))
+                GenerateNewDestroyStructureMission();
+        }
 
         if (onMission)
         {
