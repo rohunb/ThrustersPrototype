@@ -9,7 +9,7 @@ public class ProjectileMover : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         //transform.Translate(Vector3.forward*laserSpeed*Time.deltaTime);
         
         Vector3 velocity=rigidbody.velocity;

@@ -125,7 +125,9 @@ public class AI_Controller : MonoBehaviour
                 break;
         }
 
-
+    }
+    void FixedUpdate()
+    {
         switch (ai_state)
         {
             case AI_States.Hunting:
