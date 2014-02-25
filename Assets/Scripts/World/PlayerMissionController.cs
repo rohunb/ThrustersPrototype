@@ -12,6 +12,7 @@ public class PlayerMissionController : MonoBehaviour
     public Texture2D victimIndicatorTexture;
     public Texture2D enemyStructIndicatorTexture;
     public MissionController.MissionType currentMission;
+    public int numEnemiesToSpawn;
     public bool displayWaypoint = false;
     public MissionController missionController;
     public Transform enemySpawnPoint;
@@ -62,17 +63,17 @@ public class PlayerMissionController : MonoBehaviour
     }
     void GenerateNewExterminateMission()
     {
-        missionController.GenerateExterminateMission(MissionController.MissionType.Exterminate, waypointExterminate, enemySpawnPoint.position, 4, AI_Controller.AI_Types.Assassin);
+        missionController.GenerateExterminateMission(MissionController.MissionType.Exterminate, waypointExterminate, enemySpawnPoint.position, numEnemiesToSpawn, AI_Controller.AI_Types.Assassin);
         SetMissionInfo(waypointExterminate, null, null);
     }
     void GenerateNewDistressMission()
     {
-        missionController.GenerateDistressMission(MissionController.MissionType.DistressCall, waypointDistress, victimSpawnPoint.position, 5, AI_Controller.AI_Types.FlyBy);
+        missionController.GenerateDistressMission(MissionController.MissionType.DistressCall, waypointDistress, victimSpawnPoint.position, numEnemiesToSpawn, AI_Controller.AI_Types.FlyBy);
         SetMissionInfo(waypointDistress, missionController.currentVictim, victimIndicatorTexture);
     }
     void GenerateNewDestroyStructureMission()
     {
-        missionController.GenerateDestroyStructureMission(MissionController.MissionType.DestroyStructure, waypointDestroyStruct, enemyStructSpawnPoint.position, 4, AI_Controller.AI_Types.Assassin);
+        missionController.GenerateDestroyStructureMission(MissionController.MissionType.DestroyStructure, waypointDestroyStruct, enemyStructSpawnPoint.position, numEnemiesToSpawn, AI_Controller.AI_Types.Assassin);
         SetMissionInfo(waypointDestroyStruct, missionController.currentEnemyStruct, enemyStructIndicatorTexture);
     }
     void OnGUI()
