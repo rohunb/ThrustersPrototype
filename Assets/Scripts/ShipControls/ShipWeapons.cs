@@ -240,7 +240,7 @@ public class ShipWeapons : MonoBehaviour
     {
         foreach (Railgun railgun in railguns)
         {
-            railgun.Fire(railgunDamage, railSpeed, gameObject);
+            railgun.Fire(railgunDamage, railSpeed,railRange, gameObject);
         }
         yield return new WaitForSeconds(railgunReloadTimer);
         canFireRailgun = true;
