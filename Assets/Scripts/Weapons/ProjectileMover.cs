@@ -3,8 +3,11 @@ using System.Collections;
 
 public class ProjectileMover : MonoBehaviour {
     public float laserSpeed=1000f;
+	private AudioEngine ae;
 	// Use this for initialization
 	void Start () {
+		ae = (AudioEngine)FindObjectOfType(typeof(AudioEngine));
+		ae.playSFX("Laser");
         Destroy(gameObject, 3.0f);
 	}
 	
