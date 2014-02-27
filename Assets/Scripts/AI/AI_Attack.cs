@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class AI_Attack : MonoBehaviour {
-    public float laserDamage;
+    public int laserDamage;
     public float laserReloadTimer = 1.0f;
-
+    public float laserSpeed = 1000f;
     private LaserCannon[] laserCannons;
     private bool canFireLasers;
 
@@ -44,7 +44,7 @@ public class AI_Attack : MonoBehaviour {
     {
         foreach (LaserCannon laserCannon in laserCannons)
         {
-            laserCannon.Fire(laserDamage,gameObject );
+            laserCannon.Fire(laserDamage,laserSpeed,gameObject );
         }
         yield return new WaitForSeconds(laserReloadTimer);
         canFireLasers = true;

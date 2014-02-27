@@ -5,9 +5,13 @@ public class LaserCannon : MonoBehaviour {
     public GameObject laser;
     public Transform shootPoint;
 	
-    public void Fire(float damage,GameObject _origin)
+    public void Fire(int _damage,float _speed,GameObject _origin)
     {
         GameObject laserClone = Instantiate(laser, shootPoint.position, shootPoint.rotation) as GameObject;
-        laserClone.GetComponent<ProjectileDamager>().origin = _origin;
+        ProjectileDamager damager = laserClone.GetComponent<ProjectileDamager>();
+        damager.origin = _origin;
+        damager.damage = _damage;
+        laserClone.GetComponent<ProjectileMover>().speed = _speed;
     }
 }
+

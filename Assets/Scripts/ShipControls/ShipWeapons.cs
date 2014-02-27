@@ -6,44 +6,49 @@ public class ShipWeapons : MonoBehaviour
 
     public int laserDamage;
     public float laserReloadTimer = 1.0f;
+    public float laserSpeed = 1000f;
 
     public int missileDamage;
     public float missileReloadTimer = 1.0f;
 
-    public int massDriverDamage;
-    public float massDriverReloadTimer = 1.0f;
-    public float massDriverForce = 50f;
+    public int railgunDamage;
+    public float railgunReloadTimer = 1.0f;
+    public float railSpeed = 50f;
+    public float railRange = 2000f;
 
     public float minTargetableDistance = 2000f;
     public Transform targeter;
     public Texture2D crosshair;
     public Texture2D targetBoxTexture;
     public Texture2D targetLeadTexture;
-
+    public bool showTargetLead = false;
     private LaserCannon[] laserCannons;
     private bool canFireLasers;
 
     private MissileLauncher[] missileLaunchers;
     private bool canFireMissiles;
 
-    private MassDriver[] massDrivers;
-    private bool canFireMassDriver;
+    private Railgun[] railguns;
+    private bool canFireRailgun;
 
     private Transform target;
     private Vector3 targetLead;
 
-    enum Weapons { Lasers, Missiles, ClusterMissiles, MassDrivers }
+    enum Weapons { Lasers, Missiles, ClusterMissiles, Railgun }
     private Weapons currentWeapon;
+
+    private float projectileVel;
+
     // Use this for initialization
     void Start()
     {
         Screen.showCursor = false;
         canFireLasers = true;
         canFireMissiles = true;
-        canFireMassDriver = true;
+        canFireRailgun = true;
         laserCannons = gameObject.GetComponentsInChildren<LaserCannon>();
         missileLaunchers = gameObject.GetComponentsInChildren<MissileLauncher>();
-        massDrivers = gameObject.GetComponentsInChildren<MassDriver>();
+        railguns = gameObject.GetComponentsInChildren<Railgun>();
         //target = GameObject.FindGameObjectWithTag("EnemyShip").transform;
         target = null;
         currentWeapon = Weapons.Lasers;
@@ -53,6 +58,7 @@ public class ShipWeapons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             currentWeapon = Weapons.Lasers;
@@ -67,7 +73,7 @@ public class ShipWeapons : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            currentWeapon = Weapons.MassDrivers;
+            currentWeapon = Weapons.Railgun;
         }
         if (Input.GetButton("Fire1"))
         {
@@ -94,11 +100,11 @@ public class ShipWeapons : MonoBehaviour
                         canFireMissiles = false;
                     }
                     break;
-                case Weapons.MassDrivers:
-                    if (canFireMassDriver)
+                case Weapons.Railgun:
+                    if (canFireRailgun)
                     {
-                        StartCoroutine("FireMassDrivers");
-                        canFireMassDriver = false;
+                        StartCoroutine("FireRailguns");
+                        canFireRailgun = false;
                     }
                     break;
             }
@@ -115,13 +121,30 @@ public class ShipWeapons : MonoBehaviour
             TargetNearestEnemy();
         if (target)
         {
-            if (laserCannons.Length > 0)
+            
+                
+            switch (currentWeapon)
             {
-                float laserVelocity = laserCannons[0].laser.GetComponent<ProjectileMover>().laserSpeed;
-                float distToTarget = Vector3.Distance(transform.position, target.position);
-                float timeToTarget = distToTarget / laserVelocity;
-                targetLead = target.position + target.rigidbody.velocity * timeToTarget;
+                case Weapons.Lasers:
+                    projectileVel = laserSpeed;
+                    showTargetLead = true;
+                    break;
+                case Weapons.Missiles:
+                    showTargetLead = false;
+                    break;
+                case Weapons.ClusterMissiles:
+                    showTargetLead = false;
+                    break;
+                case Weapons.Railgun:
+                    projectileVel = railSpeed;
+                    showTargetLead = true;
+                    break;
+                default:
+                    break;
             }
+                float distToTarget = Vector3.Distance(transform.position, target.position);
+                float timeToTarget = distToTarget / projectileVel;
+                targetLead = target.position + target.rigidbody.velocity * timeToTarget;
         }
     }
     
@@ -189,7 +212,7 @@ public class ShipWeapons : MonoBehaviour
     {
         foreach (LaserCannon laserCannon in laserCannons)
         {
-            laserCannon.Fire(laserDamage,gameObject);
+            laserCannon.Fire(laserDamage,laserSpeed,gameObject);
         }
         yield return new WaitForSeconds(laserReloadTimer);
         canFireLasers = true;
@@ -213,14 +236,14 @@ public class ShipWeapons : MonoBehaviour
         canFireMissiles = true;
     }
 
-    IEnumerator FireMassDrivers()
+    IEnumerator FireRailguns()
     {
-        foreach (MassDriver massDriver in massDrivers)
+        foreach (Railgun railgun in railguns)
         {
-            massDriver.Fire(massDriverDamage, massDriverForce, rigidbody);
+            railgun.Fire(railgunDamage, railSpeed, gameObject);
         }
-        yield return new WaitForSeconds(massDriverReloadTimer);
-        canFireMassDriver = true;
+        yield return new WaitForSeconds(railgunReloadTimer);
+        canFireRailgun = true;
     }
 
     void OnGUI()
@@ -244,7 +267,7 @@ public class ShipWeapons : MonoBehaviour
         GUILayout.EndVertical();
         GUILayout.EndArea();
 
-        if (target)
+        if (target )
         {
             float size = 10000 / Vector3.Distance(transform.position, target.position);
             size = Mathf.Clamp(size, 45f, 112f);
@@ -264,14 +287,17 @@ public class ShipWeapons : MonoBehaviour
                     position.y = Mathf.Clamp(position.y, 0, 0);
                 
             }
-            Vector3 leadPos = Camera.main.WorldToScreenPoint(targetLead);
-            float leadSize = 15f;
-            leadPos.y = Screen.height - leadPos.y;
-            leadPos.x = Mathf.Clamp(leadPos.x, 0, Screen.width - leadSize / 2);
-            leadPos.y = Mathf.Clamp(leadPos.y, 0, Screen.height - leadSize / 2);
-            if(Vector3.Angle(targeter.forward,target.position-transform.position)<90)
+            if (showTargetLead)
             {
-                GUI.DrawTexture(new Rect((leadPos.x - (leadSize / 2)), (leadPos.y - (leadSize / 2)), leadSize, leadSize), targetLeadTexture);
+                Vector3 leadPos = Camera.main.WorldToScreenPoint(targetLead);
+                float leadSize = 15f;
+                leadPos.y = Screen.height - leadPos.y;
+                leadPos.x = Mathf.Clamp(leadPos.x, 0, Screen.width - leadSize / 2);
+                leadPos.y = Mathf.Clamp(leadPos.y, 0, Screen.height - leadSize / 2);
+                if (Vector3.Angle(targeter.forward, target.position - transform.position) < 90)
+                {
+                    GUI.DrawTexture(new Rect((leadPos.x - (leadSize / 2)), (leadPos.y - (leadSize / 2)), leadSize, leadSize), targetLeadTexture);
+                }
             }
             GUI.DrawTexture(new Rect((position.x - (size / 2)), (position.y - (size / 2)), size, size), targetBoxTexture);
             GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2)), size * 20, size * 2), "Target = " + target.name);

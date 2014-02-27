@@ -11,11 +11,12 @@ public class AudioEngine : MonoBehaviour {
 
 	//Sound Effect shit
 	//public AudioClip lazer1;
-	private AudioClip currentSFX;
+	public AudioClip currentSFX;
 
 	// Use this for initialization
 	void Start () {
-		_volume = 0.75f;
+        audioSource = gameObject.GetComponent<AudioSource>();
+		_volume = 1.0f;
 		_beforeVolume = 0.0f;
 		_mute = false;
 		AudioListener.volume = _volume;
@@ -36,6 +37,7 @@ public class AudioEngine : MonoBehaviour {
 				isVolumeUp();
 			}
 		}
+        //playSFX();
 	}
 
 	public void isVolumeDown() {
@@ -76,10 +78,18 @@ public class AudioEngine : MonoBehaviour {
 	}
 
 	public void playSFX(string snd) {
+       
 		Debug.Log(snd);
 		string newpath = "Audio/Effects/"+snd;
+        //string newpath = "Audio/Effects/Laser";
 		currentSFX = Resources.Load<AudioClip>(newpath);
+        //currentSFX = Resources.Load(newpath) as AudioClip;
 		Debug.Log(currentSFX);
-		audioSource.PlayOneShot(currentSFX);
+        audioSource.PlayOneShot(currentSFX);
+        //audioSource.clip = currentSFX;
+		//audioSource.Play();
+        
+        
+        //currentSFX
 	}
 }

@@ -9,7 +9,7 @@ public class ClusterMissile : MonoBehaviour {
     public float clusterOpenTimer;
     public Transform target;
     public GameObject origin;
-    
+    public int missileDamage;
 	// Use this for initialization
 	void Start () {
         Invoke("ClusterOpen", clusterOpenTimer);
@@ -28,7 +28,9 @@ public class ClusterMissile : MonoBehaviour {
             //missileClone.rigidbody.velocity = new Vector3(vel.x,vel.y,vel.z);
             missileClone.transform.LookAt(target);
             missileClone.GetComponent<HomingMissile>().target = this.target;
-            missileClone.GetComponent<ProjectileDamager>().origin = this.origin;
+            ProjectileDamager damager = missileClone.GetComponent<ProjectileDamager>();
+            damager.origin = this.origin;
+            damager.damage = missileDamage;
 
 
         }
