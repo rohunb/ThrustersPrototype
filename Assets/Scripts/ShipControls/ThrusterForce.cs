@@ -46,8 +46,8 @@ public class ThrusterForce : MonoBehaviour {
         }
         foreach (ParticleSystem afterburner in afterburners)
         {
-            afterburner.startLifetime = Mathf.Lerp(0.0f, originalLifetime, thrustAmount);
-            afterburner.startSize = Mathf.Lerp(originalStartSize * .3f, originalStartSize, thrustAmount);
+            afterburner.startLifetime = Mathf.Lerp(0.0f, originalLifetime,thrustAmount);// Mathf.Clamp(thrustAmount,.4f,1.0f));
+            afterburner.startSize = Mathf.Lerp(originalStartSize * .3f, originalStartSize,thrustAmount);// Mathf.Clamp(thrustAmount, .4f, 1.0f));
             //afterburner.startColor = Color.Lerp(minColour, originalStartColour, thrustAmount);
         }
 	}

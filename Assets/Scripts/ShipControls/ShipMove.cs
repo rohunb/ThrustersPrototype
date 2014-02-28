@@ -12,7 +12,12 @@ public class ShipMove : MonoBehaviour {
     public float currentAfterburnerLevel;
     public float afterburnerDrain = 4f;
     public float afterburnerRecharge = 2f;
-
+    
+    //camera vars
+    float normalFov = 60.0f;
+    float highFov = 100.0f;
+    float currentFov;
+    public float fovChangeSpeed=10f;
     //Movement Force
     public float fwdThrustForce = 7000.0f;
     public float revThrustForce = 5000.0f;
@@ -47,6 +52,8 @@ public class ShipMove : MonoBehaviour {
     public Vector2 mouseDeadZone=new Vector2(0.0f,0.0f);
     private Quaternion initRot;
 
+    
+
     //hydra game object
     SixenseInput hydraInput;
 
@@ -74,6 +81,7 @@ public class ShipMove : MonoBehaviour {
         
         initRot = transform.rotation;
         currentAfterburnerLevel = maxAfterburnerLevel;
+        currentFov = normalFov;
     }
 	// Update is called once per frame
     void Update()
@@ -133,12 +141,12 @@ public class ShipMove : MonoBehaviour {
 
                 if (SixenseInput.Controllers[0].Rotation.x < -0.25f || SixenseInput.Controllers[1].Rotation.x < -0.25f)
                 {
-                    PitchBack(1f);
+                    PitchUp(1f);
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.x > 0.25f || SixenseInput.Controllers[1].Rotation.x > 0.25f)
                 {
-                    PitchForward(1f);
+                    PitchDown(1f);
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.y < -0.25f || SixenseInput.Controllers[1].Rotation.y < -0.25f)
@@ -168,7 +176,7 @@ public class ShipMove : MonoBehaviour {
 
                 if (controller2Stable && controller1Stable)
                 {
-                    Stabilize();
+                    KillLinearVelocity();
                 }
 
                 //move a little bit in Bkg space
@@ -194,9 +202,9 @@ public class ShipMove : MonoBehaviour {
                 if (Input.GetKey(KeyCode.L))
                     RollRight(1f);
                 if (Input.GetKey(KeyCode.I))
-                    PitchForward(1f);
+                    PitchDown(1f);
                 if (Input.GetKey(KeyCode.K))
-                    PitchBack(1f);
+                    PitchUp(1f);
 
 
                 break;
@@ -208,20 +216,27 @@ public class ShipMove : MonoBehaviour {
                 {
                     if (mousePos.x > 0.5f + mouseDeadZone.x)
                     {
-                        //TurnRight(mousePos.x - 0.5f - mouseDeadZone.x+.5f);
-                        TurnRight(mousePos.x);
+                        Debug.Log("TurnRight: " + (mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
+                        TurnRight((mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
+                        //TurnRight(mousePos.x);
                     }
                     if (mousePos.x < 0.5f - mouseDeadZone.x)
                     {
-                        TurnLeft(Mathf.Abs(mousePos.x - 0.5f)+.5f);
+                        Debug.Log("TurnLeft: " + (Mathf.Abs(mousePos.x - 0.5f) - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
+                        TurnLeft((Mathf.Abs(mousePos.x - 0.5f)-mouseDeadZone.x)*(1 / (.5f - mouseDeadZone.x)));
+                        //TurnLeft(Mathf.Abs(mousePos.x - 0.5f)+.5f);
                     }
                     if (mousePos.y > 0.5f + mouseDeadZone.y)
                     {
-                        PitchBack(mousePos.y);
+                        Debug.Log("PitchUp: " + (mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+                        PitchUp((mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+                        //PitchUp(mousePos.y);
                     }
                     if (mousePos.y < 0.5f - mouseDeadZone.y)
                     {
-                        PitchForward(Mathf.Abs(mousePos.y - 0.5f)+ .5f);
+                        Debug.Log("PitchDown: " + (Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+                        PitchDown((Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+                        //PitchDown(Mathf.Abs(mousePos.y - 0.5f)+ .5f);
                     }
                 }
                 if (Input.GetKey(KeyCode.Q))
@@ -280,11 +295,11 @@ public class ShipMove : MonoBehaviour {
         if (Input.GetKey(KeyCode.H))
             MoveDown(1f);
         if (Input.GetKey(KeyCode.Space))
-            Stabilize();
+            KillLinearVelocity();
         if (Input.GetKey(KeyCode.R))
         {
             stablizing = true;
-            OrientZero();
+            KillAngularVelocity();
         }
         else
         {
@@ -294,12 +309,19 @@ public class ShipMove : MonoBehaviour {
         {
             FireAfterburner();
             currentAfterburnerLevel -= afterburnerDrain*Time.deltaTime;
+            currentFov = Mathf.Lerp(currentFov, highFov, Time.deltaTime * fovChangeSpeed);
         }
+        else
+        {
+            currentFov = Mathf.Lerp(currentFov, normalFov, Time.deltaTime * fovChangeSpeed);
+        }
+        Camera.main.fieldOfView = currentFov;
+
     }
     void FireAfterburner()
     {
-        //FireForwardThrusters(afterburnerForce,afterburnerForce/fwdThrustForce);
         FireAfterburnerThrusters(afterburnerForce, 1f);
+
     }
     void MoveFoward(float amount)
     {
@@ -353,14 +375,14 @@ public class ShipMove : MonoBehaviour {
     }
 
     
-    void PitchForward(float amount)
+    void PitchDown(float amount)
     {
         FireBottomRearThrusters(pitchForce , amount);
         FireTopFwdThrusters(pitchForce , amount);
     }
 
 
-    void PitchBack(float amount)
+    void PitchUp(float amount)
     {
         FireBottomFwdThrusters(pitchForce , amount);
         FireTopRearThrusters(pitchForce , amount);
@@ -618,30 +640,26 @@ public class ShipMove : MonoBehaviour {
             }
         }
     }
-    void Stabilize()
+    void KillLinearVelocity()
     {
         Vector3 vel = rigidbody.velocity;
         rigidbody.velocity = new Vector3(
             Mathf.Lerp(vel.x, 0f, Time.deltaTime),
             Mathf.Lerp(vel.y, 0f, Time.deltaTime),
             Mathf.Lerp(vel.z, 0f, Time.deltaTime));
-        Vector3 aVel = rigidbody.angularVelocity;
-        rigidbody.angularVelocity = new Vector3(
-            Mathf.Lerp(aVel.x, 0f, Time.deltaTime),
-            Mathf.Lerp(aVel.y, 0f, Time.deltaTime),
-            Mathf.Lerp(aVel.z, 0f, Time.deltaTime));
+ 
 
     }
-    void OrientZero()
+    void KillAngularVelocity()
     {
         Vector3 aVel = rigidbody.angularVelocity;
         rigidbody.angularVelocity = new Vector3(
             Mathf.Lerp(aVel.x, 0f, Time.deltaTime),
             Mathf.Lerp(aVel.y, 0f, Time.deltaTime),
             Mathf.Lerp(aVel.z, 0f, Time.deltaTime));
-        Vector3 rot = new Vector3(initRot.eulerAngles.x, transform.rotation.eulerAngles.y, initRot.eulerAngles.z);
+        //Vector3 rot = new Vector3(initRot.eulerAngles.x, transform.rotation.eulerAngles.y, initRot.eulerAngles.z);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(rot), Time.deltaTime);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(rot), Time.deltaTime);
 
 
 
