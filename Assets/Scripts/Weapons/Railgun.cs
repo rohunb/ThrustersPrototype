@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(LineRenderer))]
+
 public class Railgun : MonoBehaviour
 {
 
@@ -33,14 +35,17 @@ public class Railgun : MonoBehaviour
         line.enabled = true;
         line.SetVertexCount(length);
         line.SetColors(lineStartColour, lineStartColour);
+        //Debug.Log(shootPoint.right);
+        
         for (int i = 0; i < length; i++)
         {
-            Vector3 newPos=transform.position;
+            Vector3 newPos=shootPoint.position;
+            
             //newPos.x+=i * 0.5F;
             newPos.x += 2f*Mathf.Cos(i + Time.time);
             newPos.y+= 2f*Mathf.Sin(i + Time.time);
             //newPos.z += i;
-            newPos += transform.forward * i;
+            newPos += shootPoint.forward * i;
             line.SetPosition(i, newPos);
         }
         //Invoke("CancelRailEffect", .2f);

@@ -216,25 +216,25 @@ public class ShipMove : MonoBehaviour {
                 {
                     if (mousePos.x > 0.5f + mouseDeadZone.x)
                     {
-                        Debug.Log("TurnRight: " + (mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
+                        //Debug.Log("TurnRight: " + (mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
                         TurnRight((mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
                         //TurnRight(mousePos.x);
                     }
                     if (mousePos.x < 0.5f - mouseDeadZone.x)
                     {
-                        Debug.Log("TurnLeft: " + (Mathf.Abs(mousePos.x - 0.5f) - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
+                       // Debug.Log("TurnLeft: " + (Mathf.Abs(mousePos.x - 0.5f) - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
                         TurnLeft((Mathf.Abs(mousePos.x - 0.5f)-mouseDeadZone.x)*(1 / (.5f - mouseDeadZone.x)));
                         //TurnLeft(Mathf.Abs(mousePos.x - 0.5f)+.5f);
                     }
                     if (mousePos.y > 0.5f + mouseDeadZone.y)
                     {
-                        Debug.Log("PitchUp: " + (mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+                       // Debug.Log("PitchUp: " + (mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
                         PitchUp((mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
                         //PitchUp(mousePos.y);
                     }
                     if (mousePos.y < 0.5f - mouseDeadZone.y)
                     {
-                        Debug.Log("PitchDown: " + (Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+                       // Debug.Log("PitchDown: " + (Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
                         PitchDown((Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
                         //PitchDown(Mathf.Abs(mousePos.y - 0.5f)+ .5f);
                     }

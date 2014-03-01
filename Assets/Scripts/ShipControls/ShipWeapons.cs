@@ -16,6 +16,8 @@ public class ShipWeapons : MonoBehaviour
     public float railSpeed = 50f;
     public float railRange = 2000f;
 
+    public float miningLaserRange = 500f;
+
     public float minTargetableDistance = 2000f;
     public Transform targeter;
     public Texture2D crosshair;
@@ -31,10 +33,12 @@ public class ShipWeapons : MonoBehaviour
     private Railgun[] railguns;
     private bool canFireRailgun;
 
+    private MiningLaser[] miningLasers;
+
     private Transform target;
     private Vector3 targetLead;
 
-    enum Weapons { Lasers, Missiles, ClusterMissiles, Railgun }
+    enum Weapons { Lasers, Missiles, ClusterMissiles, Railgun, MiningLaser }
     private Weapons currentWeapon;
 
     private float projectileVel;
@@ -49,6 +53,7 @@ public class ShipWeapons : MonoBehaviour
         laserCannons = gameObject.GetComponentsInChildren<LaserCannon>();
         missileLaunchers = gameObject.GetComponentsInChildren<MissileLauncher>();
         railguns = gameObject.GetComponentsInChildren<Railgun>();
+        miningLasers = gameObject.GetComponentsInChildren<MiningLaser>();
         //target = GameObject.FindGameObjectWithTag("EnemyShip").transform;
         target = null;
         currentWeapon = Weapons.Lasers;
@@ -74,6 +79,10 @@ public class ShipWeapons : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             currentWeapon = Weapons.Railgun;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            currentWeapon = Weapons.MiningLaser;
         }
         if (Input.GetButton("Fire1"))
         {
@@ -107,8 +116,13 @@ public class ShipWeapons : MonoBehaviour
                         canFireRailgun = false;
                     }
                     break;
+                case Weapons.MiningLaser:
+                    FireMiningLaser();
+                    break;
             }
         }
+        else
+            StopMiningLaser();
         if (Input.GetButtonDown("Fire2"))
         {
             LockOn();
@@ -245,7 +259,20 @@ public class ShipWeapons : MonoBehaviour
         yield return new WaitForSeconds(railgunReloadTimer);
         canFireRailgun = true;
     }
-
+    void FireMiningLaser()
+    {
+        foreach (MiningLaser miningLaser in miningLasers)
+        {
+            miningLaser.Fire(gameObject);
+        }
+    }
+    void StopMiningLaser()
+    {
+        foreach (MiningLaser miningLaser in miningLasers)
+        {
+            miningLaser.StopFiring();
+        }
+    }
     void OnGUI()
     {
         float xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
@@ -253,12 +280,13 @@ public class ShipWeapons : MonoBehaviour
         GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
 
 
-        GUILayout.BeginArea(new Rect(10, Screen.height - 120, 150, 150));
+        GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
         GUILayout.BeginVertical();
         GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
         GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
         GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
         GUILayout.Label("Weapon: " + currentWeapon.ToString());
+        GUILayout.Label("Credits: " + gameObject.GetComponent<PlayerInventory>().GetCredits());
         if (target)
         {
             GUILayout.Label("Target: " + target.name.ToString());
