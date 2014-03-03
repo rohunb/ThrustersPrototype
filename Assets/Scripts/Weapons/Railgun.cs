@@ -37,11 +37,31 @@ public class Railgun : MonoBehaviour
         line.SetColors(lineStartColour, lineStartColour);
         for (int i = 0; i < length; i++)
         {
-            Vector3 newPos=shootPoint.position;
-            newPos.x += 2f * Mathf.Cos(i + Time.time);
-            newPos.y += 2f * Mathf.Sin(i + Time.time);
+            //Vector3 newPos = shootPoint.position;
+            //newPos.x += 1.5f* Mathf.Cos(i+Time.time);
+            //newPos.y +=  1.5f*Mathf.Sin(i+Time.time);
+            //newPos += shootPoint.forward * i;
+            //line.SetPosition(i, newPos);
+
+            Vector3 newPos = shootPoint.position;
+            //Vector3 offset = Vector3.zero;
+            //offset.x = newPos.x + i * shootPoint.forward.x /*+ shootPoint.right.x*/ + 2f * Mathf.Cos(i + Time.time);
+            //offset.y = newPos.y + i * shootPoint.forward.y + /*shootPoint.right.y +*/  2f*Mathf.Sin(i + Time.time);
+            //offset.z = newPos.z+i*shootPoint.forward.z;
+            //newPos.x += 2f * Mathf.Cos(i + Time.time);
+            //newPos.y += 2f * Mathf.Sin(i + Time.time);
+            //newPos += shootPoint.forward * i;
+            //newPos = offset;
+
+            float offsetX = 2f * Mathf.Cos(i + Time.time);
+            float offsetY = 2f * Mathf.Sin(i + Time.time);
+            newPos += shootPoint.right * offsetX;
+            newPos += shootPoint.up * offsetY;
             newPos += shootPoint.forward * i;
+            
             line.SetPosition(i, newPos);
+
+
         }
         lineColour = lineStartColour;
         clearEffect = true;

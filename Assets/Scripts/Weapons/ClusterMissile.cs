@@ -10,6 +10,7 @@ public class ClusterMissile : MonoBehaviour {
     public Transform target;
     public GameObject origin;
     public int missileDamage;
+    
 	// Use this for initialization
 	void Start () {
         Invoke("ClusterOpen", clusterOpenTimer);

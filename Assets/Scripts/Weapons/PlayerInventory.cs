@@ -3,13 +3,13 @@ using System.Collections;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public enum Weapon { Lasers, Torpedo, Missiles, Railgun, MiningLaser }
-    
 
-    public Weapon hardpoint1;
-    public Weapon hardpoint2;
-    public Weapon hardpoint3;
-    public Weapon hardpoint4;
+    //equipped weapons
+    public Weapon primaryWeapon;
+    public Weapon secondaryWeapon;
+    public Weapon tertiaryWeapon;
+    public Weapon utilityWeapon;
+    public Weapon[] allWeapons;
 
     private int credits;
 

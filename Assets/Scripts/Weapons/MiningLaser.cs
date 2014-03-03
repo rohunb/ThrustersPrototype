@@ -23,8 +23,6 @@ public class MiningLaser : MonoBehaviour {
         line = GetComponent<LineRenderer>();
         line.SetWidth(lineWidth, lineWidth);
         line.SetColors(beamColor, beamColor);
-        //laserImpactEffect.enableEmission = false;
-        //laserImpactEffect.active = false;
         laserImpactEffect.Stop();
         playerInventory = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerInventory>();
         length = Mathf.RoundToInt(range);
@@ -32,8 +30,6 @@ public class MiningLaser : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //range = 1000;
-        //length = Mathf.RoundToInt(range);
         if (firing)
         {
             CheckForCollision();
