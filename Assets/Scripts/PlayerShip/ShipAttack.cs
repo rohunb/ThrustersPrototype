@@ -28,36 +28,92 @@ public class ShipAttack : MonoBehaviour {
 	void Update () {
         if(target)
         {
-            inventory.secondaryWeapon.target = target;
+            //inventory.secondaryWeapon.target = target;
+            foreach (Weapon weapon in inventory.equippedWeapons)
+            {
+                if (weapon.weaponType == Weapon.WeaponType.Secondary)
+                    weapon.target = target;
+            }
             float distToTarget = Vector3.Distance(transform.position, target.position);
-            float timeToTarget = distToTarget / inventory.primaryWeapon.projectileSpeed;
+            //float timeToTarget = distToTarget / inventory.primaryWeapon.projectileSpeed;
+            //targetLead = target.position + target.rigidbody.velocity * timeToTarget;
+            float minSpeed=0;
+            int i = 0;
+            while(i<inventory.equippedWeapons.Length)
+            {
+                if (inventory.equippedWeapons[i].weaponType == Weapon.WeaponType.Primary)
+                {
+                    minSpeed = inventory.equippedWeapons[i].projectileSpeed;
+                    break;
+                }
+                i++;
+            }
+            while(i<inventory.equippedWeapons.Length)
+            {
+                if (inventory.equippedWeapons[i].weaponType == Weapon.WeaponType.Primary
+                    && inventory.equippedWeapons[i].projectileSpeed<minSpeed)
+                {
+                    minSpeed = inventory.equippedWeapons[i].projectileSpeed;
+                }
+                i++;
+            }
+            float timeToTarget = distToTarget / minSpeed;
             targetLead = target.position + target.rigidbody.velocity * timeToTarget;
+
         }
     
     }
     public void FirePrimary()
     {
-        inventory.primaryWeapon.Fire();
+        foreach (Weapon weapon in inventory.equippedWeapons)
+        {
+            if (weapon && weapon.weaponType == Weapon.WeaponType.Primary)
+                weapon.Fire();
+        }
+        //inventory.primaryWeapon.Fire();
     }
     public void FireSecondary()
     {
-        inventory.secondaryWeapon.Fire();
+        //inventory.secondaryWeapon.Fire();
+        foreach (Weapon weapon in inventory.equippedWeapons)
+        {
+            if (weapon && weapon.weaponType == Weapon.WeaponType.Secondary)
+                weapon.Fire();
+        }
     }
     public void FireTertiary()
     {
-        inventory.tertiaryWeapon.Fire();
+        //inventory.tertiaryWeapon.Fire();
+        foreach (Weapon weapon in inventory.equippedWeapons)
+        {
+            if (weapon && weapon.weaponType == Weapon.WeaponType.Tertiary)
+                weapon.Fire();
+        }
     }
     public void FireUtility()
     {
-        inventory.utilityWeapon.Fire();
+        //inventory.utilityWeapon.Fire();
+        foreach (Weapon weapon in inventory.equippedWeapons)
+        {
+            if (weapon && weapon.weaponType == Weapon.WeaponType.Utility)
+                weapon.Fire();
+        }
     }
     public void StopFiringUtility()
     {
-        if (inventory.utilityWeapon is Weapon_MiningLaser)
+        //if (inventory.utilityWeapon is Weapon_MiningLaser)
+        //{
+        //    Weapon utlityWeapon = inventory.utilityWeapon;
+        //    Weapon_MiningLaser miningLaser = (Weapon_MiningLaser)(utlityWeapon);
+        //    miningLaser.StopFiring();
+        //}
+        foreach (Weapon weapon in inventory.equippedWeapons)
         {
-            Weapon utlityWeapon = inventory.utilityWeapon;
-            Weapon_MiningLaser miningLaser = (Weapon_MiningLaser)(utlityWeapon);
-            miningLaser.StopFiring();
+            if (weapon is Weapon_MiningLaser)
+            {
+                Weapon_MiningLaser miningLaser = (Weapon_MiningLaser)(weapon);
+                miningLaser.StopFiring();
+            }
         }
     }
     public void TargetNextEnemy()
