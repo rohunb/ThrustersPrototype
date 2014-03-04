@@ -3,8 +3,8 @@ using System.Collections;
 
 public class ShipMove : MonoBehaviour {
     
-    public enum ControlModes { Keyboard, Mouse, Hydra };
-    public ControlModes controlMode;
+    //public enum ControlModes { Keyboard, Mouse, Hydra };
+    //public ControlModes controlMode;
 
     //afterburner
     public float afterburnerForce = 21000f;
@@ -45,213 +45,211 @@ public class ShipMove : MonoBehaviour {
     public GameObject[] afterburnerThrusters;
     private ThrusterForce thruster;
 
-    //control variables
+    ////control variables
     
-    private bool stablizing=false;
-    private Vector2 mousePos;
-    public Vector2 mouseDeadZone=new Vector2(0.0f,0.0f);
-    private Quaternion initRot;
+    //private bool stablizing=false;
+    //private Vector2 mousePos;
+    //public Vector2 mouseDeadZone=new Vector2(0.0f,0.0f);
+    //private Quaternion initRot;
 
     
 
-    //hydra game object
-    SixenseInput hydraInput;
+    ////hydra game object
+    //SixenseInput hydraInput;
 
-    void Awake()
-    {
-        hydraInput = GameObject.FindGameObjectWithTag("HydraInput").GetComponent<SixenseInput>();
+    //void Awake()
+    //{
+    //    hydraInput = GameObject.FindGameObjectWithTag("HydraInput").GetComponent<SixenseInput>();
 
-        switch (controlMode)
-        {
-            case ControlModes.Keyboard:
-                hydraInput.enabled = false;
-                break;
-            case ControlModes.Mouse:
-                hydraInput.enabled = false;
-                break;
-            case ControlModes.Hydra:
-                hydraInput.enabled = true;
-                break;
-            default:
-                break;
-        }
-    }
+    //    switch (controlMode)
+    //    {
+    //        case ControlModes.Keyboard:
+    //            hydraInput.enabled = false;
+    //            break;
+    //        case ControlModes.Mouse:
+    //            hydraInput.enabled = false;
+    //            break;
+    //        case ControlModes.Hydra:
+    //            hydraInput.enabled = true;
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
     void Start()
-    {
-        
-        initRot = transform.rotation;
+    {   
         currentAfterburnerLevel = maxAfterburnerLevel;
         currentFov = normalFov;
     }
 	// Update is called once per frame
     void Update()
     {
-        //motion control
-        float inputXOne = 0;
-        float inputYOne = 0;
-        float inputXTwo = 0;
-        float inputYTwo = 0;
+        ////motion control
+        //float inputXOne = 0;
+        //float inputYOne = 0;
+        //float inputXTwo = 0;
+        //float inputYTwo = 0;
 
-        //motion inputs
-        float currLeftX, currRightX;
+        ////motion inputs
+        //float currLeftX, currRightX;
 
 
-        switch (controlMode)
-        {
-            case ControlModes.Hydra:
+        //switch (controlMode)
+        //{
+        //    case ControlModes.Hydra:
 
                 
-                //motion input code
-                //warning ... contains hacks and magic number. will fix. ... I promise -A
-                if (SixenseInput.Controllers[0].Enabled)
-                {
-                    inputXOne = SixenseInput.Controllers[0].JoystickX;
-                    inputYOne = SixenseInput.Controllers[0].JoystickY;
-                }
+        //        //motion input code
+        //        //warning ... contains hacks and magic number. will fix. ... I promise -A
+        //        if (SixenseInput.Controllers[0].Enabled)
+        //        {
+        //            inputXOne = SixenseInput.Controllers[0].JoystickX;
+        //            inputYOne = SixenseInput.Controllers[0].JoystickY;
+        //        }
 
-                if (inputXOne > 0.5f)
-                {
-                    StrafeRight(1f);
-                }
+        //        if (inputXOne > 0.5f)
+        //        {
+        //            StrafeRight(1f);
+        //        }
 
-                if (inputXOne < -0.5f)
-                {
-                    StrafeLeft(1f);
-                }
+        //        if (inputXOne < -0.5f)
+        //        {
+        //            StrafeLeft(1f);
+        //        }
 
-                if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
-                {
-                    MoveBack(1f);
-                }
+        //        if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
+        //        {
+        //            MoveBack(1f);
+        //        }
 
-                if (SixenseInput.Controllers[1].Trigger == 1) //right trigger
-                {
-                    MoveFoward(1f);
-                }
+        //        if (SixenseInput.Controllers[1].Trigger == 1) //right trigger
+        //        {
+        //            MoveFoward(1f);
+        //        }
 
-                if (SixenseInput.Controllers[0].GetButtonDown(SixenseButtons.BUMPER))
-                {
-                    MoveDown(1f);
-                }
+        //        if (SixenseInput.Controllers[0].GetButtonDown(SixenseButtons.BUMPER))
+        //        {
+        //            MoveDown(1f);
+        //        }
 
-                if (SixenseInput.Controllers[1].GetButtonDown(SixenseButtons.BUMPER))
-                {
-                    MoveUp(1f);
-                }
+        //        if (SixenseInput.Controllers[1].GetButtonDown(SixenseButtons.BUMPER))
+        //        {
+        //            MoveUp(1f);
+        //        }
 
-                if (SixenseInput.Controllers[0].Rotation.x < -0.25f || SixenseInput.Controllers[1].Rotation.x < -0.25f)
-                {
-                    PitchUp(1f);
-                }
+        //        if (SixenseInput.Controllers[0].Rotation.x < -0.25f || SixenseInput.Controllers[1].Rotation.x < -0.25f)
+        //        {
+        //            PitchUp(1f);
+        //        }
 
-                if (SixenseInput.Controllers[0].Rotation.x > 0.25f || SixenseInput.Controllers[1].Rotation.x > 0.25f)
-                {
-                    PitchDown(1f);
-                }
+        //        if (SixenseInput.Controllers[0].Rotation.x > 0.25f || SixenseInput.Controllers[1].Rotation.x > 0.25f)
+        //        {
+        //            PitchDown(1f);
+        //        }
 
-                if (SixenseInput.Controllers[0].Rotation.y < -0.25f || SixenseInput.Controllers[1].Rotation.y < -0.25f)
-                {
-                    TurnLeft(1f);
-                }
+        //        if (SixenseInput.Controllers[0].Rotation.y < -0.25f || SixenseInput.Controllers[1].Rotation.y < -0.25f)
+        //        {
+        //            TurnLeft(1f);
+        //        }
 
-                if (SixenseInput.Controllers[0].Rotation.y > 0.25f || SixenseInput.Controllers[1].Rotation.y > 0.25f)
-                {
-                    TurnRight(1f);
-                }
+        //        if (SixenseInput.Controllers[0].Rotation.y > 0.25f || SixenseInput.Controllers[1].Rotation.y > 0.25f)
+        //        {
+        //            TurnRight(1f);
+        //        }
 
-                if (SixenseInput.Controllers[0].Rotation.z < -0.25f || SixenseInput.Controllers[1].Rotation.z < -0.25f)
-                {
-                    RollRight(1f);
-                }
+        //        if (SixenseInput.Controllers[0].Rotation.z < -0.25f || SixenseInput.Controllers[1].Rotation.z < -0.25f)
+        //        {
+        //            RollRight(1f);
+        //        }
 
-                if (SixenseInput.Controllers[0].Rotation.z > 0.25f || SixenseInput.Controllers[1].Rotation.z > 0.25f)
-                {
-                    RollLeft(1f);
-                }
+        //        if (SixenseInput.Controllers[0].Rotation.z > 0.25f || SixenseInput.Controllers[1].Rotation.z > 0.25f)
+        //        {
+        //            RollLeft(1f);
+        //        }
 
-                bool controller1Stable, controller2Stable;
+        //        bool controller1Stable, controller2Stable;
 
-                controller1Stable = (SixenseInput.Controllers[0].Rotation.x < 0.2f && SixenseInput.Controllers[0].Rotation.y < 0.2f && SixenseInput.Controllers[0].Rotation.z < 0.2f);
-                controller2Stable = (SixenseInput.Controllers[1].Rotation.x < 0.2f && SixenseInput.Controllers[1].Rotation.y < 0.2f && SixenseInput.Controllers[1].Rotation.z < 0.2f);
+        //        controller1Stable = (SixenseInput.Controllers[0].Rotation.x < 0.2f && SixenseInput.Controllers[0].Rotation.y < 0.2f && SixenseInput.Controllers[0].Rotation.z < 0.2f);
+        //        controller2Stable = (SixenseInput.Controllers[1].Rotation.x < 0.2f && SixenseInput.Controllers[1].Rotation.y < 0.2f && SixenseInput.Controllers[1].Rotation.z < 0.2f);
 
-                if (controller2Stable && controller1Stable)
-                {
-                    KillLinearVelocity();
-                }
+        //        if (controller2Stable && controller1Stable)
+        //        {
+        //            KillLinearVelocity();
+        //        }
 
-                //move a little bit in Bkg space
-                //BkgCamera.position = (transform.position / 2000f);
-                break;
+        //        //move a little bit in Bkg space
+        //        //BkgCamera.position = (transform.position / 2000f);
+        //        break;
 
-            case ControlModes.Keyboard:
-                UniversalKeyboardControls();
-                if (Input.GetKey(KeyCode.Q))
-                {
-                    TurnLeft(1f);
-                }
-                else if (Input.GetKey(KeyCode.E))
-                {
-                    TurnRight(1f);
-                }
-                if (Input.GetKey(KeyCode.U))
-                    MoveUp(1f);
-                if (Input.GetKey(KeyCode.H))
-                    MoveDown(1f);
-                if (Input.GetKey(KeyCode.J))
-                    RollLeft(1f);
-                if (Input.GetKey(KeyCode.L))
-                    RollRight(1f);
-                if (Input.GetKey(KeyCode.I))
-                    PitchDown(1f);
-                if (Input.GetKey(KeyCode.K))
-                    PitchUp(1f);
-
-
-                break;
-
-            case ControlModes.Mouse:
-                UniversalKeyboardControls();
-                mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-                if (!stablizing)
-                {
-                    if (mousePos.x > 0.5f + mouseDeadZone.x)
-                    {
-                        //Debug.Log("TurnRight: " + (mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
-                        TurnRight((mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
-                        //TurnRight(mousePos.x);
-                    }
-                    if (mousePos.x < 0.5f - mouseDeadZone.x)
-                    {
-                       // Debug.Log("TurnLeft: " + (Mathf.Abs(mousePos.x - 0.5f) - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
-                        TurnLeft((Mathf.Abs(mousePos.x - 0.5f)-mouseDeadZone.x)*(1 / (.5f - mouseDeadZone.x)));
-                        //TurnLeft(Mathf.Abs(mousePos.x - 0.5f)+.5f);
-                    }
-                    if (mousePos.y > 0.5f + mouseDeadZone.y)
-                    {
-                       // Debug.Log("PitchUp: " + (mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
-                        PitchUp((mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
-                        //PitchUp(mousePos.y);
-                    }
-                    if (mousePos.y < 0.5f - mouseDeadZone.y)
-                    {
-                       // Debug.Log("PitchDown: " + (Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
-                        PitchDown((Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
-                        //PitchDown(Mathf.Abs(mousePos.y - 0.5f)+ .5f);
-                    }
-                }
-                if (Input.GetKey(KeyCode.Q))
-                {
-                    RollLeft(1f);
-                }
-                else if (Input.GetKey(KeyCode.E))
-                {
-                    RollRight(1f);
-                }
+        //    case ControlModes.Keyboard:
+        //        UniversalKeyboardControls();
+        //        if (Input.GetKey(KeyCode.Q))
+        //        {
+        //            TurnLeft(1f);
+        //        }
+        //        else if (Input.GetKey(KeyCode.E))
+        //        {
+        //            TurnRight(1f);
+        //        }
+        //        if (Input.GetKey(KeyCode.U))
+        //            MoveUp(1f);
+        //        if (Input.GetKey(KeyCode.H))
+        //            MoveDown(1f);
+        //        if (Input.GetKey(KeyCode.J))
+        //            RollLeft(1f);
+        //        if (Input.GetKey(KeyCode.L))
+        //            RollRight(1f);
+        //        if (Input.GetKey(KeyCode.I))
+        //            PitchDown(1f);
+        //        if (Input.GetKey(KeyCode.K))
+        //            PitchUp(1f);
 
 
-                break;
+        //        break;
 
-        }
+        //    case ControlModes.Mouse:
+        //        UniversalKeyboardControls();
+        //        mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        //        if (!stablizing)
+        //        {
+        //            if (mousePos.x > 0.5f + mouseDeadZone.x)
+        //            {
+        //                //Debug.Log("TurnRight: " + (mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
+        //                TurnRight((mousePos.x - 0.5f - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
+        //                //TurnRight(mousePos.x);
+        //            }
+        //            if (mousePos.x < 0.5f - mouseDeadZone.x)
+        //            {
+        //               // Debug.Log("TurnLeft: " + (Mathf.Abs(mousePos.x - 0.5f) - mouseDeadZone.x) * (1 / (.5f - mouseDeadZone.x)));
+        //                TurnLeft((Mathf.Abs(mousePos.x - 0.5f)-mouseDeadZone.x)*(1 / (.5f - mouseDeadZone.x)));
+        //                //TurnLeft(Mathf.Abs(mousePos.x - 0.5f)+.5f);
+        //            }
+        //            if (mousePos.y > 0.5f + mouseDeadZone.y)
+        //            {
+        //               // Debug.Log("PitchUp: " + (mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+        //                PitchUp((mousePos.y - 0.5f - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+        //                //PitchUp(mousePos.y);
+        //            }
+        //            if (mousePos.y < 0.5f - mouseDeadZone.y)
+        //            {
+        //               // Debug.Log("PitchDown: " + (Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+        //                PitchDown((Mathf.Abs(mousePos.y - 0.5f) - mouseDeadZone.y) * (1 / (.5f - mouseDeadZone.y)));
+        //                //PitchDown(Mathf.Abs(mousePos.y - 0.5f)+ .5f);
+        //            }
+        //        }
+        //        if (Input.GetKey(KeyCode.Q))
+        //        {
+        //            RollLeft(1f);
+        //        }
+        //        else if (Input.GetKey(KeyCode.E))
+        //        {
+        //            RollRight(1f);
+        //        }
+
+
+        //        break;
+
+        //}
         currentAfterburnerLevel += afterburnerRecharge*Time.deltaTime;
         currentAfterburnerLevel = Mathf.Clamp(currentAfterburnerLevel, 0f, maxAfterburnerLevel);
     }
@@ -264,125 +262,136 @@ public class ShipMove : MonoBehaviour {
         GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
         GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
         GUILayout.Label("Rotation: " + transform.rotation.ToString());
-        GUILayout.Label("Mouse Pos: " + mousePos.ToString());
+        GUILayout.Label("Mouse Pos: " + Camera.main.ScreenToViewportPoint(Input.mousePosition).ToString());
         GUILayout.EndVertical();
         GUILayout.EndArea();
     }
 
-    private void UniversalKeyboardControls()
-    {
-        float moveV = Input.GetAxis("Vertical");
-        float moveH = Input.GetAxis("Horizontal");
-        if (moveV > 0.0f)
-        {
-            MoveFoward(moveV);
+    //private void UniversalKeyboardControls()
+    //{
+    //    float moveV = Input.GetAxis("Vertical");
+    //    float moveH = Input.GetAxis("Horizontal");
+    //    if (moveV > 0.0f)
+    //    {
+    //        MoveFoward(moveV);
 
-        }
-        else if (moveV < 0.0f)
+    //    }
+    //    else if (moveV < 0.0f)
+    //    {
+    //        MoveBack(Mathf.Abs(moveV));
+    //    }
+    //    if (moveH > 0.0f)
+    //    {
+    //        StrafeRight(moveH);
+    //    }
+    //    else if (moveH < 0.0f)
+    //    {
+    //        StrafeLeft(Mathf.Abs(moveH));
+    //    }
+    //    if (Input.GetKey(KeyCode.U))
+    //        MoveUp(1f);
+    //    if (Input.GetKey(KeyCode.H))
+    //        MoveDown(1f);
+    //    if (Input.GetKey(KeyCode.Space))
+    //        KillLinearVelocity();
+    //    if (Input.GetKey(KeyCode.R))
+    //    {
+    //        stablizing = true;
+    //        KillAngularVelocity();
+    //    }
+    //    else
+    //    {
+    //        stablizing = false;
+    //    }
+    //    if(Input.GetKey(KeyCode.LeftShift) && currentAfterburnerLevel>afterburnerDrain*Time.deltaTime)
+    //    {
+    //        FireAfterburner();
+    //        currentAfterburnerLevel -= afterburnerDrain*Time.deltaTime;
+    //        currentFov = Mathf.Lerp(currentFov, highFov, Time.deltaTime * fovChangeSpeed);
+    //    }
+    //    else
+    //    {
+    //        currentFov = Mathf.Lerp(currentFov, normalFov, Time.deltaTime * fovChangeSpeed);
+    //    }
+    //    Camera.main.fieldOfView = currentFov;
+
+    //}
+    public void FireAfterburner()
+    {
+        if (currentAfterburnerLevel > afterburnerDrain * Time.deltaTime)
         {
-            MoveBack(Mathf.Abs(moveV));
-        }
-        if (moveH > 0.0f)
-        {
-            StrafeRight(moveH);
-        }
-        else if (moveH < 0.0f)
-        {
-            StrafeLeft(Mathf.Abs(moveH));
-        }
-        if (Input.GetKey(KeyCode.U))
-            MoveUp(1f);
-        if (Input.GetKey(KeyCode.H))
-            MoveDown(1f);
-        if (Input.GetKey(KeyCode.Space))
-            KillLinearVelocity();
-        if (Input.GetKey(KeyCode.R))
-        {
-            stablizing = true;
-            KillAngularVelocity();
-        }
-        else
-        {
-            stablizing = false;
-        }
-        if(Input.GetKey(KeyCode.LeftShift) && currentAfterburnerLevel>afterburnerDrain*Time.deltaTime)
-        {
-            FireAfterburner();
-            currentAfterburnerLevel -= afterburnerDrain*Time.deltaTime;
+            FireAfterburnerThrusters(afterburnerForce, 1f);
+            currentAfterburnerLevel -= afterburnerDrain * Time.deltaTime;
             currentFov = Mathf.Lerp(currentFov, highFov, Time.deltaTime * fovChangeSpeed);
         }
         else
-        {
-            currentFov = Mathf.Lerp(currentFov, normalFov, Time.deltaTime * fovChangeSpeed);
-        }
-        Camera.main.fieldOfView = currentFov;
+            StopFiringAfterburners();
 
     }
-    void FireAfterburner()
+    public void StopFiringAfterburners()
     {
-        FireAfterburnerThrusters(afterburnerForce, 1f);
-
+        currentFov = Mathf.Lerp(currentFov, normalFov, Time.deltaTime * fovChangeSpeed);
     }
-    void MoveFoward(float amount)
+    public void MoveFoward(float amount)
     {
         FireForwardThrusters(fwdThrustForce, amount);
         
     }
-    void MoveBack(float amount)
+    public void MoveBack(float amount)
     {
         FireReverseThrusters(revThrustForce,amount);
     }
 
-    void TurnRight(float amount)
+    public void TurnRight(float amount)
     {
         FireForwardLeftThrusters(turnForce , amount);
         FireRearRightThrusters(turnForce , amount);
     }
-    void TurnLeft(float amount)
+    public void TurnLeft(float amount)
     {
         FireForwardRightThrusters(turnForce , amount);
         FireRearLeftThrusters(turnForce , amount);
     }
-    void StrafeRight(float amount)
+    public void StrafeRight(float amount)
     {
         FireForwardLeftThrusters(strafeForce , amount);
         FireRearLeftThrusters(strafeForce , amount);
     }
-    void StrafeLeft(float amount)
+    public void StrafeLeft(float amount)
     {
         FireForwardRightThrusters(strafeForce , amount);
         FireRearRightThrusters(strafeForce , amount);
     }
-    void MoveUp(float amount)
+    public void MoveUp(float amount)
     {
         FireBottomThrusters(verticalForce,amount);
     }
-    void MoveDown(float amount)
+    public void MoveDown(float amount)
     {
         FireTopThrusters(verticalForce , amount);
     }
-    void RollLeft(float amount)
+    public void RollLeft(float amount)
     {
         FireBottomRightThrusters(rollForce,amount);
         FireTopLeftThrusters(rollForce , amount);
     }
 
-    
-    void RollRight(float amount)
+
+    public void RollRight(float amount)
     {
         FireBottomLeftThrusters(rollForce , amount);
         FireTopRightThrusters(rollForce , amount);
     }
 
-    
-    void PitchDown(float amount)
+
+    public void PitchDown(float amount)
     {
         FireBottomRearThrusters(pitchForce , amount);
         FireTopFwdThrusters(pitchForce , amount);
     }
 
 
-    void PitchUp(float amount)
+    public void PitchUp(float amount)
     {
         FireBottomFwdThrusters(pitchForce , amount);
         FireTopRearThrusters(pitchForce , amount);
@@ -640,7 +649,7 @@ public class ShipMove : MonoBehaviour {
             }
         }
     }
-    void KillLinearVelocity()
+    public void KillLinearVelocity()
     {
         Vector3 vel = rigidbody.velocity;
         rigidbody.velocity = new Vector3(
@@ -650,7 +659,7 @@ public class ShipMove : MonoBehaviour {
  
 
     }
-    void KillAngularVelocity()
+    public void KillAngularVelocity()
     {
         Vector3 aVel = rigidbody.angularVelocity;
         rigidbody.angularVelocity = new Vector3(

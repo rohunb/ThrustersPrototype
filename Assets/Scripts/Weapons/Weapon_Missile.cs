@@ -3,6 +3,10 @@ using System.Collections;
 
 public class Weapon_Missile : Weapon {
 
+    void Start()
+    {
+        weaponType = WeaponType.Secondary;
+    }
     public override void Fire()
     {
         if (canFire)

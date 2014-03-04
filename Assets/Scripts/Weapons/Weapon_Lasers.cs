@@ -4,6 +4,11 @@ using System.Collections;
 public class Weapon_Lasers : Weapon
 {
    
+    void Start()
+    {
+        weaponType = WeaponType.Primary;
+    }
+
     public override void Fire()
     {
         if (canFire)

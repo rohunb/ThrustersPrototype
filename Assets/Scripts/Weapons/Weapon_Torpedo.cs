@@ -2,7 +2,10 @@
 using System.Collections;
 
 public class Weapon_Torpedo : Weapon {
-
+    void Start()
+    {
+        weaponType = WeaponType.Tertiary;
+    }
     public override void Fire()
     {
         if(canFire)

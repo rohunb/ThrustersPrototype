@@ -11,6 +11,8 @@ public class Weapon_Railgun : Weapon {
     public float railEffectClearTimer=0.1f;
     void Start()
     {
+        weaponType = WeaponType.Primary;
+
         line = GetComponent<LineRenderer>();
         line.enabled = false;
         clearEffect = false;
@@ -61,7 +63,7 @@ public class Weapon_Railgun : Weapon {
         lineColour = lineStartColour;
         clearEffect = true;
     }
-    void Update()
+    protected override void Update()
     {
         if (clearEffect)
         {
@@ -72,7 +74,7 @@ public class Weapon_Railgun : Weapon {
             }
             line.SetColors(lineColour, lineColour);
         }
-
+        base.Update();
     }
 
 }

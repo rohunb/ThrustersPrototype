@@ -24,6 +24,7 @@ public class ShipWeapons : MonoBehaviour
     public Texture2D targetBoxTexture;
     public Texture2D targetLeadTexture;
     public bool showTargetLead = false;
+
     private LaserCannon[] laserCannons;
     private bool canFireLasers;
 
