@@ -26,37 +26,7 @@ public class ShipAttack : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //if(Input.GetButton("Fire1"))
-        //{
-        //    inventory.primaryWeapon.Fire();
-        //}
-        //if(Input.GetButton("Fire2"))
-        //{
-        //    inventory.secondaryWeapon.Fire();
-        //}
-        //if(Input.GetKey(KeyCode.Alpha1))
-        //{
-        //    inventory.tertiaryWeapon.Fire();
-        //}
-        ////mining laser is a constant beam 
-        //if(Input.GetKey(KeyCode.Alpha2))
-        //{
-        //    inventory.utilityWeapon.Fire();
-        //}
-        //else if (inventory.utilityWeapon is Weapon_MiningLaser)
-        //{
-        //    Weapon utlityWeapon = inventory.utilityWeapon;
-        //    Weapon_MiningLaser miningLaser = (Weapon_MiningLaser)(utlityWeapon);
-        //    miningLaser.StopFiring();
-        //}
-        //if (Input.GetKeyDown(KeyCode.Tab))
-        //{
-        //    TargetNextEnemy();
-        //}
-        //if (Input.GetKeyDown(KeyCode.T))
-        //    TargetNearestEnemy();
-
-	    if(target)
+        if(target)
         {
             inventory.secondaryWeapon.target = target;
             float distToTarget = Vector3.Distance(transform.position, target.position);

@@ -13,6 +13,14 @@ public class PlayerInventory : MonoBehaviour
     
     public List<Weapon> availableWeapons;
 
+    //inventory GUI
+    private bool displayInventory = false;
+    public Rect primaryWindow = new Rect(10, Screen.height / 2 - 200, 200, 100);
+    public Rect secondaryWindow = new Rect(10, Screen.height / 2 - 100, 200, 100);
+    public Rect tertiaryWindow = new Rect(10, Screen.height / 2 , 200, 100);
+    public Rect utilityWindow = new Rect(10, Screen.height / 2+100, 200, 100);
+
+
     //lasers
     public int laserDamage = 10;
     public float laserSpeed = 1000;
@@ -52,13 +60,7 @@ public class PlayerInventory : MonoBehaviour
         return credits;
     }
 
-	// Use this for initialization
 	
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
     public bool CreateTransaction(int amount)
     {
         if(credits+amount>=0)
@@ -72,9 +74,108 @@ public class PlayerInventory : MonoBehaviour
     
     void OnGUI()
     {
+        if (displayInventory)
+        {
+            primaryWindow = GUI.Window(0, primaryWindow, PrimaryWindow, "Primary Weapon");
+            secondaryWindow = GUI.Window(1, secondaryWindow, SecondaryWindow, "Secondary Weapon");
+            tertiaryWindow = GUI.Window(2, tertiaryWindow, TertiaryWindow, "Tertiary Weapon");
+            utilityWindow = GUI.Window(3, utilityWindow, UtilityWindow, "Utlity Weapon");
+        }
+    }
+    void PrimaryWindow(int windowID)
+    {
+        if (GUI.Button(new Rect(10, 20, 120, 20), "Lasers"))
+        {
+            print("Lasers");
+            SetPrimaryToLaser();
+        }
+        if(GUI.Button(new Rect(10,50,120,20),"Railgun"))
+        {
+            print("Railgun");
+            SetPrimaryToRail();
+        }
+    }
+    void SecondaryWindow(int windowID)
+    {
+        if (GUI.Button(new Rect(10, 20, 120, 20), "Missiles"))
+        {
+            print("Missiles");
+            SetSecondaryToMissiles();
+        }
+        if (GUI.Button(new Rect(10, 50, 120, 20), "Cluster Missiles"))
+        {
+            print("Cluster Missiles");
+            SetSecondaryToClusterMissiles();
+        }
+    }
+    void TertiaryWindow(int windowID)
+    {
+        if (GUI.Button(new Rect(10, 20, 120, 20), "Torpedo"))
+        {
+            print("Torpedo");
+            SetTertiaryToTorpedo();
+        }
+      
+    }
+    void UtilityWindow(int windowID)
+    {
+        if (GUI.Button(new Rect(10, 20, 120, 20), "Mining Laser"))
+        {
+            print("Mining Laser");
+            SetUtilityToMiningLaser();
+        }
         
     }
+    void SetPrimaryToLaser()
+    {
+        foreach (Weapon weapon in availableWeapons)
+        {
+            if (weapon is Weapon_Lasers)
+                primaryWeapon = weapon;
+        }
+    }
+    void SetPrimaryToRail()
+    {
+        foreach (Weapon weapon in availableWeapons)
+        {
+            if (weapon is Weapon_Railgun)
+                primaryWeapon = weapon;
+        }
+    }
+    void SetSecondaryToMissiles()
+    {
+        foreach (Weapon weapon in availableWeapons)
+        {
+            if (weapon is Weapon_Missile)
+                secondaryWeapon = weapon;
+        }
+    }
 
+    void SetSecondaryToClusterMissiles()
+    {
+        foreach (Weapon weapon in availableWeapons)
+        {
+            if (weapon is Weapon_ClusterMissile)
+                secondaryWeapon = weapon;
+        }
+    }
+        void SetTertiaryToTorpedo()
+    {
+        foreach (Weapon weapon in availableWeapons)
+        {
+            if (weapon is Weapon_Torpedo)
+                tertiaryWeapon = weapon;
+        }
+    }
+
+        void SetUtilityToMiningLaser()
+    {
+        foreach (Weapon weapon in availableWeapons)
+        {
+            if (weapon is Weapon_MiningLaser)
+                utilityWeapon = weapon;
+        }
+    }
     void Start()
     {
         credits = 0;
@@ -126,5 +227,9 @@ public class PlayerInventory : MonoBehaviour
         {
             weapon.origin = gameObject;
         }
+    }
+    public void ToggleInventory()
+    {
+        displayInventory = !displayInventory;
     }
 }

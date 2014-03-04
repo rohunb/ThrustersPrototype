@@ -15,16 +15,17 @@ public class PlayerInput : MonoBehaviour {
     //hydra game object
     SixenseInput hydraInput;
 
-    //ship controller scripts
+    //ship components to send inputs to
     ShipMove shipMove;
     ShipAttack shipAttack;
+    PlayerInventory playerInventory;
 
 	// Use this for initialization
 	void Awake () {
         hydraInput = GameObject.FindGameObjectWithTag("HydraInput").GetComponent<SixenseInput>();
         shipMove = gameObject.GetComponent<ShipMove>();
         shipAttack = gameObject.GetComponent<ShipAttack>();
-
+        playerInventory = gameObject.GetComponent<PlayerInventory>();
         switch (controlMode)
         {
             case ControlModes.Keyboard:
@@ -278,6 +279,10 @@ public class PlayerInput : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.T))
         {
             shipAttack.TargetNearestEnemy();
+        }
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            playerInventory.ToggleInventory();
         }
     }
 }
