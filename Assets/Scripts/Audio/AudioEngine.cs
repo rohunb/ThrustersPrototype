@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 public class AudioEngine : MonoBehaviour {
 
@@ -10,16 +12,30 @@ public class AudioEngine : MonoBehaviour {
 	private AudioSource audioSource;
 
 	//Sound Effect shit
-	//public AudioClip lazer1;
-	public AudioClip currentSFX;
+	private AudioClip currentSFX;
+
+	//Dictionary of shit
+	public Dictionary<string, AudioClip> audionames; 
 
 	// Use this for initialization
 	void Start () {
-        audioSource = gameObject.GetComponent<AudioSource>();
-		_volume = 1.0f;
+
+		_volume = 0.75f;
 		_beforeVolume = 0.0f;
 		_mute = false;
 		AudioListener.volume = _volume;
+		audioSource = gameObject.GetComponent<AudioSource>();
+
+		//Dictionary
+		string audioPath = "Audio/Effects/";
+		audionames = new Dictionary<string, AudioClip>();
+
+		currentSFX = Resources.Load<AudioClip>(audioPath+"Laser");
+		audionames.Add("Laser", currentSFX);
+
+		currentSFX = Resources.Load<AudioClip>(audioPath+"MissleLaunch");
+		audionames.Add("MissleLaunch", currentSFX);
+
 	}
 	
 	// Update is called once per frame
@@ -37,7 +53,6 @@ public class AudioEngine : MonoBehaviour {
 				isVolumeUp();
 			}
 		}
-        //playSFX();
 	}
 
 	public void isVolumeDown() {
@@ -45,9 +60,10 @@ public class AudioEngine : MonoBehaviour {
 			_mute = true;
 			Debug.Log("Now muted");
 		} else {
+			_mute = false;
 			_volume -= 0.10f;
 			AudioListener.volume = _volume;
-			Debug.Log("Volume -1");
+			Debug.Log("Volume -0.1");
 		}
 	}
 
@@ -56,11 +72,12 @@ public class AudioEngine : MonoBehaviour {
 			_mute = false;
 			_volume += 0.10f;
 			AudioListener.volume = _volume;
-			Debug.Log("Volume +1 | Now unmuted");
+			Debug.Log("Volume +0.1 | Now unmuted");
 		} else {
+			_mute = false;
 			_volume += 0.10f;
 			AudioListener.volume = _volume;
-			Debug.Log("Volume +1");
+			Debug.Log("Volume +0.1");
 		}
 	}
 
@@ -78,18 +95,13 @@ public class AudioEngine : MonoBehaviour {
 	}
 
 	public void playSFX(string snd) {
-       
-		Debug.Log(snd);
-		string newpath = "Audio/Effects/"+snd;
-        //string newpath = "Audio/Effects/Laser";
-		currentSFX = Resources.Load<AudioClip>(newpath);
-        //currentSFX = Resources.Load(newpath) as AudioClip;
-		Debug.Log(currentSFX);
-        audioSource.PlayOneShot(currentSFX);
-        //audioSource.clip = currentSFX;
-		//audioSource.Play();
-        
-        
-        //currentSFX
+		if (audionames.ContainsKey(snd)) {
+			currentSFX = audionames[snd];
+			audioSource.PlayOneShot(currentSFX);
+			//Debug.Log("Audio File played");
+		} else {
+			Debug.Log("Audio File failed to play!");
+		}
+
 	}
 }

@@ -18,7 +18,8 @@ public class Weapon_Missile : Weapon {
     IEnumerator FireMissiles()
     {
         GameObject missileClone = Instantiate(projectile, shootPoint.position, shootPoint.rotation) as GameObject;
-        missileClone.rigidbody.AddForce(transform.up * 50f, ForceMode.Impulse);
+		GOD.audioengine.playSFX("MissleLaunch");
+		missileClone.rigidbody.AddForce(transform.up * 50f, ForceMode.Impulse);
         missileClone.GetComponent<HomingMissile>().target = target;
 
         ProjectileDamager damager = missileClone.GetComponent<ProjectileDamager>();

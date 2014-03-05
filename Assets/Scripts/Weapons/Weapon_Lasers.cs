@@ -22,6 +22,8 @@ public class Weapon_Lasers : Weapon
     {
         GameObject laserClone = Instantiate(projectile, shootPoint.position, shootPoint.rotation) as GameObject;
 
+		GOD.audioengine.playSFX("Laser");
+
         ProjectileDamager damager = laserClone.GetComponent<ProjectileDamager>();
         damager.origin = origin;
         damager.damage = damage;
