@@ -19,6 +19,7 @@ public class PlayerInventory : MonoBehaviour
     //inventory GUI
     private bool displayInventory = false;
     private bool showAvailableWeapons = false;
+    private bool showMissionLog = true;
     private int hardpointSelected;
     //public Rect primaryWindow = new Rect(10, Screen.height / 2 - 200, 200, 100);
     //public Rect secondaryWindow = new Rect(10, Screen.height / 2 - 100, 200, 100);
@@ -80,6 +81,10 @@ public class PlayerInventory : MonoBehaviour
     
     void OnGUI()
     {
+        DisplayEquippedWeapons();
+        DisplayMinorOptions();
+        if (showMissionLog) DisplayMissions();
+
         if (displayInventory)
         {
             //primaryWindow = GUI.Window(0, primaryWindow, PrimaryWindow, "Primary Weapon");
@@ -94,6 +99,50 @@ public class PlayerInventory : MonoBehaviour
         }
         
     }
+
+    void DisplayEquippedWeapons()
+    {
+        Rect equippedWeaponsRect = new Rect(Screen.width / 2 - 200, Screen.height - 110, 400, 100);
+        GUI.Box(equippedWeaponsRect, "Weapons");
+        GUI.BeginGroup(equippedWeaponsRect);
+
+        for (int i = 0; i < 4; i++)
+        {
+            string wpnName;
+            if (equippedWeapons[i])
+                wpnName = equippedWeapons[i].name;
+            else
+                wpnName = "------";
+            
+            GUI.Button(new Rect(0 + (100 * i), 20, 100, 60), "Wpn " + (i + 1) + ":\n" + wpnName);
+        }
+        GUI.EndGroup();
+    }
+
+    void DisplayMissions()
+    {
+        Rect missionsRect = new Rect(Screen.width - 260, Screen.height / 2 - 200, 250, 400);
+        GUI.Box(missionsRect, "Missions");
+        GUI.BeginGroup(missionsRect);
+        GUI.EndGroup();
+    }
+
+    void DisplayMinorOptions()
+    {
+        if (GUI.Button(new Rect(Screen.width - 90, 0, 30, 20), "M"))
+        {
+
+        }
+        if (GUI.Button(new Rect(Screen.width - 60, 0, 30, 20), "S"))
+        {
+
+        }
+        if (GUI.Button(new Rect(Screen.width - 30, 0, 30, 20), "O"))
+        {
+
+        }
+    }
+
     void EquippedWindow(int windowID)
     {
         string buttonText;
@@ -289,5 +338,10 @@ public class PlayerInventory : MonoBehaviour
     {
         displayInventory = !displayInventory;
 
+    }
+
+    public void ToggleMissionLog()
+    {
+        showMissionLog = !showMissionLog;
     }
 }
