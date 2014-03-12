@@ -16,7 +16,8 @@ public class MainMenu : MonoBehaviour {
         if (GUI.Button(new Rect(60, 100, 200, 80), "New Game"))
         {
             print("create new game");
-            ScreenFader.EndScene();
+
+           	ScreenFader.EndScene();
             //if (!ScreenFader.IsTransitioning)
             //{
                     

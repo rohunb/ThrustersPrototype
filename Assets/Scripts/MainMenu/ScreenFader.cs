@@ -43,7 +43,7 @@ public class ScreenFader : MonoBehaviour {
             guiTexture.enabled = true;
             isTransitioning = true;
 
-            FadeIn();
+            FadeOut();
 
             if (guiTexture.color.a >= 0.99f)
             {
