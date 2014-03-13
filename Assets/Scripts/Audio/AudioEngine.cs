@@ -10,9 +10,13 @@ public class AudioEngine : MonoBehaviour {
 	private static float _beforeVolume;
 	private static bool _mute;
 	private AudioSource audioSource;
+	private AudioSource audioSource1;
+	private AudioSource audioSource2;
 
 	//Sound Effect shit
 	private AudioClip currentSFX;
+	private AudioClip bgSFX;
+	private AudioClip shipSFX;
 
 	//Dictionary of shit
 	public Dictionary<string, AudioClip> audionames; 
@@ -24,7 +28,12 @@ public class AudioEngine : MonoBehaviour {
 		_beforeVolume = 0.0f;
 		_mute = false;
 		AudioListener.volume = _volume;
-		audioSource = gameObject.GetComponent<AudioSource>();
+		AudioSource[] aSource = GetComponents<AudioSource>();
+		audioSource = aSource[0];
+		audioSource1 = aSource[1];
+		audioSource2 = aSource[2];
+
+		//audioSource = gameObject.GetComponent<AudioSource>();
 
 		//Dictionary
 		string audioPath = "Audio/Effects/";
@@ -36,6 +45,24 @@ public class AudioEngine : MonoBehaviour {
 		currentSFX = Resources.Load<AudioClip>(audioPath+"MissleLaunch");
 		audionames.Add("MissleLaunch", currentSFX);
 
+		currentSFX = Resources.Load<AudioClip>(audioPath+"Torpedo");
+		audionames.Add("Torpedo", currentSFX);
+
+		currentSFX = Resources.Load<AudioClip>(audioPath+"Railgun");
+		audionames.Add("Railgun", currentSFX);
+
+		currentSFX = Resources.Load<AudioClip>(audioPath+"MiningLaser");
+		audionames.Add("MiningLaser", currentSFX);
+
+		//
+		bgSFX = Resources.Load<AudioClip>("Audio/Background/InGameBG");
+		shipSFX = Resources.Load<AudioClip>(audioPath+"Thrusters");
+		audioSource1.loop = true;
+		audioSource1.clip = bgSFX;
+		audioSource1.Play();
+		audioSource2.loop = true;
+		audioSource2.clip = shipSFX;
+		audioSource2.Play();
 	}
 	
 	// Update is called once per frame

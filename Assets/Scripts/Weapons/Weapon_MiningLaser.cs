@@ -20,7 +20,6 @@ public class Weapon_MiningLaser : Weapon {
 	// Use this for initialization
 	void Start () {
         weaponType = WeaponType.Utility;
-
         line = GetComponent<LineRenderer>();
         line.SetWidth(lineWidth, lineWidth);
         line.SetColors(beamColor, beamColor);
@@ -36,6 +35,7 @@ public class Weapon_MiningLaser : Weapon {
         {
             CheckForCollision();
             CreateBeamEffect();
+			GOD.audioengine.playSFX("MiningLaser");
         }
         else
         {

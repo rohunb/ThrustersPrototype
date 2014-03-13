@@ -28,7 +28,7 @@ public class Weapon_Railgun : Weapon {
     IEnumerator FireRail()
     {
         GameObject railshotClone = Instantiate(projectile, shootPoint.position, shootPoint.rotation) as GameObject;
-        
+		GOD.audioengine.playSFX("Railgun");
         ProjectileMover mover = railshotClone.GetComponent<ProjectileMover>();
         mover.speed = projectileSpeed;
         mover.range = range;

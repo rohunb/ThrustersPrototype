@@ -17,7 +17,7 @@ public class Weapon_Torpedo : Weapon {
     IEnumerator FireTorpedo()
     {
         GameObject missileClone = Instantiate(projectile, shootPoint.position, shootPoint.rotation) as GameObject;
-
+		GOD.audioengine.playSFX("Torpedo");
         missileClone.rigidbody.AddForce(transform.up * 100f, ForceMode.Impulse);
         ProjectileDamager damager = missileClone.GetComponent<ProjectileDamager>();
         damager.origin = origin;

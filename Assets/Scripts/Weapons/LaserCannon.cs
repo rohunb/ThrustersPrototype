@@ -9,6 +9,7 @@ public class LaserCannon : MonoBehaviour {
 	{
 		GameObject laserClone = Instantiate(laser, shootPoint.position, shootPoint.rotation) as GameObject;
 		ProjectileDamager damager = laserClone.GetComponent<ProjectileDamager>();
+		GOD.audioengine.playSFX("Laser");
 		damager.origin = _origin;
 		damager.damage = _damage;
 		laserClone.GetComponent<ProjectileMover>().speed = _speed;

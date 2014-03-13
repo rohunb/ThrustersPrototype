@@ -87,7 +87,6 @@ public class ShipMove : MonoBehaviour {
     public void MoveFoward(float amount)
     {
         FireForwardThrusters(fwdThrustForce, amount);
-        
     }
     public void MoveBack(float amount)
     {
