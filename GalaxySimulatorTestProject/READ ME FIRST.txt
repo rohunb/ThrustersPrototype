@@ -1,0 +1,2 @@
+Version: 0.1:
+this is the first test version of the running galaxy with "correct" rotational speeds. this version is for testing ONLY and should not be incorporated into the game yet as it is programmed in the worst way and needs a good refactor and efficiency check. -Alex
