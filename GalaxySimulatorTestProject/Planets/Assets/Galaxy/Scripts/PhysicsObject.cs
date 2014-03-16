@@ -19,9 +19,10 @@ using System.Text;
         private int ID;
 
         private PhysicsObjectType physicsObjectType;
+        public PhysicsObjectType ObjectType { get { return physicsObjectType; } set { physicsObjectType = value; } }
 
         //private const double KeplerKonstant = 0.000000000000000000297; // this is the actual constant
-        private const double KeplerKonstant = 0.00000000297; // this scaled version works just right
+        //private const double KeplerKonstant = 0.000000297; // this scaled version works just right
 
         private Vector2 position; 
         public Vector2 Position { get { return position; } set { position = value; } }
@@ -133,7 +134,7 @@ using System.Text;
         {
             if (periodInSeconds == 0)
             {
-                periodInSeconds = Math.Sqrt(KeplerKonstant * radius * radius * radius);
+                periodInSeconds = radius * 2;
             }
             
             return periodInSeconds;
@@ -185,22 +186,22 @@ using System.Text;
                 case PhysicsObjectType.SMBH:
                     break;
                 case PhysicsObjectType.STAR:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)))/1000000000;
+                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
                     
                     break;
                 case PhysicsObjectType.ROCK_PLANET:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)))/10000;
+                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
 
                     break;
                 case PhysicsObjectType.ROCK_MOON:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME))) / 10000;
+                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
                     break;
                 case PhysicsObjectType.GAS_GIANT:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)))/1000000000;
+                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
                     
                     break;
                 case PhysicsObjectType.G_G_MOON:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME))) / 1000000000;
+                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
                     break;
                 case PhysicsObjectType.GALAXY:
                     break;

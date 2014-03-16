@@ -16,35 +16,46 @@ public class Galaxy : MonoBehaviour
     public GameObject[] gasGiants;
     public GameObject[] ggMoons;
 
+    private List<PhysicsObject> poStars;
+    private List<PhysicsObject> poTPlanets;
+    private List<PhysicsObject> poTMoons;
+    private List<PhysicsObject> poGPlanets;
+    private List<PhysicsObject> poGMoons;
+
     public string debugText = "";
     
     //public bool isRunning = true;
 
     //setup variables
-    private const int minNumStars = 1;
-    private const int maxNumStars = 1;
-    private const int minStarRange = 100;
-    private const int maxStarRange = 1000;
+    private const int minNumStars = 10;
+    private const int maxNumStars = 15;
+    private int minStarRange = 100;
+    private int maxStarRange = 1000;
+    private const int StarRangeIncr = 1000;
 
     private const int minNumRockPlanetsPerStar = 1;
     private const int maxNumRockPlanetsPerStar = 4;
-    private const int minRockPlanetRange = 4;
-    private const int maxRockPlanetRange = 20;
+    private int minRockPlanetRange = 4;
+    private int maxRockPlanetRange = 20;
+    private const int RockPlanetRangeIncr = 20;
 
     private const int minNumMoonsPerRockPlanet = 1;
     private const int maxNumMoonsPerRockPlanet = 2;
-    private const int minRockMoonRange = 1;
-    private const int maxRockMoonRange = 2;
+    private int minRockMoonRange = 1;
+    private int maxRockMoonRange = 2;
+    private const int RockMoonRangeIncr = 2;
 
     private const int minNumGasGiants = 1;
     private const int maxNumGasGiants = 6;
-    private const int minGasGiantRange = 30;
-    private const int maxGasGiantRange = 70;
+    private int minGasGiantRange = 70;
+    private int maxGasGiantRange = 150;
+    private const int GasGiantRangeIncr = 70;
 
     private const int minNumMoonsPerGG = 1;
-    private const int maxNumMoonsPerGG = 12;
-    private const int minGGMoonRange = 1;
-    private const int maxGGMoonRange = 3;
+    private const int maxNumMoonsPerGG = 8;
+    private int minGGMoonRange = 4;
+    private int maxGGMoonRange = 6;
+    private const int GGMoonRangeIncr = 2;
 
     //for adding randomness
     System.Random random = new System.Random();
@@ -62,14 +73,8 @@ public class Galaxy : MonoBehaviour
     {
         return objectsInSimulation;
     }
-
-    //smbh is the root node. all other physics objects are within it.
     PhysicsObject smbh_phy = new PhysicsObject();
-
-    //these vars get reused to create all the new Objects;
     PhysicsObject star_phy, rockPlanet_phy, rockMoon_phy, gasGiant_phy, gasGiantMoon_phy;
-
-    //public string debugText = "test debug text";
 
     private void Start()
     {
@@ -78,7 +83,6 @@ public class Galaxy : MonoBehaviour
         objectsInSimulation.addComponent(smbh_phy);
     GameObject blackHole = GameObject.Instantiate(superMassiveBlackHole, Vector3.zero, Quaternion.LookRotation(Vector3.left)) as GameObject;
     blackHole.transform.parent = theCore.transform;
-    //blackHole.GetComponent<rotate>().target = theCore;
 
 	// add stars
 	starCount = random.Next (maxNumStars - minNumStars + 1) + minNumStars;
@@ -97,6 +101,9 @@ public class Galaxy : MonoBehaviour
 			randY = random.Next (-maxStarRange, maxStarRange);
 		}
 
+        minStarRange += StarRangeIncr;
+        maxStarRange += StarRangeIncr;
+
 			star_phy = new PhysicsObject (new Vector2 (randX, randY), 11, PhysicsObjectType.STAR);
             star_phy.calcRadius(smbh_phy);
 			star_phy.calcPeriodInSeconds ();
@@ -105,9 +112,8 @@ public class Galaxy : MonoBehaviour
 			objectsInSimulation.addComponent (star_phy);
             GameObject starSystem = Instantiate(stars[0], new Vector3(randX, 0, randY), Quaternion.LookRotation(Vector3.left)) as GameObject;
             starSystem.transform.parent = theCore.transform;
-            starSystem.GetComponent<rotate>().target = theCore;
-            star_phy.rotateScript = starSystem.GetComponent<rotate>();
             starSystem.GetComponent<rotate>().myObject = star_phy;
+            star_phy.rotateScript = starSystem.GetComponent<rotate>();
 
 			//add rock planets to the stars
 			rockPlanetCount = random.Next (maxNumRockPlanetsPerStar - minNumRockPlanetsPerStar + 1) + minNumRockPlanetsPerStar;
@@ -125,6 +131,9 @@ public class Galaxy : MonoBehaviour
 						randY = random.Next (-maxRockPlanetRange, maxRockPlanetRange);
 				}
 
+                minRockPlanetRange += RockPlanetRangeIncr;
+                maxRockPlanetRange += RockPlanetRangeIncr;
+                
 				// create the planet then add it to the parent (star in this case) then add it to the objects the sim tracks
 				rockPlanet_phy = new PhysicsObject (new Vector2 (randX + star_phy.Position.X, randY + star_phy.Position.Y), 222, PhysicsObjectType.ROCK_PLANET);
 				rockPlanet_phy.calcRadius (star_phy);
@@ -134,7 +143,6 @@ public class Galaxy : MonoBehaviour
 				objectsInSimulation.addComponent(rockPlanet_phy);
                 GameObject RockPlanet = Instantiate(rockPlanets[0], new Vector3(rockPlanet_phy.Position.X, 0, rockPlanet_phy.Position.Y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                 RockPlanet.transform.parent = starSystem.transform;
-                RockPlanet.GetComponent<rotate>().target = starSystem;
                 rockPlanet_phy.rotateScript = RockPlanet.GetComponent<rotate>();
                 RockPlanet.GetComponent<rotate>().myObject = rockPlanet_phy;
 
@@ -154,6 +162,9 @@ public class Galaxy : MonoBehaviour
 						randY = random.Next (-maxRockMoonRange, maxRockMoonRange);
 					}
 
+                    minRockMoonRange += RockMoonRangeIncr;
+                    maxRockMoonRange += RockMoonRangeIncr;
+
 					rockMoon_phy = new PhysicsObject (new Vector2 (randX + rockPlanet_phy.Position.X, randY + rockPlanet_phy.Position.Y), 3333, PhysicsObjectType.ROCK_MOON);
 					rockMoon_phy.calcRadius (rockPlanet_phy);
 					rockMoon_phy.calcPeriodInSeconds ();
@@ -161,8 +172,7 @@ public class Galaxy : MonoBehaviour
 					rockPlanet_phy.addComponent (rockMoon_phy);
 					objectsInSimulation.addComponent(rockMoon_phy);
                     GameObject RockMoon = Instantiate(rockMoons[0], new Vector3(rockMoon_phy.Position.X, 0, rockMoon_phy.Position.Y), Quaternion.LookRotation(Vector3.left)) as GameObject;
-                    RockPlanet.transform.parent = RockPlanet.transform;
-                    RockMoon.GetComponent<rotate>().target = RockPlanet;
+                    RockMoon.transform.parent = RockPlanet.transform;
                     rockMoon_phy.rotateScript = RockMoon.GetComponent<rotate>();
                     RockMoon.GetComponent<rotate>().myObject = rockMoon_phy;
 				}
@@ -184,6 +194,9 @@ public class Galaxy : MonoBehaviour
 					randY = random.Next (-maxGasGiantRange, maxGasGiantRange);
 				}
 
+                minGasGiantRange += GasGiantRangeIncr;
+                maxGasGiantRange += GasGiantRangeIncr;
+
 				gasGiant_phy = new PhysicsObject (new Vector2 (randX + star_phy.Position.X, randY + star_phy.Position.Y), 44444, PhysicsObjectType.GAS_GIANT);
 				gasGiant_phy.calcRadius (star_phy);
 				gasGiant_phy.calcPeriodInSeconds ();
@@ -192,7 +205,6 @@ public class Galaxy : MonoBehaviour
 				objectsInSimulation.addComponent(gasGiant_phy);
                 GameObject GasGiant = Instantiate(gasGiants[0], new Vector3(gasGiant_phy.Position.X, 0, gasGiant_phy.Position.Y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                 GasGiant.transform.parent = starSystem.transform;
-                GasGiant.GetComponent<rotate>().target = starSystem;
                 gasGiant_phy.rotateScript = GasGiant.GetComponent<rotate>();
                 GasGiant.GetComponent<rotate>().myObject = gasGiant_phy;
 
@@ -201,17 +213,20 @@ public class Galaxy : MonoBehaviour
 				for (int m = 0; m < gasGiantMoonCount; m++) 
 				{
 
-					randX = random.Next (-maxGasGiantRange, maxGasGiantRange);
-					while (randX > -minGasGiantRange && randX < minGasGiantRange) 
+                    randX = random.Next(-maxGGMoonRange, minGGMoonRange);
+                    while (randX > -minGGMoonRange && randX < minGGMoonRange) 
 					{
-						randX = random.Next (-maxGasGiantRange, maxGasGiantRange);
+                        randX = random.Next(-maxGGMoonRange, minGGMoonRange);
 					}
 
-					randY = random.Next (-maxGasGiantRange, maxGasGiantRange);
-					while (randY > -minGasGiantRange && randY < minGasGiantRange)
+                    randY = random.Next(-maxGGMoonRange, maxGGMoonRange);
+                    while (randY > -minGGMoonRange && randY < minGGMoonRange)
 					{
-						randY = random.Next (-maxGasGiantRange, maxGasGiantRange);
+                        randY = random.Next(-maxGGMoonRange, maxGGMoonRange);
 					}
+
+                    minGGMoonRange += GGMoonRangeIncr;
+                    maxGGMoonRange += GGMoonRangeIncr;
 
 					gasGiantMoon_phy = new PhysicsObject (new Vector2 (randX + gasGiant_phy.Position.X, randY + gasGiant_phy.Position.Y), 555555, PhysicsObjectType.G_G_MOON);
 					gasGiantMoon_phy.calcRadius (gasGiant_phy);
@@ -221,7 +236,6 @@ public class Galaxy : MonoBehaviour
 					objectsInSimulation.addComponent(gasGiantMoon_phy);
                     GameObject GGMoon = Instantiate(ggMoons[0], new Vector3(gasGiantMoon_phy.Position.X, 0, gasGiantMoon_phy.Position.Y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                     GGMoon.transform.parent = GasGiant.transform;
-                    GGMoon.GetComponent<rotate>().target = GasGiant;
                     gasGiantMoon_phy.rotateScript = GGMoon.GetComponent<rotate>();
                     GGMoon.GetComponent<rotate>().myObject = gasGiantMoon_phy;
 				}
