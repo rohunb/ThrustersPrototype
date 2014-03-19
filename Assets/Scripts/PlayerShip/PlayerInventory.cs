@@ -15,7 +15,8 @@ public class PlayerInventory : MonoBehaviour
 
     public int numberOfHardpoints = 4;
     public Weapon[] equippedWeapons;
-
+    public Transform[] hardPoints;
+    public Transform inventoryLoc;
     //inventory GUI
     private bool displayInventory = false;
     private bool showAvailableWeapons = false;
@@ -171,16 +172,23 @@ public class PlayerInventory : MonoBehaviour
         for (int i = 0; i < availableWeapons.Count; i++)
         {
             GUI.Label(new Rect(5, 20 + i * 20, 120, 20), "" + (i + 1) + ": ");
-            if (GUI.Button(new Rect(15, 20 + i * 20, 150, 20), availableWeapons[i].name)) 
+            if (GUI.Button(new Rect(15, 20 + i * 20, 150, 20), availableWeapons[i].name))
             {
                 if (equippedWeapons[hardpointSelected])
                 {
+                    //equippedWeapons[hardpointSelected].gameObject.SetActive(false);
                     availableWeapons.Add(equippedWeapons[hardpointSelected]);
-                    
+                    availableWeapons[availableWeapons.Count - 1].transform.position = inventoryLoc.position;
+                    //availableWeapons[availableWeapons.Count - 1].gameObject.SetActive(false);
+                    availableWeapons[availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
                 }
-                equippedWeapons[hardpointSelected] = availableWeapons[i];
-                availableWeapons.Remove(availableWeapons[i]);
                 
+                equippedWeapons[hardpointSelected] = availableWeapons[i];
+                equippedWeapons[hardpointSelected].transform.position = hardPoints[hardpointSelected].position;
+                //equippedWeapons[hardpointSelected].gameObject.SetActive(true);
+                equippedWeapons[hardpointSelected] .gameObject.GetComponent<Weapon>().enabled = true;
+                availableWeapons.Remove(availableWeapons[i]);
+
             }
         }
     }
@@ -286,6 +294,12 @@ public class PlayerInventory : MonoBehaviour
 
         equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numberOfHardpoints*30);
         availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count*30);
+
+        foreach (Weapon weapon in availableWeapons)
+        {
+            weapon.transform.position = inventoryLoc.position;
+            weapon.GetComponent<Weapon>().enabled = false;
+        }
 
         //if (primaryWeapon is Weapon_Lasers)
         //{

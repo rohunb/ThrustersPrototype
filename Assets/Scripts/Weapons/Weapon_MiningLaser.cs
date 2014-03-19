@@ -18,7 +18,7 @@ public class Weapon_MiningLaser : Weapon {
     int length;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         weaponType = WeaponType.Utility;
         line = GetComponent<LineRenderer>();
         line.SetWidth(lineWidth, lineWidth);

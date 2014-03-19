@@ -24,22 +24,25 @@ public class EnemyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        foreach (GameObject enemy in enemies.ToArray())
+        if (enemies.Count > 0)
         {
-            
-            Transform enemyTarget=enemy.GetComponent<AI_Controller>().target;
-            float distToPlayer=Vector3.Distance(enemy.transform.position,playerTarget.position);
-            if(enemyTarget!=playerTarget && distToPlayer<=enemy.GetComponent<AI_Controller>().sightRange)
+            foreach (GameObject enemy in enemies.ToArray())
             {
-                enemy.GetComponent<AI_Controller>().target = playerTarget;
-            }
-            if(enemy.GetComponent<Health>().health<=0)
-            {
-                Instantiate(explosion, enemy.transform.position, Quaternion.identity);
-                enemies.Remove(enemy);
-                if (missionController.missionEnemies.Contains(enemy))
-                    missionController.missionEnemies.Remove(enemy);
-                GameObject.Destroy(enemy);
+
+                Transform enemyTarget = enemy.GetComponent<AI_Controller>().target;
+                float distToPlayer = Vector3.Distance(enemy.transform.position, playerTarget.position);
+                if (enemyTarget != playerTarget && distToPlayer <= enemy.GetComponent<AI_Controller>().sightRange)
+                {
+                    enemy.GetComponent<AI_Controller>().target = playerTarget;
+                }
+                if (enemy.GetComponent<Health>().health <= 0)
+                {
+                    Instantiate(explosion, enemy.transform.position, Quaternion.identity);
+                    enemies.Remove(enemy);
+                    if (missionController.missionEnemies.Contains(enemy))
+                        missionController.missionEnemies.Remove(enemy);
+                    GameObject.Destroy(enemy);
+                }
             }
         }
 	}
