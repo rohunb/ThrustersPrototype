@@ -66,13 +66,16 @@ public class DockManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(Input.GetKeyDown(KeyCode.Escape))
+        
+        if ((showEquipTerm || showVendorTerm || showMissionTerm)&&
+            Input.GetKeyDown(KeyCode.Escape))
         {
             ExitAllTerminals();
             cameraMove.CameraReturnToPos();
         }
         if(attachingWeapon)
         {
+            
             bool placeWeapon = false;
             ShowHardPoints();
             if(Input.GetMouseButtonDown(0))
