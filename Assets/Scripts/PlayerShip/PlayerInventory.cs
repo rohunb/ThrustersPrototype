@@ -79,12 +79,36 @@ public class PlayerInventory : MonoBehaviour
         else
             return false;
     }
-    
+    public void AddWeaponToHardpoint(int hardpointIndex, int availableWeaponsIndex)
+    {
+        if (equippedWeapons[hardpointIndex])
+        {
+            //equippedWeapons[hardpointSelected].gameObject.SetActive(false);
+            availableWeapons.Add(equippedWeapons[hardpointIndex]);
+            availableWeapons[availableWeapons.Count - 1].transform.position = inventoryLoc.position;
+            //availableWeapons[availableWeapons.Count - 1].gameObject.SetActive(false);
+            availableWeapons[availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
+        }
+
+        equippedWeapons[hardpointIndex] = availableWeapons[availableWeaponsIndex];
+        equippedWeapons[hardpointIndex].transform.position = hardPoints[hardpointIndex].position;
+        //equippedWeapons[hardpointSelected].gameObject.SetActive(true);
+        equippedWeapons[hardpointIndex].gameObject.GetComponent<Weapon>().enabled = true;
+        availableWeapons.Remove(availableWeapons[availableWeaponsIndex]);
+    }
+    void Update()
+    {
+        foreach (Weapon weapon in equippedWeapons)
+        {
+            //if (weapon)
+                //weapon.gameObject.SetActive(true);
+        }
+    }
     void OnGUI()
     {
-        DisplayEquippedWeapons();
-        DisplayMinorOptions();
-        if (showMissionLog) DisplayMissions();
+        //DisplayEquippedWeapons();
+        //DisplayMinorOptions();
+        //if (showMissionLog) DisplayMissions();
 
         if (displayInventory)
         {
@@ -192,6 +216,9 @@ public class PlayerInventory : MonoBehaviour
             }
         }
     }
+
+
+
     //void PrimaryWindow(int windowID)
     //{
     //    if (GUI.Button(new Rect(10, 20, 120, 20), "Lasers"))
