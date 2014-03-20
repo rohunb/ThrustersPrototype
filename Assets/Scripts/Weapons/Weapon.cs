@@ -18,6 +18,9 @@ public class Weapon : MonoBehaviour {
 
     public enum WeaponType { Primary,Secondary,Tertiary,Utility}
     public WeaponType weaponType;
+
+    public Transform movableGun;
+
 	
     public virtual void Fire()
     {
@@ -28,7 +31,9 @@ public class Weapon : MonoBehaviour {
         if (lookAtMouse)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
+            //movableGun.LookAt(mousePos);
             transform.LookAt(mousePos);
+
         }
     }
 }
