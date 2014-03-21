@@ -85,7 +85,7 @@ public class AI_Controller : MonoBehaviour
                     {
                         if (distToTarget <= minRange)
                         {
-                            ai_state = AI_States.StopAndAttack;
+                            //ai_state = AI_States.StopAndAttack;
                             Invoke("BreakAway", timeToBreakaway);
                         }
                         else

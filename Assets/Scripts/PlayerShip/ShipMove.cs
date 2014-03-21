@@ -53,17 +53,19 @@ public class ShipMove : MonoBehaviour {
       
         currentAfterburnerLevel += afterburnerRecharge*Time.deltaTime;
         currentAfterburnerLevel = Mathf.Clamp(currentAfterburnerLevel, 0f, maxAfterburnerLevel);
+        Camera.main.fieldOfView = currentFov;
     }
 
     
     void OnGUI()
     {
-        GUILayout.BeginArea(new Rect(10, 10, 150, 150));
+        GUILayout.BeginArea(new Rect(10, 10, 150, 170));
         GUILayout.BeginVertical();
         GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
         GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
         GUILayout.Label("Rotation: " + transform.rotation.ToString());
         GUILayout.Label("Mouse Pos: " + Camera.main.ScreenToViewportPoint(Input.mousePosition).ToString());
+        GUILayout.Label("FOV: " + currentFov);
         GUILayout.EndVertical();
         GUILayout.EndArea();
     }
@@ -78,6 +80,7 @@ public class ShipMove : MonoBehaviour {
         }
         else
             StopFiringAfterburners();
+        
 
     }
     public void StopFiringAfterburners()
