@@ -15,6 +15,9 @@ using System.Text;
             return components;
         }
 
+        private PhysicsObject parent;
+        public PhysicsObject Parent { get { return parent; } set { parent = value; } }
+
         private static int totalObjects = 0;
         private int ID;
 
@@ -58,6 +61,7 @@ using System.Text;
         public double OrbitalCircumference { get { return orbitalCircumference; } set { orbitalCircumference = value; } }
 
         private Vector2 gravityWell;
+        public Vector2 GravityWell { get { return gravityWell; } set { gravityWell = value; } }
 
         private double periodInSeconds = 0;
         public double PeriodInSeconds { get { return periodInSeconds; } set { periodInSeconds = value; } }
@@ -65,6 +69,8 @@ using System.Text;
         double linearVelocityScalar;
 
         private int numComponents = 0;
+
+        private float timeFactor = 0.01f;
 
         public int getNumComponents()
         {
@@ -96,7 +102,6 @@ using System.Text;
             {
                 return null;
             }
-            
         }
 
         //constructor with values
@@ -105,7 +110,6 @@ using System.Text;
             position = _position;
             mass = _mass;
             physicsObjectType = _type;
-
             finishSetup();
         }
 
@@ -114,29 +118,25 @@ using System.Text;
             position = Vector2.ZERO;
             mass = 0;
             physicsObjectType = PhysicsObjectType.SMBH;
-
             finishSetup();
         }
 
         public ulong calcRadius(PhysicsObject _gravityWell)
         {
-            if (radius == 0)
-            {
-                gravityWell = _gravityWell.Position;
-                radius = (ulong)new Vector2(position.X - gravityWell.X, position.Y - gravityWell.Y).Magnitude;
-                orbitalCircumference = 2 * Math.PI * radius;
-            }
-            
+            parent = _gravityWell;
+            gravityWell = _gravityWell.Position;
+            radius = (ulong)new Vector2(position.X - gravityWell.X, position.Y - gravityWell.Y).Magnitude;
+            orbitalCircumference = 2 * Math.PI * radius;
+            calcPeriodInSeconds();
             return radius;
         }
 
         public double calcPeriodInSeconds()
         {
-            if (periodInSeconds == 0)
-            {
-                periodInSeconds = radius * 2;
-            }
-            
+
+            periodInSeconds = Math.Sqrt(radius * radius * radius) * timeFactor ;
+
+                calcTheRest();
             return periodInSeconds;
         }
 
@@ -213,6 +213,9 @@ using System.Text;
             {
                 angle = 0;
             }
+
+            position.X = (float)(gravityWell.X + radius * Math.Cos(angle));
+            position.Y = (float)(gravityWell.Y + radius * Math.Sin(angle));
         }
 
         public string Text()

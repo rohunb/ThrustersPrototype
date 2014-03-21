@@ -4,9 +4,7 @@ using System.Collections;
 public class debugText : MonoBehaviour {
 
     TextMesh textMesh;
-
     Galaxy sourceScript;
-    PhysicsSim sim;
 
 	void Start () 
     {

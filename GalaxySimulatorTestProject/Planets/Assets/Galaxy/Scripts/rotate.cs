@@ -14,12 +14,13 @@ public class rotate : MonoBehaviour
 
     void Update()
     {
-            transform.Rotate(Vector3.up, rotateAngle);
-
         if (myObject != null)
         {
             myObject.Update();
-            rotateAngle = (float)myObject.Angle;
+            transform.position = new Vector3(myObject.Position.X, 0, myObject.Position.Y);
+            //rotateAngle = (float)myObject.Angle; 
+            //transform.Rotate(new Vector3(myObject.GravityWell.X, myObject.GravityWell.Y, 0), );
+            //transform.Rotate(new Vector3(myObject.GravityWell.X, myObject.GravityWell.Y, 0), Time.deltaTime * rotateAngle, Space.World);
         }
     }
 }
