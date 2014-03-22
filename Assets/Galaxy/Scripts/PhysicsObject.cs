@@ -19,6 +19,7 @@ using System.Text;
         public PhysicsObject Parent { get { return parent; } set { parent = value; } }
 
         private static int totalObjects = 0;
+        public static int getNumObjects(){return totalObjects;}
         private int ID;
 
         private PhysicsObjectType physicsObjectType;
@@ -35,6 +36,8 @@ using System.Text;
         private int numComponents = 0;
 
         private float timeFactor = 0.1f;
+
+        public GameObject myGameObject;
 
         public int getNumComponents()
         {
@@ -66,6 +69,11 @@ using System.Text;
             {
                 return null;
             }
+        }
+
+        public PhysicsObject getComponent(int componentID)
+        {
+            return components[componentID];
         }
 
         //constructor with values

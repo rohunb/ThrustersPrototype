@@ -9,7 +9,7 @@ public class debugText : MonoBehaviour {
 	void Start () 
     {
         textMesh = GetComponent<TextMesh>();
-        sourceScript = GameObject.Find("GalaxyCore").GetComponent<Galaxy>(); 
+        sourceScript = GameObject.Find("Galaxy").GetComponent<Galaxy>(); 
 	}
 	
 	void Update () 
