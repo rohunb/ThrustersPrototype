@@ -18,11 +18,11 @@ public class cameraControls : MonoBehaviour
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0.1)
         {
-            mouseOrbitScript.distance -= 10;
+            mouseOrbitScript.distance -= 1000;
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < -0.1)
         {
-            mouseOrbitScript.distance += 10;
+            mouseOrbitScript.distance += 1000;
         }
     }
 }

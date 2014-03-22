@@ -101,11 +101,11 @@ public class Galaxy : MonoBehaviour
         minStarRange += StarRangeIncr;
         maxStarRange += StarRangeIncr;
 
-			star_phy = new PhysicsObject (new Vector2 (randX, randY), 11, PhysicsObjectType.STAR);
+        star_phy = new PhysicsObject(new Vector2(blackHole.transform.position.x + randX, blackHole.transform.position.y + randY), 11, PhysicsObjectType.STAR);
             star_phy.calcRadius(smbh_phy);
             smbh_phy.addComponent(star_phy);
 			objectsInSimulation.addComponent (star_phy);
-            GameObject starSystem = Instantiate(stars[0], new Vector3(randX, 0, randY), Quaternion.LookRotation(Vector3.left)) as GameObject;
+            GameObject starSystem = Instantiate(stars[UnityEngine.Random.Range(0, stars.Length - 1)], new Vector3(star_phy.Position.x, 0, star_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
             starSystem.transform.parent = theCore.transform;
             starSystem.GetComponent<rotate>().myObject = star_phy;
             star_phy.rotateScript = starSystem.GetComponent<rotate>();
@@ -134,7 +134,7 @@ public class Galaxy : MonoBehaviour
 				rockPlanet_phy.calcRadius (star_phy);
 				star_phy.addComponent (rockPlanet_phy);
 				objectsInSimulation.addComponent(rockPlanet_phy);
-                GameObject RockPlanet = Instantiate(rockPlanets[0], new Vector3(rockPlanet_phy.Position.x, 0, rockPlanet_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+                GameObject RockPlanet = Instantiate(rockPlanets[UnityEngine.Random.Range(0, rockPlanets.Length - 1)], new Vector3(rockPlanet_phy.Position.x, 0, rockPlanet_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                 RockPlanet.transform.parent = starSystem.transform;
                 rockPlanet_phy.rotateScript = RockPlanet.GetComponent<rotate>();
                 RockPlanet.GetComponent<rotate>().myObject = rockPlanet_phy;
@@ -162,7 +162,7 @@ public class Galaxy : MonoBehaviour
 					rockMoon_phy.calcRadius (rockPlanet_phy);
 					rockPlanet_phy.addComponent (rockMoon_phy);
 					objectsInSimulation.addComponent(rockMoon_phy);
-                    GameObject RockMoon = Instantiate(rockMoons[0], new Vector3(rockMoon_phy.Position.x, 0, rockMoon_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+                    GameObject RockMoon = Instantiate(rockMoons[UnityEngine.Random.Range(0, rockMoons.Length - 1)], new Vector3(rockMoon_phy.Position.x, 0, rockMoon_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                     RockMoon.transform.parent = RockPlanet.transform;
                     rockMoon_phy.rotateScript = RockMoon.GetComponent<rotate>();
                     RockMoon.GetComponent<rotate>().myObject = rockMoon_phy;
@@ -192,7 +192,7 @@ public class Galaxy : MonoBehaviour
 				gasGiant_phy.calcRadius (star_phy);
 				star_phy.addComponent (gasGiant_phy);
 				objectsInSimulation.addComponent(gasGiant_phy);
-                GameObject GasGiant = Instantiate(gasGiants[0], new Vector3(gasGiant_phy.Position.x, 0, gasGiant_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+                GameObject GasGiant = Instantiate(gasGiants[UnityEngine.Random.Range(0, gasGiants.Length - 1)], new Vector3(gasGiant_phy.Position.x, 0, gasGiant_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                 GasGiant.transform.parent = starSystem.transform;
                 gasGiant_phy.rotateScript = GasGiant.GetComponent<rotate>();
                 GasGiant.GetComponent<rotate>().myObject = gasGiant_phy;
@@ -221,7 +221,7 @@ public class Galaxy : MonoBehaviour
 					gasGiantMoon_phy.calcRadius (gasGiant_phy);
 					gasGiant_phy.addComponent (gasGiantMoon_phy);
 					objectsInSimulation.addComponent(gasGiantMoon_phy);
-                    GameObject GGMoon = Instantiate(ggMoons[0], new Vector3(gasGiantMoon_phy.Position.x, 0, gasGiantMoon_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+                    GameObject GGMoon = Instantiate(ggMoons[UnityEngine.Random.Range(0, ggMoons.Length - 1)], new Vector3(gasGiantMoon_phy.Position.x, 0, gasGiantMoon_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                     GGMoon.transform.parent = GasGiant.transform;
                     gasGiantMoon_phy.rotateScript = GGMoon.GetComponent<rotate>();
                     GGMoon.GetComponent<rotate>().myObject = gasGiantMoon_phy;

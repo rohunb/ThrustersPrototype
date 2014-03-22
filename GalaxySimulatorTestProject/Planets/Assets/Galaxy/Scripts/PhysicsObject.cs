@@ -24,49 +24,13 @@ using System.Text;
         private PhysicsObjectType physicsObjectType;
         public PhysicsObjectType ObjectType { get { return physicsObjectType; } set { physicsObjectType = value; } }
 
-        //private const double KeplerKonstant = 0.000000000000000000297; // this is the actual constant
-        //private const double KeplerKonstant = 0.000000297; // this scaled version works just right
-
-        private Vector2 position; 
-        public Vector2 Position { get { return position; } set { position = value; } }
+        public Vector2 Position, Velocity, Acceleration, NetForces, GravityWell;
         
-        private Vector2 velocity;
-	    public Vector2 Velocity { get { return velocity;} set { velocity = value;} }
-	    
-        private Vector2 acceleration;
-	    public Vector2 Acceleration {  get { return acceleration;} set { acceleration = value;} }
-	    
-        private Vector2 netForces;
-	    public Vector2 NetForces { get { return netForces;} set { netForces = value;} }
+        public float Angle, AngularVelocity, AngularAcceleration, Torque;
 
-        private double angle;
-        public double Angle { get { return angle; } set { angle = value; } }
-        
-        private float angularVelocity;
-        public float AngularVelocity { get { return angularVelocity;} set { angularVelocity = value;} }
-	
-        private float angularAcceleration;
-	    public float AngularAcceleration { get { return angularAcceleration;} set { angularAcceleration = value;} }
-	
-        private float torque;
-	    public float Torque { get { return torque;} set { torque = value;} }
+        private ulong mass, radius = 0;
 
-        private ulong mass;
-        public ulong Mass { get { return mass; } set { mass = value; } }
-
-        private ulong radius = 0;
-        public ulong Radius { get { return radius; } set { radius = value; } }
-
-        private double orbitalCircumference = 0;
-        public double OrbitalCircumference { get { return orbitalCircumference; } set { orbitalCircumference = value; } }
-
-        private Vector2 gravityWell;
-        public Vector2 GravityWell { get { return gravityWell; } set { gravityWell = value; } }
-
-        private double periodInSeconds = 0;
-        public double PeriodInSeconds { get { return periodInSeconds; } set { periodInSeconds = value; } }
-
-        double linearVelocityScalar;
+        public double orbitalCircumference = 0, periodInSeconds = 0, linearVelocityScalar;
 
         private int numComponents = 0;
 
@@ -107,7 +71,7 @@ using System.Text;
         //constructor with values
         public PhysicsObject(Vector2 _position, ulong _mass, PhysicsObjectType _type)
         {
-            position = _position;
+            Position = _position;
             mass = _mass;
             physicsObjectType = _type;
             finishSetup();
@@ -115,7 +79,7 @@ using System.Text;
 
         public PhysicsObject()
         {
-            position = Vector2.zero;
+            Position = Vector2.zero;
             mass = 0;
             physicsObjectType = PhysicsObjectType.SMBH;
             finishSetup();
@@ -124,8 +88,8 @@ using System.Text;
         public ulong calcRadius(PhysicsObject _gravityWell)
         {
             parent = _gravityWell;
-            gravityWell = _gravityWell.Position;
-            radius = (ulong)new Vector2(position.x - gravityWell.x, position.y - gravityWell.y).magnitude;
+            GravityWell = _gravityWell.Position;
+            radius = (ulong)new Vector2(Position.x - GravityWell.x, Position.y - GravityWell.y).magnitude;
             orbitalCircumference = 2 * Math.PI * radius;
             calcPeriodInSeconds();
             return radius;
@@ -144,14 +108,14 @@ using System.Text;
         {
             linearVelocityScalar = orbitalCircumference / periodInSeconds;
 
-            Vector2 direction = new Vector2(Position.x - gravityWell.x, Position.y - gravityWell.y);
-            Vector2 tanToDir = new Vector2(-direction.y, direction.x);
+            Vector2 direction = new Vector2(Position.x - GravityWell.x, Position.y - GravityWell.y);
+            Vector2 tanToDir = new Vector2(direction.y * -1, direction.x);
             tanToDir.Normalize();
 
             tanToDir.x *= (float)linearVelocityScalar;
             tanToDir.y *= (float)linearVelocityScalar;
 
-            velocity = tanToDir;
+            Velocity = tanToDir;
 
             return 0;
         }
@@ -159,13 +123,13 @@ using System.Text;
         //calls any remaining setup functions that both constructors need to complete
         private void finishSetup()
         {
-            velocity = Vector2.zero;
-            acceleration = Vector2.zero;
-            netForces = Vector2.zero;
-            angle = 0.0f;
-            angularVelocity = 0.0f;
-            angularAcceleration = 0.0f;
-            torque = 0;
+            Velocity = Vector2.zero;
+            Acceleration = Vector2.zero;
+            NetForces = Vector2.zero;
+            Angle = 0.0f;
+            AngularVelocity = 0.0f;
+            AngularAcceleration = 0.0f;
+            Torque = 0;
             ID = totalObjects++;
         }
 
@@ -179,43 +143,21 @@ using System.Text;
         {
             float DELTATIME = Time.deltaTime;
             //physics
-            angularVelocity = (float)(linearVelocityScalar / periodInSeconds);
+            AngularVelocity = (float)(linearVelocityScalar / periodInSeconds);
+            Angle += ((AngularVelocity * DELTATIME) + ((0.5f * AngularAcceleration) * (DELTATIME * DELTATIME)));
 
-            switch (physicsObjectType)
+            if (Angle >= 360)
             {
-                case PhysicsObjectType.SMBH:
-                    break;
-                case PhysicsObjectType.STAR:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
-                    
-                    break;
-                case PhysicsObjectType.ROCK_PLANET:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
-
-                    break;
-                case PhysicsObjectType.ROCK_MOON:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
-                    break;
-                case PhysicsObjectType.GAS_GIANT:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
-                    
-                    break;
-                case PhysicsObjectType.G_G_MOON:
-                    angle += ((angularVelocity * DELTATIME) + ((0.5f * angularAcceleration) * (DELTATIME * DELTATIME)));
-                    break;
-                case PhysicsObjectType.GALAXY:
-                    break;
-                default:
-                    break;
+                Angle = 0;
             }
 
-            if (angle >= 360)
-            {
-                angle = 0;
-            }
+            Position.x = (float)(GravityWell.x + radius * Math.Cos(Angle));
+            Position.y = (float)(GravityWell.y + radius * Math.Sin(Angle));
 
-            position.x = (float)(gravityWell.x + radius * Math.Cos(angle));
-            position.y = (float)(gravityWell.y + radius * Math.Sin(angle));
+            foreach (PhysicsObject physicsObj in components)
+            {
+                physicsObj.GravityWell.Set(Position.x, Position.y);
+            }
         }
 
         public string Text()
