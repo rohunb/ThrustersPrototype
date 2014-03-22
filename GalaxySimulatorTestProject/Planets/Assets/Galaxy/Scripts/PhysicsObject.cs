@@ -34,7 +34,7 @@ using System.Text;
 
         private int numComponents = 0;
 
-        private float timeFactor = 0.01f;
+        private float timeFactor = 0.1f;
 
         public int getNumComponents()
         {
@@ -69,11 +69,12 @@ using System.Text;
         }
 
         //constructor with values
-        public PhysicsObject(Vector2 _position, ulong _mass, PhysicsObjectType _type)
+        public PhysicsObject(Vector2 _position, ulong _mass, PhysicsObjectType _type, float startingAngle)
         {
             Position = _position;
             mass = _mass;
             physicsObjectType = _type;
+            Angle = startingAngle;
             finishSetup();
         }
 
@@ -126,7 +127,6 @@ using System.Text;
             Velocity = Vector2.zero;
             Acceleration = Vector2.zero;
             NetForces = Vector2.zero;
-            Angle = 0.0f;
             AngularVelocity = 0.0f;
             AngularAcceleration = 0.0f;
             Torque = 0;
