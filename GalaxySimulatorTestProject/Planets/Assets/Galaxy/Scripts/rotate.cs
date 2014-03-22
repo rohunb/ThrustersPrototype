@@ -17,10 +17,10 @@ public class rotate : MonoBehaviour
         if (myObject != null)
         {
             myObject.Update();
-            transform.position = new Vector3(myObject.Position.X, 0, myObject.Position.Y);
+            transform.position = new Vector3(myObject.Position.x, 0, myObject.Position.y);
             //rotateAngle = (float)myObject.Angle; 
-            //transform.Rotate(new Vector3(myObject.GravityWell.X, myObject.GravityWell.Y, 0), );
-            //transform.Rotate(new Vector3(myObject.GravityWell.X, myObject.GravityWell.Y, 0), Time.deltaTime * rotateAngle, Space.World);
+            //transform.Rotate(new Vector3(myObject.GravityWell.x, myObject.GravityWell.y, 0), );
+            //transform.Rotate(new Vector3(myObject.GravityWell.x, myObject.GravityWell.y, 0), Time.deltaTime * rotateAngle, Space.World);
         }
     }
 }

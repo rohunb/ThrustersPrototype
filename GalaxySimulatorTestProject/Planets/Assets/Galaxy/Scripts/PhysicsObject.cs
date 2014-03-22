@@ -115,7 +115,7 @@ using System.Text;
 
         public PhysicsObject()
         {
-            position = Vector2.ZERO;
+            position = Vector2.zero;
             mass = 0;
             physicsObjectType = PhysicsObjectType.SMBH;
             finishSetup();
@@ -125,7 +125,7 @@ using System.Text;
         {
             parent = _gravityWell;
             gravityWell = _gravityWell.Position;
-            radius = (ulong)new Vector2(position.X - gravityWell.X, position.Y - gravityWell.Y).Magnitude;
+            radius = (ulong)new Vector2(position.x - gravityWell.x, position.y - gravityWell.y).magnitude;
             orbitalCircumference = 2 * Math.PI * radius;
             calcPeriodInSeconds();
             return radius;
@@ -144,12 +144,12 @@ using System.Text;
         {
             linearVelocityScalar = orbitalCircumference / periodInSeconds;
 
-            Vector2 direction = new Vector2(Position.X - gravityWell.X, Position.Y - gravityWell.Y);
-            Vector2 tanToDir = direction.getTangentVector();
+            Vector2 direction = new Vector2(Position.x - gravityWell.x, Position.y - gravityWell.y);
+            Vector2 tanToDir = new Vector2(-direction.y, direction.x);
             tanToDir.Normalize();
 
-            tanToDir.X *= (float)linearVelocityScalar;
-            tanToDir.Y *= (float)linearVelocityScalar;
+            tanToDir.x *= (float)linearVelocityScalar;
+            tanToDir.y *= (float)linearVelocityScalar;
 
             velocity = tanToDir;
 
@@ -159,9 +159,9 @@ using System.Text;
         //calls any remaining setup functions that both constructors need to complete
         private void finishSetup()
         {
-            velocity = Vector2.ZERO;
-            acceleration = Vector2.ZERO;
-            netForces = Vector2.ZERO;
+            velocity = Vector2.zero;
+            acceleration = Vector2.zero;
+            netForces = Vector2.zero;
             angle = 0.0f;
             angularVelocity = 0.0f;
             angularAcceleration = 0.0f;
@@ -214,8 +214,8 @@ using System.Text;
                 angle = 0;
             }
 
-            position.X = (float)(gravityWell.X + radius * Math.Cos(angle));
-            position.Y = (float)(gravityWell.Y + radius * Math.Sin(angle));
+            position.x = (float)(gravityWell.x + radius * Math.Cos(angle));
+            position.y = (float)(gravityWell.y + radius * Math.Sin(angle));
         }
 
         public string Text()
@@ -246,6 +246,6 @@ using System.Text;
                     typeText = "[? - ????]";
                     break;
             }
-            return typeText + ID + " pos: " + position.Text() + " mass: " + mass + " radius: " + radius + " orbital period: " + periodInSeconds + " vel: " + velocity.Text() + " angle: " + angle + " angular Velocity: " + angularVelocity + "\n";
+            return "";// typeText + ID + " pos: " + position.Text() + " mass: " + mass + " radius: " + radius + " orbital period: " + periodInSeconds + " vel: " + velocity.Text() + " angle: " + angle + " angular Velocity: " + angularVelocity + "\n";
         }
     }
