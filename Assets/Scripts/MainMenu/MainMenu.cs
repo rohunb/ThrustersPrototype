@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour {
             //{
                     
             //}
-            Application.LoadLevel("ThrustersDemo");
+            Application.LoadLevel(1);
         }
         if (GUI.Button(new Rect(60, 180, 200, 80), "Continue"))
         {
