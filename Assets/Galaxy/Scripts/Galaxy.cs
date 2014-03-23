@@ -22,7 +22,6 @@ public class Galaxy : MonoBehaviour
     private List<PhysicsObject> poGPlanets;
     private List<PhysicsObject> poGMoons;
 
-    private GameObject camera;
     public GameObject PlanetImOrbitting;
 
     public string debugText = "";
@@ -78,20 +77,12 @@ public class Galaxy : MonoBehaviour
 
     private void Start()
     {
-        camera = GameObject.Find("BackgroundCamera");
+        DontDestroyOnLoad(gameObject);
+
+
 
         createGalaxy();
 
-        int randomObjectIndex = UnityEngine.Random.Range(1, objectsInSimulation.getNumComponents() - 1);
-        PhysicsObject po;
-
-        po = objectsInSimulation.getComponent(1);
-        PlanetImOrbitting = po.myGameObject;
-
-        camera.transform.position = new Vector3(po.Position.x + 200, 0, po.Position.y);
-        camera.transform.LookAt(new Vector3(po.Position.x, 0, po.Position.y));
-
-        debugText = "physicsobject: " + po.Position.ToString() + ", target: " + PlanetImOrbitting.transform.position.ToString();
     } //end method
 
     private void createGalaxy()
@@ -104,9 +95,10 @@ public class Galaxy : MonoBehaviour
 
         objectsInSimulation = new PhysicsObject(Vector2.zero, 0, PhysicsObjectType.GALAXY, random.Next(0, 360));
         objectsInSimulation.addComponent(smbh_phy);
-        GameObject blackHole = GameObject.Instantiate(superMassiveBlackHole, new Vector3(-20000, 0, 0), Quaternion.LookRotation(Vector3.left)) as GameObject;
+        GameObject blackHole = GameObject.Instantiate(superMassiveBlackHole, new Vector3(0, 0, 0), Quaternion.LookRotation(Vector3.left)) as GameObject;
         blackHole.layer = BACKGROUND_LAYER;
         smbh_phy.myGameObject = blackHole;
+        DontDestroyOnLoad(blackHole);
         blackHole.transform.parent = theCore.transform;
 
         // add stars
