@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerInventory : MonoBehaviour
 {
-
+    public GUISkin guiSkin;
     //equipped weapons
     //public Weapon primaryWeapon;
     //public Weapon secondaryWeapon;
@@ -106,9 +106,10 @@ public class PlayerInventory : MonoBehaviour
     }
     void OnGUI()
     {
-        //DisplayEquippedWeapons();
+        GUI.skin = guiSkin;
+        DisplayEquippedWeapons();
         //DisplayMinorOptions();
-        //if (showMissionLog) DisplayMissions();
+        if (showMissionLog) DisplayMissions();
 
         if (displayInventory)
         {
@@ -127,7 +128,7 @@ public class PlayerInventory : MonoBehaviour
 
     void DisplayEquippedWeapons()
     {
-        Rect equippedWeaponsRect = new Rect(Screen.width / 2 - 200, Screen.height - 110, 400, 100);
+        Rect equippedWeaponsRect = new Rect(Screen.width / 2 - 210, Screen.height - 80, 420, 70);
         GUI.Box(equippedWeaponsRect, "Weapons");
         GUI.BeginGroup(equippedWeaponsRect);
 
@@ -139,7 +140,7 @@ public class PlayerInventory : MonoBehaviour
             else
                 wpnName = "------";
             
-            GUI.Button(new Rect(0 + (100 * i), 20, 100, 60), "Wpn " + (i + 1) + ":\n" + wpnName);
+            GUI.Button(new Rect(10 + (100 * i), 25, 100, 40), "Wpn " + (i + 1) + ":\n" + wpnName);
         }
         GUI.EndGroup();
     }

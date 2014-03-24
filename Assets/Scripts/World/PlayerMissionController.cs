@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerMissionController : MonoBehaviour
 {
-
+    public GUISkin guiSkin;
     public Transform waypointExterminate;
     public Transform waypointDistress;
     public Transform waypointDestroyStruct;
