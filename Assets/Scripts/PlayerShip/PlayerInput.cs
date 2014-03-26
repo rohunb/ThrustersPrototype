@@ -66,12 +66,12 @@ public class PlayerInput : MonoBehaviour {
 
                 if (inputXOne > 0.5f)
                 {
-                    shipMove.StrafeRight(1f);
+                    shipMove.StrafeRight(inputXOne);
                 }
 
                 if (inputXOne < -0.5f)
                 {
-                    shipMove.StrafeLeft(1f);
+                    shipMove.StrafeLeft(inputXOne);
                 }
 
                 if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
@@ -96,32 +96,32 @@ public class PlayerInput : MonoBehaviour {
 
                 if (SixenseInput.Controllers[0].Rotation.x < -0.25f || SixenseInput.Controllers[1].Rotation.x < -0.25f)
                 {
-                    shipMove.PitchUp(1f);
+                    shipMove.PitchUp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.x > 0.25f || SixenseInput.Controllers[1].Rotation.x > 0.25f)
                 {
-                    shipMove.PitchDown(1f);
+                    shipMove.PitchDown(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.y < -0.25f || SixenseInput.Controllers[1].Rotation.y < -0.25f)
                 {
-                    shipMove.TurnLeft(1f);
+                    shipMove.TurnLeft(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.y > 0.25f || SixenseInput.Controllers[1].Rotation.y > 0.25f)
                 {
-                    shipMove.TurnRight(1f);
+                    shipMove.TurnRight(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.z < -0.25f || SixenseInput.Controllers[1].Rotation.z < -0.25f)
                 {
-                    shipMove.RollRight(1f);
+                    shipMove.RollRight(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.z > 0.25f || SixenseInput.Controllers[1].Rotation.z > 0.25f)
                 {
-                    shipMove.RollLeft(1f);
+                    shipMove.RollLeft(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z));
                 }
 
                 bool controller1Stable, controller2Stable;
