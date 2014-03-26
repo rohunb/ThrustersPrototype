@@ -28,7 +28,8 @@ public class MainMenu : MonoBehaviour {
         {
             if (GUI.Button(new Rect(60, 100, 140, 60), "New Game"))
             {
-                fadeToGameScene = true;
+				Application.LoadLevel(1);
+               // fadeToGameScene = true;
             }
             if (GUI.Button(new Rect(60, 180, 140, 60), "Continue"))
             {
