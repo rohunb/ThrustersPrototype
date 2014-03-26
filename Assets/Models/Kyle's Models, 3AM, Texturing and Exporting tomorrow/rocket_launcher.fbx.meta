@@ -1,14 +1,20 @@
 fileFormatVersion: 2
-guid: 8dff85489b7336649ad689dc07170981
+guid: 0a9be522cf2980348b11c293ee7c2dd4
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cylinder
-    7400000: Default Take
+    100000: Launcher
+    100002: Mount
+    100004: //RootNode
+    400000: Launcher
+    400002: Mount
+    400004: //RootNode
+    2300000: Launcher
+    2300002: Mount
+    3300000: Launcher
+    3300002: Mount
+    4300000: Mount
+    4300002: Launcher
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -28,7 +34,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: .00999999978
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

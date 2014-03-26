@@ -18,10 +18,7 @@ public class MainMenu : MonoBehaviour {
             print("create new game");
 
            	ScreenFader.EndScene();
-            //if (!ScreenFader.IsTransitioning)
-            //{
-                    
-            //}
+
             Application.LoadLevel(1);
         }
         if (GUI.Button(new Rect(60, 180, 200, 80), "Continue"))

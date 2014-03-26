@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8dff85489b7336649ad689dc07170981
+guid: 59b2ac5d7c1d64c4b969549e3691d736
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
@@ -7,7 +7,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cylinder
+    4300000: Rail_gun
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -28,7 +28,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: .00999999978
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
