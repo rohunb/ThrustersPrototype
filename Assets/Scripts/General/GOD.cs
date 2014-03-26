@@ -12,6 +12,19 @@ public class GOD : MonoBehaviour {
         galaxy = (Galaxy)FindObjectOfType(typeof(Galaxy));
         DontDestroyOnLoad(gameObject);
 	}
-	
 
+    void Update()
+    {
+        switch (Application.loadedLevelName)
+        {
+            case "DockedScene":
+                break;
+            case "GameScene":
+                break;
+            case "MainMenu":
+                break;
+            default:
+                break;
+        }
+    }
 }
