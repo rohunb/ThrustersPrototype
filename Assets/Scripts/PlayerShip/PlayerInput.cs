@@ -3,8 +3,8 @@ using System.Collections;
 
 public class PlayerInput : MonoBehaviour {
 
-    public enum ControlModes { Keyboard, Mouse, Hydra };
-    public ControlModes controlMode;
+   // public enum ControlModes { Keyboard, Mouse, Hydra };
+    //public ControlModes controlMode;
 
     //mouse control variables
     private bool stablizing = false;
@@ -26,15 +26,15 @@ public class PlayerInput : MonoBehaviour {
         shipMove = gameObject.GetComponent<ShipMove>();
         shipAttack = gameObject.GetComponent<ShipAttack>();
         playerInventory = gameObject.GetComponent<PlayerInventory>();
-        switch (controlMode)
+        switch (GOD.whatControllerAmIUsing)
         {
-            case ControlModes.Keyboard:
+            case WhatControllerAmIUsing.KEYBOARD:
                 hydraInput.enabled = false;
                 break;
-            case ControlModes.Mouse:
+            case WhatControllerAmIUsing.MOUSE_KEYBOARD:
                 hydraInput.enabled = false;
                 break;
-            case ControlModes.Hydra:
+            case WhatControllerAmIUsing.HYDRA:
                 hydraInput.enabled = true;
                 break;
             default:
@@ -53,9 +53,9 @@ public class PlayerInput : MonoBehaviour {
         //motion inputs
         float currLeftX, currRightX;
 
-        switch (controlMode)
+        switch (GOD.whatControllerAmIUsing)
         {
-            case ControlModes.Hydra:
+            case WhatControllerAmIUsing.HYDRA:
                 //motion input code
                 //warning ... contains hacks and magic number. will fix. ... I promise -A
                 if (SixenseInput.Controllers[0].Enabled)
@@ -137,7 +137,7 @@ public class PlayerInput : MonoBehaviour {
                 //move a little bit in Bkg space
                 //BkgCamera.position = (transform.position / 2000f);
                 break;
-            case ControlModes.Mouse:
+            case WhatControllerAmIUsing.MOUSE_KEYBOARD:
                 UniversalKeyboardControls();
                 mousePos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
                 if (!stablizing)
@@ -176,7 +176,7 @@ public class PlayerInput : MonoBehaviour {
                     shipMove.RollRight(1f);
                 }
                 break;
-            case ControlModes.Keyboard:
+            case WhatControllerAmIUsing.KEYBOARD:
                 UniversalKeyboardControls();
                 if (Input.GetKey(KeyCode.Q))
                 {
