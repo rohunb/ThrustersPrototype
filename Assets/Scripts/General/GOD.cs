@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+public enum whatControllerAmIUsing { MOUSE_KEYBOARD, KEYBOARD, HYDRA }
 
 public class GOD : MonoBehaviour {
 
