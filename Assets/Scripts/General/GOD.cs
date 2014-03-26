@@ -27,7 +27,7 @@ public class GOD : MonoBehaviour {
             if (SixenseInput.IsBaseConnected(0))
             {
                 whatControllerAmIUsing = WhatControllerAmIUsing.HYDRA;
-            } 
+            }
         }
 
         switch (Application.loadedLevelName)

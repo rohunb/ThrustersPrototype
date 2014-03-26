@@ -66,12 +66,12 @@ public class PlayerInput : MonoBehaviour {
 
                 if (inputXOne > 0.5f)
                 {
-                    shipMove.StrafeRight(inputXOne);
+                    shipMove.StrafeRight(inputXOne * 2);
                 }
 
                 if (inputXOne < -0.5f)
                 {
-                    shipMove.StrafeLeft(inputXOne);
+                    shipMove.StrafeLeft(inputXOne * 2);
                 }
 
                 if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
