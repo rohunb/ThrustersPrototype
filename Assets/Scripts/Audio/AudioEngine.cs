@@ -19,6 +19,8 @@ public class AudioEngine : MonoBehaviour {
 	private AudioClip shipSFX;
 
 	private bool isSfxPlaying;
+	private bool isSfxPlaying1;
+	private bool isSfxPlaying2;
 
 	//Dictionary of shit
 	public Dictionary<string, AudioClip> audionames; 
@@ -30,6 +32,8 @@ public class AudioEngine : MonoBehaviour {
 		_beforeVolume = 0.0f;
 		_mute = false;
 		isSfxPlaying = false;
+		isSfxPlaying1 = false;
+		isSfxPlaying2 = false;
 		AudioListener.volume = _volume;
 		AudioSource[] aSource = GetComponents<AudioSource>();
 		audioSource = aSource[0];
@@ -47,8 +51,6 @@ public class AudioEngine : MonoBehaviour {
 				audionames.Add(a, currentSFX);
 			}
 		//
-		bgSFX = Resources.Load<AudioClip>("Audio/Background/InGameBG");
-		shipSFX = Resources.Load<AudioClip>(audioPath+"Thrusters");
 
 
 	}
@@ -56,15 +58,35 @@ public class AudioEngine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(Application.loadedLevel == 1) {
+		if(Application.loadedLevel == 0) {
 			if(!isSfxPlaying) {
-			audioSource1.loop = true;
-			audioSource1.clip = bgSFX;
-			audioSource1.Play();
-			audioSource2.loop = true;
-			audioSource2.clip = shipSFX;
-			audioSource2.Play();
-			isSfxPlaying = true;
+				bgSFX = Resources.Load<AudioClip>("Audio/Background/IntroBG");
+				audioSource1.loop = true;
+				audioSource1.clip = bgSFX;
+				audioSource1.Play();
+				isSfxPlaying = true;
+			}
+		} else if(Application.loadedLevel == 1) {
+			if(!isSfxPlaying1) {
+				bgSFX = Resources.Load<AudioClip>("Audio/Background/InGameBG");
+				shipSFX = Resources.Load<AudioClip>("Audio/Effects/Thrusters");
+				audioSource1.loop = true;
+				audioSource1.clip = bgSFX;
+				audioSource1.Play();
+				audioSource2.loop = true;
+				audioSource2.clip = shipSFX;
+				audioSource2.Play();
+				isSfxPlaying1 = true;
+			}
+		} else if(Application.loadedLevel == 2) {
+			if(!isSfxPlaying2) {
+			//	bgSFX = Resources.Load<AudioClip>("Audio/Background/InGameBG");
+			//	audioSource1.loop = true;
+			//	audioSource1.clip = bgSFX;
+			//	audioSource1.Play();
+				audioSource1.Stop();
+				audioSource2.Stop();
+				isSfxPlaying2 = true;
 			}
 		}
 
