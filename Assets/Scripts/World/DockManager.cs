@@ -56,6 +56,7 @@ public class DockManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+		Screen.showCursor = true;
         equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numHardpoints * 30);
         vendorWindow = new Rect(50, Screen.height / 2 - 200, 200, /*vendorWeapons.Count * 30*/ 400);
         vendorScrollRect = new Rect(2, 20, 200, /*vendorWeapons.Count * 30*/ 400);
