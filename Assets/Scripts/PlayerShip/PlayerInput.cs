@@ -3,8 +3,7 @@ using System.Collections;
 
 public class PlayerInput : MonoBehaviour {
 
-   // public enum ControlModes { Keyboard, Mouse, Hydra };
-    //public ControlModes controlMode;
+
 
     //mouse control variables
     private bool stablizing = false;
@@ -94,32 +93,32 @@ public class PlayerInput : MonoBehaviour {
                     shipMove.MoveUp(1f);
                 }
 
-                if (SixenseInput.Controllers[0].Rotation.x < -0.25f || SixenseInput.Controllers[1].Rotation.x < -0.25f)
+                if (SixenseInput.Controllers[0].Rotation.x < -0.25f)
                 {
                     shipMove.PitchUp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x));
                 }
 
-                if (SixenseInput.Controllers[0].Rotation.x > 0.25f || SixenseInput.Controllers[1].Rotation.x > 0.25f)
+                if (SixenseInput.Controllers[0].Rotation.x > 0.25f)
                 {
                     shipMove.PitchDown(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x));
                 }
 
-                if (SixenseInput.Controllers[0].Rotation.y < -0.25f || SixenseInput.Controllers[1].Rotation.y < -0.25f)
+                if (SixenseInput.Controllers[0].Rotation.y < -0.25f)
                 {
                     shipMove.TurnLeft(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y));
                 }
 
-                if (SixenseInput.Controllers[0].Rotation.y > 0.25f || SixenseInput.Controllers[1].Rotation.y > 0.25f)
+                if (SixenseInput.Controllers[0].Rotation.y > 0.25f)
                 {
                     shipMove.TurnRight(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y));
                 }
 
-                if (SixenseInput.Controllers[0].Rotation.z < -0.25f || SixenseInput.Controllers[1].Rotation.z < -0.25f)
+                if (SixenseInput.Controllers[0].Rotation.z < -0.25f)
                 {
                     shipMove.RollRight(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z));
                 }
 
-                if (SixenseInput.Controllers[0].Rotation.z > 0.25f || SixenseInput.Controllers[1].Rotation.z > 0.25f)
+                if (SixenseInput.Controllers[0].Rotation.z > 0.25f)
                 {
                     shipMove.RollLeft(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z));
                 }
@@ -127,9 +126,9 @@ public class PlayerInput : MonoBehaviour {
                 bool controller1Stable, controller2Stable;
 
                 controller1Stable = (SixenseInput.Controllers[0].Rotation.x < 0.2f && SixenseInput.Controllers[0].Rotation.y < 0.2f && SixenseInput.Controllers[0].Rotation.z < 0.2f);
-                controller2Stable = (SixenseInput.Controllers[1].Rotation.x < 0.2f && SixenseInput.Controllers[1].Rotation.y < 0.2f && SixenseInput.Controllers[1].Rotation.z < 0.2f);
+                //controller2Stable = (SixenseInput.Controllers[1].Rotation.x < 0.2f && SixenseInput.Controllers[1].Rotation.y < 0.2f && SixenseInput.Controllers[1].Rotation.z < 0.2f);
 
-                if (controller2Stable && controller1Stable)
+                if (controller1Stable)// && controller1Stable)
                 {
                     shipMove.KillLinearVelocity();
                 }

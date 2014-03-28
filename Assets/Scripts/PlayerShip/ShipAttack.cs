@@ -28,15 +28,12 @@ public class ShipAttack : MonoBehaviour {
 	void Update () {
         if(target)
         {
-            //inventory.secondaryWeapon.target = target;
             foreach (Weapon weapon in inventory.equippedWeapons)
             {
                 if (weapon.weaponType == Weapon.WeaponType.Secondary)
                     weapon.target = target;
             }
             float distToTarget = Vector3.Distance(transform.position, target.position);
-            //float timeToTarget = distToTarget / inventory.primaryWeapon.projectileSpeed;
-            //targetLead = target.position + target.rigidbody.velocity * timeToTarget;
             float minSpeed=0;
             int i = 0;
             while(i<inventory.equippedWeapons.Length)
@@ -70,11 +67,9 @@ public class ShipAttack : MonoBehaviour {
             if (weapon && weapon.weaponType == Weapon.WeaponType.Primary)
                 weapon.Fire();
         }
-        //inventory.primaryWeapon.Fire();
     }
     public void FireSecondary()
     {
-        //inventory.secondaryWeapon.Fire();
         foreach (Weapon weapon in inventory.equippedWeapons)
         {
             if (weapon && weapon.weaponType == Weapon.WeaponType.Secondary)
@@ -83,7 +78,6 @@ public class ShipAttack : MonoBehaviour {
     }
     public void FireTertiary()
     {
-        //inventory.tertiaryWeapon.Fire();
         foreach (Weapon weapon in inventory.equippedWeapons)
         {
             if (weapon && weapon.weaponType == Weapon.WeaponType.Tertiary)
@@ -92,7 +86,6 @@ public class ShipAttack : MonoBehaviour {
     }
     public void FireUtility()
     {
-        //inventory.utilityWeapon.Fire();
         foreach (Weapon weapon in inventory.equippedWeapons)
         {
             if (weapon && weapon.weaponType == Weapon.WeaponType.Utility)
@@ -101,12 +94,6 @@ public class ShipAttack : MonoBehaviour {
     }
     public void StopFiringUtility()
     {
-        //if (inventory.utilityWeapon is Weapon_MiningLaser)
-        //{
-        //    Weapon utlityWeapon = inventory.utilityWeapon;
-        //    Weapon_MiningLaser miningLaser = (Weapon_MiningLaser)(utlityWeapon);
-        //    miningLaser.StopFiring();
-        //}
         foreach (Weapon weapon in inventory.equippedWeapons)
         {
             if (weapon is Weapon_MiningLaser)
@@ -143,7 +130,6 @@ public class ShipAttack : MonoBehaviour {
 
     public void TargetNearestEnemy()
     {
-        //GameObject[] enemies = GameObject.FindGameObjectsWithTag("EnemyShip");
         GameObject[] enemies = EnemyController.enemies.ToArray();
         float minDistance;
         if (enemies.Length > 0)
@@ -166,17 +152,37 @@ public class ShipAttack : MonoBehaviour {
     }
     void OnGUI()
     {
-        float xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
-        float yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
-        GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
+        float xMin = 0, yMin = 0;
+        if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.MOUSE_KEYBOARD)
+        {
+            xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
+            yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
+        }
+        else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
+        {
+            GameObject go = new GameObject("rayTemp");
+            go.transform.position = SixenseInput.Controllers[1].Position;
+            go.transform.rotation = SixenseInput.Controllers[1].Rotation;
 
+            Ray rayCharles = new Ray(go.transform.position, go.transform.forward);
+             RaycastHit hit;
+
+             bool whocares = Physics.Raycast(rayCharles, out hit);
+
+            xMin = (hit.point.x);
+            yMin = (hit.point.y);
+
+            Debug.DrawLine(rayCharles.origin, hit.point);
+
+        }
+
+        GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
 
         GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
         GUILayout.BeginVertical();
         GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
         GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
         GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
-        //GUILayout.Label("Weapon: " + currentWeapon.ToString());
         GUILayout.Label("Credits: " + gameObject.GetComponent<PlayerInventory>().GetCredits());
         if (target)
         {
