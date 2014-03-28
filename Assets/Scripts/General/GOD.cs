@@ -9,6 +9,8 @@ public class GOD : MonoBehaviour {
 
     public static WhatControllerAmIUsing whatControllerAmIUsing;
 
+	public GameObject GalaxyPrefab;
+
     private bool firstUpdate;
 
 	// Use this for initialization
@@ -18,6 +20,8 @@ public class GOD : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         firstUpdate = true;
         whatControllerAmIUsing = WhatControllerAmIUsing.MOUSE_KEYBOARD;
+		GameObject newGalaxy = Instantiate(GalaxyPrefab, new Vector3(0, 0 ,0), Quaternion.identity) as GameObject;
+		newGalaxy.name = "Galaxy";
 	}
 
     void Update()

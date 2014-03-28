@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 0b72cfbab5c960e40b97d63685a33097
 ModelImporter:
-  serializedVersion: 16
+  serializedVersion: 15
   fileIDToRecycleName:
     100000: Cluster_particle
     100002: ClusterBomb
@@ -68,5 +68,4 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
-  additionalBone: 0
   userData: 

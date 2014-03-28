@@ -10,13 +10,15 @@ public class PlayerInventory : MonoBehaviour
     //public Weapon secondaryWeapon;
     //public Weapon tertiaryWeapon;
     //public Weapon utilityWeapon;
-    
+
     public List<Weapon> availableWeapons;
 
     public int numberOfHardpoints = 4;
     public Weapon[] equippedWeapons;
     public Transform[] hardPoints;
     public Transform inventoryLoc;
+    public Transform weaponTransform;
+
     //inventory GUI
     private bool displayInventory = false;
     private bool showAvailableWeapons = false;
@@ -28,7 +30,7 @@ public class PlayerInventory : MonoBehaviour
     //public Rect utilityWindow = new Rect(10, Screen.height / 2+100, 200, 100);
     private Rect equippedWindow;
     private Rect availableWindow;
-    public Vector2 buttonSize=new Vector2(140,20);
+    public Vector2 buttonSize = new Vector2(140, 20);
     ////lasers
     //public int laserDamage = 10;
     //public float laserSpeed = 1000;
@@ -60,25 +62,24 @@ public class PlayerInventory : MonoBehaviour
     //public float mineInterval = 1.0f;
 
     //economy
-    private int credits;
+    private int credits = 400;
 
-    
     public int GetCredits()
     {
         return credits;
     }
 
-	
     public bool CreateTransaction(int amount)
     {
-        if(credits+amount>=0)
+        if (credits + amount >= 0)
         {
-            credits+=amount;
+            credits += amount;
             return true;
         }
         else
             return false;
     }
+
     public void AddWeaponToHardpoint(int hardpointIndex, int availableWeaponsIndex)
     {
         if (equippedWeapons[hardpointIndex])
@@ -96,20 +97,23 @@ public class PlayerInventory : MonoBehaviour
         equippedWeapons[hardpointIndex].gameObject.GetComponent<Weapon>().enabled = true;
         availableWeapons.Remove(availableWeapons[availableWeaponsIndex]);
     }
-    void Update()
+    public void AddWeaponToCargo(GameObject _weapon)
     {
-        foreach (Weapon weapon in equippedWeapons)
-        {
-            //if (weapon)
-                //weapon.gameObject.SetActive(true);
-        }
+        Weapon weapon = _weapon.GetComponent<Weapon>();
+        weapon.transform.parent = weaponTransform;
+        weapon.transform.localPosition = Vector3.zero;
+        weapon.transform.localRotation = Quaternion.identity;
+
+        availableWeapons.Add(weapon);
+
     }
+
     void OnGUI()
     {
         GUI.skin = guiSkin;
-        DisplayEquippedWeapons();
+        //DisplayEquippedWeapons();
         //DisplayMinorOptions();
-        if (showMissionLog) DisplayMissions();
+        //if (showMissionLog) DisplayMissions();
 
         if (displayInventory)
         {
@@ -118,12 +122,12 @@ public class PlayerInventory : MonoBehaviour
             //tertiaryWindow = GUI.Window(2, tertiaryWindow, TertiaryWindow, "Tertiary Weapon");
             //utilityWindow = GUI.Window(3, utilityWindow, UtilityWindow, "Utlity Weapon");
             equippedWindow = GUI.Window(0, equippedWindow, EquippedWindow, "Equipped Weapons");
-            if(showAvailableWeapons)
+            if (showAvailableWeapons)
             {
                 availableWindow = GUI.Window(1, availableWindow, AvailableWindow, "Available Weapons");
             }
         }
-        
+
     }
 
     void DisplayEquippedWeapons()
@@ -139,7 +143,7 @@ public class PlayerInventory : MonoBehaviour
                 wpnName = equippedWeapons[i].name;
             else
                 wpnName = "------";
-            
+
             GUI.Button(new Rect(10 + (100 * i), 25, 100, 40), "Wpn " + (i + 1) + ":\n" + wpnName);
         }
         GUI.EndGroup();
@@ -207,11 +211,11 @@ public class PlayerInventory : MonoBehaviour
                     //availableWeapons[availableWeapons.Count - 1].gameObject.SetActive(false);
                     availableWeapons[availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
                 }
-                
+
                 equippedWeapons[hardpointSelected] = availableWeapons[i];
                 equippedWeapons[hardpointSelected].transform.position = hardPoints[hardpointSelected].position;
                 //equippedWeapons[hardpointSelected].gameObject.SetActive(true);
-                equippedWeapons[hardpointSelected] .gameObject.GetComponent<Weapon>().enabled = true;
+                equippedWeapons[hardpointSelected].gameObject.GetComponent<Weapon>().enabled = true;
                 availableWeapons.Remove(availableWeapons[i]);
 
             }
@@ -253,7 +257,7 @@ public class PlayerInventory : MonoBehaviour
     //        print("Torpedo");
     //        SetTertiaryToTorpedo();
     //    }
-      
+
     //}
     //void UtilityWindow(int windowID)
     //{
@@ -262,7 +266,7 @@ public class PlayerInventory : MonoBehaviour
     //        print("Mining Laser");
     //        SetUtilityToMiningLaser();
     //    }
-        
+
     //}
     //void SetPrimaryToLaser()
     //{
@@ -316,12 +320,12 @@ public class PlayerInventory : MonoBehaviour
     //}
     void Start()
     {
-        credits = 0;
+        credits = 400;
 
         equippedWeapons = new Weapon[numberOfHardpoints];
 
-        equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numberOfHardpoints*30);
-        availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count*30);
+        equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numberOfHardpoints * 30);
+        availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
 
         foreach (Weapon weapon in availableWeapons)
         {

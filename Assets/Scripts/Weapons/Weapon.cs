@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour {
     protected bool canFire = true;
     public int level;
     public bool lookAtMouse;
-
+    public int cost = 40;
     public enum WeaponType { Primary,Secondary,Tertiary,Utility}
     public WeaponType weaponType;
 
@@ -28,7 +28,7 @@ public class Weapon : MonoBehaviour {
     }
     protected virtual void Update()
     {
-        if (lookAtMouse)
+        if (lookAtMouse && Camera.main)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
             //movableGun.LookAt(mousePos);

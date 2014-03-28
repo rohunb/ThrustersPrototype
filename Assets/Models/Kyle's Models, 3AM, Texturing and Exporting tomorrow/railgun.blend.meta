@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 8be46267701047b439303d45f9342714
 ModelImporter:
-  serializedVersion: 16
+  serializedVersion: 15
   fileIDToRecycleName:
     100000: Armature
     100002: Rail_Ammo
@@ -73,5 +73,4 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
-  additionalBone: 0
   userData: 
