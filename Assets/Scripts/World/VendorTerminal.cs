@@ -14,7 +14,7 @@ public class VendorTerminal : MonoBehaviour {
     void Update()
     {
 
-        if (displayVendorPrompt && Input.GetKeyDown(KeyCode.E))
+        if (displayVendorPrompt && Input.GetKeyDown(KeyCode.F))
         {
             dockManager.ShowVendorTerminal();
         }
@@ -30,7 +30,7 @@ public class VendorTerminal : MonoBehaviour {
 
     void DisplayVendorPrompt()
     {
-        GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height - 150, 500, 100), "<size=28>Press E to open Vendor Terminal</size>");
+        GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height - 150, 500, 100), "<size=28>Press F to open Vendor Terminal</size>");
     }
     void OnTriggerEnter(Collider other)
     {

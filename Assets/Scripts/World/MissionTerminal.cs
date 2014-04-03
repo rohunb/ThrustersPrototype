@@ -14,7 +14,7 @@ public class MissionTerminal : MonoBehaviour {
     void Update()
     {
 
-        if (displayMissionPrompt && Input.GetKeyDown(KeyCode.E))
+        if (displayMissionPrompt && Input.GetKeyDown(KeyCode.F))
         {
             dockManager.ShowMissionTerminal();
         }
@@ -30,7 +30,7 @@ public class MissionTerminal : MonoBehaviour {
 
     void DisplayMissionPrompt()
     {
-        GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height - 150, 500, 100), "<size=28>Press E to open Mission Terminal</size>");
+        GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height - 150, 500, 100), "<size=28>Press F to open Mission Terminal</size>");
     }
     void OnTriggerEnter(Collider other)
     {

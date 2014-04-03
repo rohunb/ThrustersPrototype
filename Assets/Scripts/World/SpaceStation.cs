@@ -29,7 +29,7 @@ public class SpaceStation : MonoBehaviour {
 	}
 	void DisplayVendorPrompt()
 	{
-		GUI.Label(new Rect(Screen.width / 2 - 150, Screen.height - 150, 500, 100), "<size=28>Press F to Go to Dock</size>");
+		GUI.Label(new Rect(Screen.width / 2 - 150, Screen.height - 150, 500, 100), "<size=28>Press F to Dock with Station</size>");
 	}
 	void OnTriggerEnter(Collider other)
 	{

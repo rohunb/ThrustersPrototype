@@ -12,7 +12,7 @@ public class EquipmentTerminal : MonoBehaviour {
     }
     void Update () {
 
-        if (displayEquipPrompt && Input.GetKeyDown(KeyCode.E))
+        if (displayEquipPrompt && Input.GetKeyDown(KeyCode.F))
         {
             dockManager.ShowEquipTerminal();
         }
@@ -28,7 +28,7 @@ public class EquipmentTerminal : MonoBehaviour {
 
     void DisplayEquipPrompt()
     {
-        GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height - 150, 500, 100), "<size=28>Press E to open Equipment Terminal</size>");
+        GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height - 150, 500, 100), "<size=28>Press F to open Equipment Terminal</size>");
     }
     void OnTriggerEnter(Collider other)
     {
