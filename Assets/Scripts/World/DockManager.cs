@@ -45,7 +45,7 @@ public class DockManager : MonoBehaviour
 
     void Awake()
     {
-        playerInv = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerInventory>();
+        playerInv = GameObject.FindWithTag("PlayerShip").GetComponent<PlayerInventory>();
         player = GameObject.FindGameObjectWithTag("Player");
         cameraMove = player.GetComponent<CameraMove>();
         playerCharController = player.GetComponent<CharacterController>();
@@ -56,11 +56,13 @@ public class DockManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
 		Screen.showCursor = true;
         equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numHardpoints * 30);
         vendorWindow = new Rect(50, Screen.height / 2 - 200, 200, /*vendorWeapons.Count * 30*/ 400);
         vendorScrollRect = new Rect(2, 20, 200, /*vendorWeapons.Count * 30*/ 400);
         availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, playerInv.availableWeapons.Count * 30);
+        Debug.Log(playerInv.availableWeapons.Count);
         popupRect = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100);
         weaponOutlines = new GameObject[playerInv.numberOfHardpoints];
         weapons = new GameObject[playerInv.numberOfHardpoints];
@@ -80,7 +82,7 @@ public class DockManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         if ((showEquipTerm) &&
             Input.GetKeyDown(KeyCode.Escape))
         {
