@@ -15,6 +15,8 @@ public class ShipAttack : MonoBehaviour {
     private Transform target;
     private Vector3 targetLead;
 
+	float xMin = 0, yMin = 0;
+
 	// Use this for initialization
     void Start()
     {
@@ -26,6 +28,27 @@ public class ShipAttack : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
+		{
+			GameObject go = GameObject.Find("FakeMousePointer");
+			
+			go.transform.rotation = SixenseInput.Controllers[1].Rotation;
+
+			Ray rayCharles = new Ray(go.transform.position, go.transform.forward);
+			RaycastHit hit;
+			
+			bool didIHitAnything = Physics.Raycast(rayCharles, out hit);
+
+			hit.point = Camera.main.WorldToScreenPoint(hit.point);
+
+			xMin = (hit.point.x / Screen.width);
+			yMin = (hit.point.y / Screen.height);
+			
+			Debug.DrawLine(rayCharles.origin, hit.point);
+			
+		}
+
         if(target)
         {
             foreach (Weapon weapon in inventory.equippedWeapons)
@@ -152,7 +175,7 @@ public class ShipAttack : MonoBehaviour {
     }
     void OnGUI()
     {
-        float xMin = 0, yMin = 0;
+        
         if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.MOUSE_KEYBOARD)
         {
             xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
@@ -160,20 +183,7 @@ public class ShipAttack : MonoBehaviour {
         }
         else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
         {
-			Debug.Log ("using hydra");
-			GameObject go = GameObject.Find("FakeMousePointer");
-            
-            go.transform.rotation = SixenseInput.Controllers[1].Rotation;
 
-            Ray rayCharles = new Ray(go.transform.position, go.transform.forward);
-             RaycastHit hit;
-
-             bool whocares = Physics.Raycast(rayCharles, out hit);
-
-            xMin = (hit.point.x);
-            yMin = (hit.point.y);
-
-            Debug.DrawLine(rayCharles.origin, hit.point);
 
         }
 

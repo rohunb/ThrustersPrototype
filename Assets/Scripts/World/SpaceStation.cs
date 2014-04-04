@@ -16,7 +16,10 @@ public class SpaceStation : MonoBehaviour {
 		{
 			print("Entering Dock Scene");
 			ScreenFader.EndScene();
+			GOD.cameraPos = GameObject.Find ("BackgroundCamera").transform.position;
+			GOD.cameraRot = GameObject.Find ("BackgroundCamera").transform.rotation;
 			Application.LoadLevel(2);
+
 		}
 	}
 	

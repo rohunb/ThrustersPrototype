@@ -3,13 +3,17 @@ using System.Collections;
 
 public class CameraGhost : MonoBehaviour 
 {
-    bool firstTime = false;
+    bool firstTime = true;
     public GameObject targetPlanet;
     private float rangeFromPlanet = 200;
 	// Use this for initialization
 	void Start () 
     {
-        StartCoroutine(waitForaBit());
+		if (firstTime)
+		{
+			StartCoroutine(waitForaBit());
+		}
+        
 	}
 	
 	// Update is called once per frame

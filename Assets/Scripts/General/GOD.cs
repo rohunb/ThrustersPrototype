@@ -9,6 +9,9 @@ public class GOD : MonoBehaviour {
 
     public static WhatControllerAmIUsing whatControllerAmIUsing;
 
+	public static Vector3 cameraPos;
+	public static Quaternion cameraRot;
+
 	public GameObject GalaxyPrefab;
 
     private bool firstUpdate;
