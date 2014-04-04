@@ -53,6 +53,7 @@ public class ShipMove : MonoBehaviour {
       
         currentAfterburnerLevel += afterburnerRecharge*Time.deltaTime;
         currentAfterburnerLevel = Mathf.Clamp(currentAfterburnerLevel, 0f, maxAfterburnerLevel);
+        Camera.main.fieldOfView = currentFov;
     }
 
     
