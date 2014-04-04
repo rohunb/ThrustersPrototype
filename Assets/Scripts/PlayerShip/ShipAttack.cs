@@ -160,8 +160,9 @@ public class ShipAttack : MonoBehaviour {
         }
         else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
         {
-            GameObject go = new GameObject("rayTemp");
-            go.transform.position = SixenseInput.Controllers[1].Position;
+			Debug.Log ("using hydra");
+			GameObject go = GameObject.Find("FakeMousePointer");
+            
             go.transform.rotation = SixenseInput.Controllers[1].Rotation;
 
             Ray rayCharles = new Ray(go.transform.position, go.transform.forward);
