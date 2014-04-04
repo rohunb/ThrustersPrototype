@@ -16,6 +16,7 @@ public class MissionTerminal : MonoBehaviour {
 
         if (displayMissionPrompt && Input.GetKeyDown(KeyCode.F))
         {
+			GOD.audioengine.playSFX("TerminalEnter");
             dockManager.ShowMissionTerminal();
         }
 

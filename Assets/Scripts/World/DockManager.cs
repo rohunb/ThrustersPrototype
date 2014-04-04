@@ -119,6 +119,7 @@ public class DockManager : MonoBehaviour
                         }
                         else
                         {
+							GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.AddWeaponToHardpoint(hardpointSelected, weaponSelected);
                             weapons[hardpointSelected].SetActive(true);
                         }
@@ -132,6 +133,7 @@ public class DockManager : MonoBehaviour
                         }
                         else
                         {
+							GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.AddWeaponToHardpoint(hardpointSelected, weaponSelected);
                             weapons[hardpointSelected].SetActive(true);
                         }
@@ -145,6 +147,7 @@ public class DockManager : MonoBehaviour
                         }
                         else
                         {
+							GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.AddWeaponToHardpoint(hardpointSelected, weaponSelected);
                             weapons[hardpointSelected].SetActive(true);
                         }
@@ -158,6 +161,7 @@ public class DockManager : MonoBehaviour
                         }
                         else
                         {
+							GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.AddWeaponToHardpoint(hardpointSelected, weaponSelected);
                             weapons[hardpointSelected].SetActive(true);
                         }
@@ -178,6 +182,7 @@ public class DockManager : MonoBehaviour
             availableWindow = GUI.Window(1, availableWindow, AvailableWindow, "Cargo Hold");
             if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height - 100, 100, 50), "Exit Terminal"))
             {
+				GOD.audioengine.playSFX("TerminalExit");
                 ExitAllTerminals();
                 cameraMove.CameraReturnToPos();
             }
@@ -189,6 +194,7 @@ public class DockManager : MonoBehaviour
             availableWindow = GUI.Window(1, availableWindow, AvailableWindow, "Cargo Hold");
             if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height - 100, 100, 50), "Exit Terminal"))
             {
+				GOD.audioengine.playSFX("TerminalExit");
                 ExitAllTerminals();
                 PlayerCanMove(true);
             }
@@ -206,10 +212,11 @@ public class DockManager : MonoBehaviour
         for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
         {
             GUI.Label(new Rect(5, 20 + i * 20, 120, 20), "" + (i + 1) + ": ");
-            if (playerInv.equippedWeapons[i])
+            if (playerInv.equippedWeapons[i]) {
                 buttonText = playerInv.equippedWeapons[i].name;
-            else
+			} else {
                 buttonText = "------";
+			}
             if (GUI.Button(new Rect(15, 20 + i * 20, 150, 20), buttonText))
             {
 
@@ -224,6 +231,7 @@ public class DockManager : MonoBehaviour
             GUI.Label(new Rect(1, 0 + i * 20, 120, 20), "" + (i + 1) + ": ");
             if (GUI.Button(new Rect(17, 0 + i * 20, 150, 20), vendorWeapons[i].name))
             {
+				GOD.audioengine.playSFX("TerminalBtn");
                 vendorWpnSelected = i;
                 showPopup = true;
                 popUpText = "Buy Weapon: " +
@@ -242,6 +250,7 @@ public class DockManager : MonoBehaviour
             GUI.Label(new Rect(5, 43 + i * 20, 120, 20), "" + (i + 1) + ": ");
             if (GUI.Button(new Rect(15, 43 + i * 20, 150, 20), playerInv.availableWeapons[i].name))
             {
+				GOD.audioengine.playSFX("TerminalBtn");
                 attachingWeapon = true;
                 weaponSelected = i;
             }
@@ -257,10 +266,12 @@ public class DockManager : MonoBehaviour
                 playerInv.AddWeaponToCargo(Instantiate(vendorWeapons[vendorWpnSelected]) as GameObject);
                 vendorWeapons.RemoveAt(vendorWpnSelected);
             }
+			GOD.audioengine.playSFX("TerminalBtnYes");
             ResetPopup();
         }
         if (GUI.Button(new Rect(popupRect.width - popupRect.width / 2 + 10, popupRect.height - 40, popupRect.width / 2 - 10, 40), "No"))
         {
+			GOD.audioengine.playSFX("TerminalBtn");
             ResetPopup();
         }
     }

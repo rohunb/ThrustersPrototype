@@ -14,6 +14,7 @@ public class EquipmentTerminal : MonoBehaviour {
 
         if (displayEquipPrompt && Input.GetKeyDown(KeyCode.F))
         {
+			GOD.audioengine.playSFX("TerminalEnter");
             dockManager.ShowEquipTerminal();
         }
 	
