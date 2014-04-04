@@ -18,8 +18,7 @@ public class SpaceStation : MonoBehaviour {
 			ScreenFader.EndScene();
 			GOD.cameraPos = GameObject.Find ("BackgroundCamera").transform.position;
 			GOD.cameraRot = GameObject.Find ("BackgroundCamera").transform.rotation;
-			Application.LoadLevel(2);
-
+			Application.LoadLevel("DockedScene");
 		}
 	}
 	

@@ -14,7 +14,7 @@ public class ExitDock : MonoBehaviour {
 	    if(displayExitPrompt && Input.GetKeyDown(KeyCode.F))
         {
             ScreenFader.EndScene();
-            Application.LoadLevel(1);
+			Application.LoadLevel("GameScene");
         }
 	}
     void OnGUI()
