@@ -9,9 +9,9 @@ public class MainMenu : MonoBehaviour {
 
     bool fadeToGameScene = false;
     bool controlsInverted = false;
-    float musicVolume = 75;
-    float soundVolume = 75;
-    float shipVolume = 75;
+    float musicVolume = .75f;
+    float soundVolume = .75f;
+    float shipVolume = .75f;
 
 	// Use this for initialization
 	void Start () {
@@ -26,26 +26,26 @@ public class MainMenu : MonoBehaviour {
     {
         if (showMainMenu)
         {
-            if (GUI.Button(new Rect(60, 100, 140, 60), "New Game"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .2f, Screen.width * .2f, Screen.height * .12f), "New Game"))
             {
 				Application.LoadLevel(1);
                // fadeToGameScene = true;
             }
-            if (GUI.Button(new Rect(60, 180, 140, 60), "Continue"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .32f, Screen.width * .2f, Screen.height * .12f), "Continue"))
             {
                 //showMainMenu = false;
             }
-            if (GUI.Button(new Rect(60, 260, 140, 60), "Options"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .44f, Screen.width * .2f, Screen.height * .12f), "Options"))
             {
                 showOptions = true;
                 showMainMenu = false;
             }
-            if (GUI.Button(new Rect(60, 340, 140, 60), "Credits"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .56f, Screen.width * .2f, Screen.height * .12f), "Credits"))
             {
                 showCredits = true;
                 showMainMenu = false;
             }
-            if (GUI.Button(new Rect(60, 420, 140, 60), "Quit"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .68f, Screen.width * .2f, Screen.height * .12f), "Quit"))
             {
                 showQuit = true;
                 showMainMenu = false;
@@ -60,20 +60,29 @@ public class MainMenu : MonoBehaviour {
             GUI.BeginGroup(optionsRect);
 
             GUI.Label(new Rect(optionsRect.width / 2 - 50, 30, 100, 20), "Music Volume");
-            musicVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 50, 50, 100, 20), musicVolume, 0, 100);
+            musicVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 50, 130, 20), musicVolume, 0, 1);
 
             GUI.Label(new Rect(optionsRect.width / 2 - 50, 70, 100, 20), "Sound Volume");
-            soundVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 50, 90, 100, 20), soundVolume, 0, 100);
+            soundVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 90, 130, 20), soundVolume, 0, 1);
 
             GUI.Label(new Rect(optionsRect.width / 2 - 50, 110, 100, 20), "Ship Volume");
-            shipVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 50, 130, 100, 20), shipVolume, 0, 100);
+            shipVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 130, 130, 20), shipVolume, 0, 1);
 
-            controlsInverted = GUI.Toggle(new Rect(20, 150, 100, 30), controlsInverted, "Invert Controls");
-            
-            if (GUI.Button(new Rect(optionsRect.width / 2 - 25, optionsRect.height - 25, 50, 20), "Return"))
+            if (GUI.Button(new Rect(optionsRect.width / 2 - 65, optionsRect.height - 25, 60, 20), "Confirm"))
             {
                 showOptions = false;
                 showMainMenu = true;
+
+                //save changes
+                ConfirmChanges();
+            }
+            if (GUI.Button(new Rect(optionsRect.width / 2 + 5, optionsRect.height - 25, 60, 20), "Cancel"))
+            {
+                showOptions = false;
+                showMainMenu = true;
+
+                //cancel changes
+                CancelChanges();
             }
             GUI.EndGroup();
         }
@@ -117,5 +126,15 @@ public class MainMenu : MonoBehaviour {
             }
             GUI.EndGroup();
         }
+    }
+
+    void ConfirmChanges()
+    {
+        print("saved changes");
+    }
+
+    void CancelChanges()
+    {
+        print("cancelled changes");
     }
 }
