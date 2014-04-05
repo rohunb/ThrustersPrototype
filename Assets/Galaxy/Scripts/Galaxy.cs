@@ -165,8 +165,9 @@ public class Galaxy : MonoBehaviour
                 rockPlanet_phy.calcRadius(star_phy);
                 star_phy.addComponent(rockPlanet_phy);
                 objectsInSimulation.addComponent(rockPlanet_phy);
-                GameObject RockPlanet = Instantiate(rockPlanets[UnityEngine.Random.Range(0, rockPlanets.Length - 1)], new Vector3(rockPlanet_phy.Position.x, 0, rockPlanet_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
-                RockPlanet.layer = BACKGROUND_LAYER;
+                //GameObject RockPlanet = Instantiate(rockPlanets[UnityEngine.Random.Range(0, rockPlanets.Length - 1)], new Vector3(rockPlanet_phy.Position.x, 0, rockPlanet_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+				GameObject RockPlanet = Instantiate(rockPlanets[UnityEngine.Random.Range(0, rockPlanets.Length  -1)], new Vector3(rockPlanet_phy.Position.x, 0, rockPlanet_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+				RockPlanet.layer = BACKGROUND_LAYER;
                 RockPlanet.tag = "Planet";
                 rockPlanet_phy.myGameObject = RockPlanet;
                 RockPlanet.transform.parent = starSystem.transform;

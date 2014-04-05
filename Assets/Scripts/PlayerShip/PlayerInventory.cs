@@ -33,9 +33,9 @@ public class PlayerInventory : MonoBehaviour
 
     void Awake()
     {
-        godInventory = GameObject.Find("GOD").GetComponent<PersistentInventory>();
-       
-    }
+		godInventory = GameObject.Find("GOD").GetComponent<PersistentInventory>();
+		
+	}
     void Start()
     {
 
