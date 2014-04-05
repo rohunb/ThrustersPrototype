@@ -59,7 +59,7 @@ public class ThrusterForce : MonoBehaviour {
         }
         firing = true;
         spaceship.AddForceAtPosition(transform.forward * maxThrustForce, transform.position,ForceMode.Force );
-        GameObject.Find("BackgroundCamera").transform.rigidbody.velocity = spaceship.velocity / 500; //BACKGROUNDCAMERA - this controls the background camera's movement
+        GameObject.Find("BackgroundCamera").transform.rigidbody.velocity = spaceship.velocity / 400; //BACKGROUNDCAMERA - this controls the background camera's movement
         Invoke("StopAfterburner", 0.5f);
         //StopAfterburner();
 
