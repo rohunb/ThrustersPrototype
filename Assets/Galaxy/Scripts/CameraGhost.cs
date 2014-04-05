@@ -21,8 +21,8 @@ public class CameraGhost : MonoBehaviour
     {
         if (GOD.goToRandomPointInGalaxy)
         {
-            int randIndex = UnityEngine.Random.Range(1, GameObject.FindGameObjectsWithTag("Planet").Length - 1);
-            targetPlanet = GameObject.FindGameObjectsWithTag("Planet")[randIndex];
+            int randIndex = UnityEngine.Random.Range(1, GameObject.FindGameObjectsWithTag("Moon").Length - 1);
+            targetPlanet = GameObject.FindGameObjectsWithTag("Moon")[randIndex];
 
             GameObject.Find("BackgroundCamera").transform.position = targetPlanet.transform.position - new Vector3(rangeFromPlanet, 0, 0);
             GameObject.Find("BackgroundCamera").transform.LookAt(targetPlanet.transform.position);
