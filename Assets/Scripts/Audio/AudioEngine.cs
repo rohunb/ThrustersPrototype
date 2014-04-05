@@ -10,11 +10,11 @@ public class AudioEngine : MonoBehaviour {
 	private static float _beforeVolume;
 	private static bool _mute;
 
-	//private Queue<AudioSource> queueASource;
+	private Queue<AudioSource> queueASource;
 	private AudioSource audioSource;
 	private AudioSource audioSource1;
 	private AudioSource audioSource2;
-	//private AudioSource newAudioSource;
+	private AudioSource newAudioSource;
 
 	//Sound Effect shit
 	private AudioClip currentSFX;
@@ -40,7 +40,7 @@ public class AudioEngine : MonoBehaviour {
 		isSfxPlaying2 = false;
 		isSfxPlaying3 = false;
 		AudioListener.volume = _volume;
-//		queueASource = new Queue<AudioSource>();
+		queueASource = new Queue<AudioSource>();
 		AudioSource[] aSource = GetComponents<AudioSource>();
 		audioSource = aSource[0];
 		audioSource1 = aSource[1];
@@ -63,6 +63,7 @@ public class AudioEngine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		checkAudio();
 		//StartCoroutine("checkQueue");
 
 		if(Application.loadedLevelName == "MainMenu") {
@@ -165,12 +166,12 @@ public class AudioEngine : MonoBehaviour {
 	public void playSFX(string snd) {
 		if (audionames.ContainsKey(snd)) {
 			currentSFX = audionames[snd];
-			audioSource.PlayOneShot(currentSFX);
+			//audioSource.PlayOneShot(currentSFX);
 			//Debug.Log("Current SFX name:" + currentSFX);
-			//newAudioSource = gameObject.AddComponent("AudioSource") as AudioSource;
-			//AudioClip newAudioClip = currentSFX;
-			//newAudioSource.clip = currentSFX;
-			//queueASource.Enqueue(newAudioSource);
+			newAudioSource = gameObject.AddComponent("AudioSource") as AudioSource;
+			AudioClip newAudioClip = currentSFX;
+			newAudioSource.clip = currentSFX;
+			queueASource.Enqueue(newAudioSource);
 			//Debug.Log("Shoot");
 			//Debug.Log("Audio File played");
 		} else {
@@ -203,4 +204,15 @@ public class AudioEngine : MonoBehaviour {
 //			queueASource.Remove(aS);
 //		}
 //	}
+
+	public void checkAudio() {
+		if (queueASource.Count != 0) {
+			if(!queueASource.Peek().isPlaying){
+			queueASource.Peek().Play();
+			Debug.Log("Play");
+			queueASource.Dequeue();
+			Debug.Log("Deqeue");
+			}
+		}
+	}
 }
