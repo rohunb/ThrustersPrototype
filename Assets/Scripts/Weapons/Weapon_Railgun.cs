@@ -11,8 +11,15 @@ public class Weapon_Railgun : Weapon {
     public float railEffectClearTimer=0.1f;
     void Start()
     {
+        
         weaponType = WeaponType.Primary;
-
+        line = GetComponent<LineRenderer>();
+        line.enabled = false;
+        clearEffect = false;
+    }
+    public override void Init()
+    {
+        weaponType = WeaponType.Primary;
         line = GetComponent<LineRenderer>();
         line.enabled = false;
         clearEffect = false;
@@ -36,6 +43,7 @@ public class Weapon_Railgun : Weapon {
         ProjectileDamager damager = railshotClone.GetComponent<ProjectileDamager>();
         damager.origin = origin;
         damager.damage = damage;
+
         CreateRailEffect(Mathf.RoundToInt(range));
 
         yield return new WaitForSeconds(reloadTimer);
@@ -65,6 +73,7 @@ public class Weapon_Railgun : Weapon {
     }
     protected override void Update()
     {
+
         if (clearEffect)
         {
             lineColour = Color.Lerp(lineColour, new Color(lineColour.r, lineColour.g, lineColour.b, 0.0f), Time.deltaTime * railEffectClearTimer);
@@ -75,6 +84,7 @@ public class Weapon_Railgun : Weapon {
             line.SetColors(lineColour, lineColour);
         }
         base.Update();
+        
     }
 
 }

@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon_ClusterMissile : Weapon {
-    
+public class Weapon_ClusterMissile : Weapon
+{
+
     void Start()
+    {
+        weaponType = WeaponType.Secondary;
+    }
+    public override void Init()
     {
         weaponType = WeaponType.Secondary;
     }
@@ -18,8 +23,8 @@ public class Weapon_ClusterMissile : Weapon {
     IEnumerator FireClusterMissiles()
     {
         GameObject clusterMissileClone = Instantiate(projectile, shootPoint.position, shootPoint.rotation) as GameObject;
-		GOD.audioengine.playSFX("MissleLaunch");
-		clusterMissileClone.rigidbody.AddForce(origin.transform.up * -150f, ForceMode.Impulse);
+        GOD.audioengine.playSFX("MissleLaunch");
+        clusterMissileClone.rigidbody.AddForce(origin.transform.up * -150f, ForceMode.Impulse);
         clusterMissileClone.GetComponent<HomingMissile>().target = target;
         ClusterMissile clusterMissile = clusterMissileClone.GetComponent<ClusterMissile>();
         clusterMissile.target = target;

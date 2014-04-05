@@ -7,6 +7,11 @@ public class Weapon_Missile : Weapon {
     {
         weaponType = WeaponType.Secondary;
     }
+    public override void Init()
+    {
+        weaponType = WeaponType.Secondary;
+        
+    }
     public override void Fire()
     {
         if (canFire)

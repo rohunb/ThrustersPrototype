@@ -6,6 +6,10 @@ public class Weapon_Torpedo : Weapon {
     {
         weaponType = WeaponType.Tertiary;
     }
+    public override void Init()
+    {
+        weaponType = WeaponType.Tertiary; ;
+    }
     public override void Fire()
     {
         if(canFire)

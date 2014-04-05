@@ -43,8 +43,11 @@ public class DockManager : MonoBehaviour
     public List<GameObject> vendorWeapons;
     int vendorWpnSelected;
 
+    PersistentInventory godInventory;
+
     void Awake()
     {
+        godInventory = GameObject.Find("GOD").GetComponent<PersistentInventory>();
         playerInv = GameObject.FindWithTag("PlayerShip").GetComponent<PlayerInventory>();
         player = GameObject.FindGameObjectWithTag("Player");
         cameraMove = player.GetComponent<CameraMove>();
@@ -61,8 +64,7 @@ public class DockManager : MonoBehaviour
         equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numHardpoints * 30);
         vendorWindow = new Rect(50, Screen.height / 2 - 200, 200, /*vendorWeapons.Count * 30*/ 400);
         vendorScrollRect = new Rect(2, 20, 200, /*vendorWeapons.Count * 30*/ 400);
-        availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, playerInv.availableWeapons.Count * 30);
-        Debug.Log(playerInv.availableWeapons.Count);
+        //availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 10+playerInv.availableWeapons.Count * 20);
         popupRect = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100);
         weaponOutlines = new GameObject[playerInv.numberOfHardpoints];
         weapons = new GameObject[playerInv.numberOfHardpoints];
@@ -82,7 +84,8 @@ public class DockManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 60+playerInv.availableWeapons.Count * 20);
+
         if ((showEquipTerm) &&
             Input.GetKeyDown(KeyCode.Escape))
         {
@@ -122,7 +125,8 @@ public class DockManager : MonoBehaviour
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.AddWeaponToHardpoint(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+
                             weapons[hardpointSelected].SetActive(true);
                         }
                         break;
@@ -136,7 +140,7 @@ public class DockManager : MonoBehaviour
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.AddWeaponToHardpoint(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
                             weapons[hardpointSelected].SetActive(true);
                         }
                         break;
@@ -150,7 +154,7 @@ public class DockManager : MonoBehaviour
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.AddWeaponToHardpoint(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
                             weapons[hardpointSelected].SetActive(true);
                         }
                         break;
@@ -164,7 +168,7 @@ public class DockManager : MonoBehaviour
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.AddWeaponToHardpoint(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
                             weapons[hardpointSelected].SetActive(true);
                         }
                         break;
@@ -211,11 +215,14 @@ public class DockManager : MonoBehaviour
     void EquippedWindow(int windowID)
     {
         string buttonText;
+        
+        Debug.Log("playerInv.equippedWeapons.Length: " + playerInv.equippedWeapons.Length);
+
         for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
         {
             GUI.Label(new Rect(5, 20 + i * 20, 120, 20), "" + (i + 1) + ": ");
             if (playerInv.equippedWeapons[i])
-                buttonText = playerInv.equippedWeapons[i].name;
+                buttonText = playerInv.equippedWeapons[i].wpnName;
             else
                 buttonText = "------";
             if (GUI.Button(new Rect(15, 20 + i * 20, 150, 20), buttonText))
@@ -230,13 +237,14 @@ public class DockManager : MonoBehaviour
         for (int i = 0; i < vendorWeapons.Count; i++)
         {
             GUI.Label(new Rect(1, 0 + i * 20, 120, 20), "" + (i + 1) + ": ");
-            if (GUI.Button(new Rect(17, 0 + i * 20, 150, 20), vendorWeapons[i].name))
+            Weapon vendorWpn = vendorWeapons[i].GetComponent<Weapon>();
+            if (GUI.Button(new Rect(17, 0 + i * 20, 150, 20), vendorWpn.wpnName))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 vendorWpnSelected = i;
                 showPopup = true;
                 popUpText = "Buy Weapon: " +
-                            vendorWeapons[i].GetComponent<Weapon>().name + " for " + vendorWeapons[i].GetComponent<Weapon>().cost + "?";
+                            vendorWpn.wpnName + " for " + vendorWpn.cost + "?";
 
             }
 
@@ -249,7 +257,7 @@ public class DockManager : MonoBehaviour
         for (int i = 0; i < playerInv.availableWeapons.Count; i++)
         {
             GUI.Label(new Rect(5, 43 + i * 20, 120, 20), "" + (i + 1) + ": ");
-            if (GUI.Button(new Rect(15, 43 + i * 20, 150, 20), playerInv.availableWeapons[i].name))
+            if (GUI.Button(new Rect(15, 43 + i * 20, 150, 20), playerInv.availableWeapons[i].wpnName))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 attachingWeapon = true;
