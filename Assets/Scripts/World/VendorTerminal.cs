@@ -16,6 +16,7 @@ public class VendorTerminal : MonoBehaviour {
 
         if (displayVendorPrompt && Input.GetKeyDown(KeyCode.F))
         {
+            GOD.audioengine.playSFX("TerminalEnter");
             dockManager.ShowVendorTerminal();
         }
 

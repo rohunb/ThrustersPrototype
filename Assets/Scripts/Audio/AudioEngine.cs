@@ -9,9 +9,12 @@ public class AudioEngine : MonoBehaviour {
 	private static float _volume;
 	private static float _beforeVolume;
 	private static bool _mute;
+
+	//private Queue<AudioSource> queueASource;
 	private AudioSource audioSource;
 	private AudioSource audioSource1;
 	private AudioSource audioSource2;
+	//private AudioSource newAudioSource;
 
 	//Sound Effect shit
 	private AudioClip currentSFX;
@@ -21,6 +24,7 @@ public class AudioEngine : MonoBehaviour {
 	private bool isSfxPlaying;
 	private bool isSfxPlaying1;
 	private bool isSfxPlaying2;
+	private bool isSfxPlaying3;
 
 	//Dictionary of shit
 	public Dictionary<string, AudioClip> audionames; 
@@ -34,31 +38,34 @@ public class AudioEngine : MonoBehaviour {
 		isSfxPlaying = false;
 		isSfxPlaying1 = false;
 		isSfxPlaying2 = false;
+		isSfxPlaying3 = false;
 		AudioListener.volume = _volume;
+//		queueASource = new Queue<AudioSource>();
 		AudioSource[] aSource = GetComponents<AudioSource>();
 		audioSource = aSource[0];
 		audioSource1 = aSource[1];
 		audioSource2 = aSource[2];
 
-		string[] audioTags = new string[] { "Laser", "MissleLaunch", "Torpedo", "Railgun", "MiningLaser" };
+		string[] audioTags = new string[] { 
+			"Laser", "MissleLaunch", "Torpedo", "Railgun", "MiningLaser", "missionTerminalEnd", "missionTerminalEnter", "TerminalEnter", "TerminalExit", "TerminalBtnYes", "TerminalBtn", "MenuPlayBtn"
+		};
 
 		//Dictionary
 		string audioPath = "Audio/Effects/";
 		audionames = new Dictionary<string, AudioClip>();
 
 		foreach (string a in audioTags) {
-				currentSFX = Resources.Load<AudioClip>(audioPath+a);
-				audionames.Add(a, currentSFX);
-			}
-		//
-
-
+			currentSFX = Resources.Load<AudioClip>(audioPath+a);
+			audionames.Add(a, currentSFX);
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if(Application.loadedLevel == 0) {
+		//StartCoroutine("checkQueue");
+
+		if(Application.loadedLevelName == "MainMenu") {
 			if(!isSfxPlaying) {
 				bgSFX = Resources.Load<AudioClip>("Audio/Background/IntroBG");
 				audioSource1.loop = true;
@@ -66,7 +73,7 @@ public class AudioEngine : MonoBehaviour {
 				audioSource1.Play();
 				isSfxPlaying = true;
 			}
-		} else if(Application.loadedLevel == 1) {
+		} else if(Application.loadedLevelName == "GameScene") {
 			if(!isSfxPlaying1) {
 				bgSFX = Resources.Load<AudioClip>("Audio/Background/InGameBG");
 				shipSFX = Resources.Load<AudioClip>("Audio/Effects/Thrusters");
@@ -78,15 +85,25 @@ public class AudioEngine : MonoBehaviour {
 				audioSource2.Play();
 				isSfxPlaying1 = true;
 			}
-		} else if(Application.loadedLevel == 2) {
+		} else if(Application.loadedLevelName == "DockedScene") {
 			if(!isSfxPlaying2) {
-			//	bgSFX = Resources.Load<AudioClip>("Audio/Background/InGameBG");
-			//	audioSource1.loop = true;
-			//	audioSource1.clip = bgSFX;
-			//	audioSource1.Play();
-				audioSource1.Stop();
+				bgSFX = Resources.Load<AudioClip>("Audio/Background/DockBg");
+				audioSource1.loop = true;
+				audioSource1.clip = bgSFX;
+				audioSource1.Play();
+			//	audioSource1.Stop();
 				audioSource2.Stop();
 				isSfxPlaying2 = true;
+			}
+		} else if(Application.loadedLevelName == "FTLScene") {
+			if(!isSfxPlaying3) {
+				bgSFX = Resources.Load<AudioClip>("Audio/Background/FTLBg");
+				audioSource1.loop = true;
+				audioSource1.clip = bgSFX;
+				audioSource1.Play();
+			//	audioSource1.Stop();
+				audioSource2.Stop();
+				isSfxPlaying3 = true;
 			}
 		}
 
@@ -149,10 +166,41 @@ public class AudioEngine : MonoBehaviour {
 		if (audionames.ContainsKey(snd)) {
 			currentSFX = audionames[snd];
 			audioSource.PlayOneShot(currentSFX);
+			//Debug.Log("Current SFX name:" + currentSFX);
+			//newAudioSource = gameObject.AddComponent("AudioSource") as AudioSource;
+			//AudioClip newAudioClip = currentSFX;
+			//newAudioSource.clip = currentSFX;
+			//queueASource.Enqueue(newAudioSource);
+			//Debug.Log("Shoot");
 			//Debug.Log("Audio File played");
 		} else {
 			Debug.Log("Audio File failed to play!");
 		}
-
 	}
+
+	public void setAllAudioVolume(float _musicVolume, float _sfxVolume, float _shipVolume) {
+		audioSource.volume = _sfxVolume;
+		audioSource1.volume = _musicVolume;
+		audioSource2.volume = _shipVolume;
+		Debug.Log("SFX Volume is at:" + _sfxVolume);
+		Debug.Log("Music Volume is at:" + _musicVolume);
+		Debug.Log("Ship Volume is at:" + _shipVolume);
+	}
+
+//	public IEnumerator checkQueue() {
+//		Debug.Log("Running Queue");
+
+//		if (queueASource.Count != 0) {
+//			queueASource.Peek().Play();
+//			Debug.Log("Play");
+//			yield return new WaitForSeconds(queueASource.Peek().clip.length);
+//			queueASource.Dequeue();
+//		}
+//		foreach (AudioSource aS in queueASource) {
+//			aS.Play();
+//			Debug.Log("playing audio" + aS.clip.length);
+//			yield return new WaitForSeconds(aS.clip.length);
+//			queueASource.Remove(aS);
+//		}
+//	}
 }

@@ -13,14 +13,14 @@ public class MainMenu : MonoBehaviour {
     float soundVolume = .75f;
     float shipVolume = .75f;
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+    // Use this for initialization
+    void Start () {
+    }
+    
+    // Update is called once per frame
+    void FixedUpdate () {
 
-	}
+    }
 
     void OnGUI()
     {
@@ -28,25 +28,30 @@ public class MainMenu : MonoBehaviour {
         {
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .2f, Screen.width * .2f, Screen.height * .12f), "New Game"))
             {
-				Application.LoadLevel(1);
+                GOD.audioengine.playSFX("MenuPlayBtn");
+                Application.LoadLevel(1);
                // fadeToGameScene = true;
             }
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .32f, Screen.width * .2f, Screen.height * .12f), "Continue"))
             {
+                GOD.audioengine.playSFX("TerminalBtn");
                 //showMainMenu = false;
             }
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .44f, Screen.width * .2f, Screen.height * .12f), "Options"))
             {
+                GOD.audioengine.playSFX("TerminalBtn");
                 showOptions = true;
                 showMainMenu = false;
             }
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .56f, Screen.width * .2f, Screen.height * .12f), "Credits"))
             {
+                GOD.audioengine.playSFX("TerminalBtn");
                 showCredits = true;
                 showMainMenu = false;
             }
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .68f, Screen.width * .2f, Screen.height * .12f), "Quit"))
             {
+                GOD.audioengine.playSFX("TerminalBtn");
                 showQuit = true;
                 showMainMenu = false;
             }
@@ -70,6 +75,7 @@ public class MainMenu : MonoBehaviour {
 
             if (GUI.Button(new Rect(optionsRect.width / 2 - 65, optionsRect.height - 25, 60, 20), "Confirm"))
             {
+                GOD.audioengine.playSFX("TerminalBtnYes");
                 showOptions = false;
                 showMainMenu = true;
 
@@ -78,6 +84,7 @@ public class MainMenu : MonoBehaviour {
             }
             if (GUI.Button(new Rect(optionsRect.width / 2 + 5, optionsRect.height - 25, 60, 20), "Cancel"))
             {
+                GOD.audioengine.playSFX("TerminalBtn");
                 showOptions = false;
                 showMainMenu = true;
 
@@ -103,6 +110,7 @@ public class MainMenu : MonoBehaviour {
 
             if (GUI.Button(new Rect(creditsRect.width / 2 - 25, creditsRect.height - 25, 50, 20), "Return"))
             {
+                GOD.audioengine.playSFX("TerminalBtn");
                 showCredits = false;
                 showMainMenu = true;
             }
@@ -117,10 +125,12 @@ public class MainMenu : MonoBehaviour {
             GUI.BeginGroup(quitRect);
             if (GUI.Button(new Rect(5, quitRect.height - 25, 45, 20), "Yes"))
             {
+                GOD.audioengine.playSFX("TerminalBtnYes");
                 Application.Quit();
             }
             if (GUI.Button(new Rect(quitRect.width - 50, quitRect.height - 25, 45 ,20), "No"))
             {
+                GOD.audioengine.playSFX("TerminalBtn");
                 showQuit = false;
                 showMainMenu = true;
             }
@@ -130,6 +140,8 @@ public class MainMenu : MonoBehaviour {
 
     void ConfirmChanges()
     {
+        //musicVolume, soundVolume, shipVolume
+        GOD.audioengine.setAllAudioVolume(musicVolume, soundVolume, shipVolume);
         print("saved changes");
     }
 

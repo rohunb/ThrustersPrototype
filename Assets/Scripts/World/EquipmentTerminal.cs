@@ -5,7 +5,7 @@ public class EquipmentTerminal : MonoBehaviour {
     
     bool displayEquipPrompt = false;
     DockManager dockManager;
-	
+    
     void Awake()
     {
         dockManager = GameObject.FindGameObjectWithTag("DockManager").GetComponent<DockManager>();
@@ -14,10 +14,11 @@ public class EquipmentTerminal : MonoBehaviour {
 
         if (displayEquipPrompt && Input.GetKeyDown(KeyCode.F))
         {
+            GOD.audioengine.playSFX("TerminalEnter");
             dockManager.ShowEquipTerminal();
         }
-	
-	}
+    
+    }
     void OnGUI()
     {
         if(displayEquipPrompt)
