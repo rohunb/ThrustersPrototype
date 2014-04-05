@@ -34,6 +34,12 @@ public class PlayerInventory : MonoBehaviour
     void Awake()
     {
         godInventory = GameObject.Find("GOD").GetComponent<PersistentInventory>();
+       
+    }
+    void Start()
+    {
+
+        credits = 400;
         availableWeapons = godInventory.availableWeapons;
 
         equippedWeapons = new Weapon[numberOfHardpoints];
@@ -49,25 +55,30 @@ public class PlayerInventory : MonoBehaviour
         }
         for (int i = 0; i < equippedWeapons.Length; i++)
         {
-            if (equippedWeapons[i])
+
+            if (!equippedWeapons[i] && godInventory.equippedWeapons[i])
             {
-                GameObject weaponObj = Instantiate(godInventory.equippedWeapons[i].gameObject) as GameObject;
+                GameObject weaponObj = Instantiate(godInventory.equippedWeapons[i].gameObject, hardPoints[i].position, hardPoints[i].rotation) as GameObject;
                 Weapon weapon = weaponObj.GetComponent<Weapon>();
+                weapon.Init();
+                weapon.origin = gameObject;
                 equippedWeapons[i] = weapon;
-                equippedWeapons[i].transform.position = hardPoints[i].position;
-                weapon.enabled = true;
+                weapon.transform.parent = weaponTransform;
+                weapon.transform.position = hardPoints[i].position;
+                //weapon.enabled = true;
+
             }
         }
-    }
-    void Start()
-    {
-        credits = 400;
-        Debug.Log(availableWeapons.Count);
 
         //foreach (Weapon weapon in availableWeapons)
         //{
         //    weapon.origin = gameObject;
         //}
+    }
+    void OnDisable()
+    {
+        godInventory.equippedWeapons = equippedWeapons;
+        godInventory.availableWeapons = availableWeapons;
     }
     public int GetCredits()
     {
@@ -84,8 +95,12 @@ public class PlayerInventory : MonoBehaviour
         else
             return false;
     }
+    //this is called from the persistent inventory when the scene loads
+    public void EquipWeaponAtStart(GameObject wpnObj)
+    {
 
-    public void AddWeaponToHardpoint(int hardpointIndex, int availableWeaponsIndex)
+    }
+    public void EquipWeaponFromHold(int hardpointIndex, int availableWeaponsIndex)
     {
         if (equippedWeapons[hardpointIndex])
         {
@@ -98,6 +113,7 @@ public class PlayerInventory : MonoBehaviour
 
         equippedWeapons[hardpointIndex] = availableWeapons[availableWeaponsIndex];
         equippedWeapons[hardpointIndex].transform.position = hardPoints[hardpointIndex].position;
+        equippedWeapons[hardpointIndex].transform.rotation = hardPoints[hardpointIndex].rotation;
         //equippedWeapons[hardpointSelected].gameObject.SetActive(true);
         equippedWeapons[hardpointIndex].gameObject.GetComponent<Weapon>().enabled = true;
         availableWeapons.Remove(availableWeapons[availableWeaponsIndex]);
@@ -142,7 +158,7 @@ public class PlayerInventory : MonoBehaviour
         {
             string wpnName;
             if (equippedWeapons[i])
-                wpnName = equippedWeapons[i].name;
+                wpnName = equippedWeapons[i].wpnName;
             else
                 wpnName = "------";
 
@@ -182,7 +198,7 @@ public class PlayerInventory : MonoBehaviour
         {
             GUI.Label(new Rect(5, 20 + i * 20, 120, 20), "" + (i + 1) + ": ");
             if (equippedWeapons[i])
-                buttonText = equippedWeapons[i].name;
+                buttonText = equippedWeapons[i].wpnName;
             else
                 buttonText = "------";
             if (GUI.Button(new Rect(15, 20 + i * 20, 150, 20), buttonText))
@@ -203,7 +219,7 @@ public class PlayerInventory : MonoBehaviour
         for (int i = 0; i < availableWeapons.Count; i++)
         {
             GUI.Label(new Rect(5, 20 + i * 20, 120, 20), "" + (i + 1) + ": ");
-            if (GUI.Button(new Rect(15, 20 + i * 20, 150, 20), availableWeapons[i].name))
+            if (GUI.Button(new Rect(15, 20 + i * 20, 150, 20), availableWeapons[i].wpnName))
             {
                 if (equippedWeapons[hardpointSelected])
                 {

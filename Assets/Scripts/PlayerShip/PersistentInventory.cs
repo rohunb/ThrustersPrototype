@@ -5,14 +5,22 @@ using System.Collections.Generic;
 public class PersistentInventory : MonoBehaviour {
     
     public List<Weapon> availableWeapons;
-    //public List<Weapon> equippedWeaponsList;
+    public List<Weapon> equippedWeaponsList;
     public int numberOfHardpoints = 4;
     public Weapon[] equippedWeapons;
 
 
 	// Use this for initialization
 	void Start () {
-        //equippedWeapons = new Weapon[numberOfHardpoints];
+        equippedWeapons = new Weapon[numberOfHardpoints];
+        int i = 0;
+        //for (int i = 0; i < equippedWeaponsList.Count; i++)
+        while(i<equippedWeaponsList.Count)
+        {
+            equippedWeapons[i] = equippedWeaponsList[i];
+            i++;
+        }
+        
 
 	}
     //void OnLevelWasLoaded(int level)
@@ -23,15 +31,15 @@ public class PersistentInventory : MonoBehaviour {
     //    }
     //}
 	// Update is called once per frame
-	void Update () {
-        for (int i = 0; i < equippedWeapons.Length; i++)
-        {
-            if(equippedWeapons[i])
-            {
-               // Debug.Log(equippedWeapons[i].gameObject.name);
-            }
-        }	 
-	}
+	//void Update () {
+        //for (int i = 0; i < equippedWeapons.Length; i++)
+        //{
+        //    if(equippedWeapons[i])
+        //    {
+        //       // Debug.Log(equippedWeapons[i].gameObject.name);
+        //    }
+        //}	 
+	//}
     /*
      * if (equippedWeapons[hardpointIndex])
         {

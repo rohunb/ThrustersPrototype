@@ -10,7 +10,7 @@ public class bkgCameraScript : MonoBehaviour {
 		{
 			gameObject.transform.position = GOD.cameraPos;
 			gameObject.transform.rotation = GOD.cameraRot;
-			print("test");
+
 		}
 	}
 	

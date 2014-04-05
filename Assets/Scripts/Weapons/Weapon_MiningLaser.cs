@@ -27,7 +27,16 @@ public class Weapon_MiningLaser : Weapon {
         playerInventory = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerInventory>();
         length = Mathf.RoundToInt(range);
 	}
-	
+    public override void Init()
+    {
+        weaponType = WeaponType.Utility;
+        line = GetComponent<LineRenderer>();
+        line.SetWidth(lineWidth, lineWidth);
+        line.SetColors(beamColor, beamColor);
+        laserImpactEffect.Stop();
+        playerInventory = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerInventory>();
+        length = Mathf.RoundToInt(range);
+    }
 	// Update is called once per frame
     protected override void Update()
     {

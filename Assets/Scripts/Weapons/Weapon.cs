@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Weapon : MonoBehaviour {
 
-    public string name;
+    public string wpnName;
     public int damage;
     public GameObject projectile;
     public float projectileSpeed;
@@ -21,7 +21,7 @@ public class Weapon : MonoBehaviour {
 
     public Transform movableGun;
 
-	
+    public virtual void Init() { }
     public virtual void Fire()
     {
         
