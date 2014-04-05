@@ -32,7 +32,7 @@ public class Galaxy : MonoBehaviour
     private int maxStarRange = 10000;
     private int StarRangeIncr;
 
-    private const int minNumRockPlanetsPerStar = 0;
+    private const int minNumRockPlanetsPerStar = 2;
     private const int maxNumRockPlanetsPerStar = 4;
     private int minRockPlanetRange = 100;
     private int maxRockPlanetRange = 150;
@@ -135,7 +135,7 @@ public class Galaxy : MonoBehaviour
             star_phy.rotateScript = starSystem.GetComponent<rotate>();
 
             //add rock planets to the stars
-            rockPlanetCount = random.Next(maxNumRockPlanetsPerStar - minNumRockPlanetsPerStar + 1) + minNumRockPlanetsPerStar;
+			rockPlanetCount = UnityEngine.Random.Range (minNumRockPlanetsPerStar, maxNumRockPlanetsPerStar);
 
             int tempMinRPRange = minRockPlanetRange;
             int tempMaxRPRange = maxRockPlanetRange;
