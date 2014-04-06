@@ -23,13 +23,19 @@ public class PersistentInventory : MonoBehaviour {
         
 
 	}
-    //void OnLevelWasLoaded(int level)
-    //{
-    //    if(Application.loadedLevelName == "GameScene" ||Application.loadedLevelName == "DockedScene" )
-    //    {
-
-    //    }
-    //}
+    void OnLevelWasLoaded(int level)
+    {
+        if (Application.loadedLevelName == "GameScene" || Application.loadedLevelName == "DockedScene")
+        {
+            int i = 0;
+            //for (int i = 0; i < equippedWeaponsList.Count; i++)
+            while (i < equippedWeaponsList.Count)
+            {
+                equippedWeapons[i] = equippedWeaponsList[i];
+                i++;
+            }
+        }
+    }
 	// Update is called once per frame
 	//void Update () {
         //for (int i = 0; i < equippedWeapons.Length; i++)
