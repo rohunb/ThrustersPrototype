@@ -10,11 +10,11 @@ public class AudioEngine : MonoBehaviour {
 	private static float _beforeVolume;
 	private static bool _mute;
 
-	//private Queue<AudioSource> queueASource;
+	public Queue<AudioSource> queueASource;
 	private AudioSource audioSource;
 	private AudioSource audioSource1;
 	private AudioSource audioSource2;
-	//private AudioSource newAudioSource;
+	private AudioSource newAudioSource;
 
 	//Sound Effect shit
 	private AudioClip currentSFX;
@@ -25,6 +25,8 @@ public class AudioEngine : MonoBehaviour {
 	private bool isSfxPlaying1;
 	private bool isSfxPlaying2;
 	private bool isSfxPlaying3;
+
+	private bool audioPlay;
 
 	//Dictionary of shit
 	public Dictionary<string, AudioClip> audionames; 
@@ -40,7 +42,7 @@ public class AudioEngine : MonoBehaviour {
 		isSfxPlaying2 = false;
 		isSfxPlaying3 = false;
 		AudioListener.volume = _volume;
-//		queueASource = new Queue<AudioSource>();
+		queueASource = new Queue<AudioSource>();
 		AudioSource[] aSource = GetComponents<AudioSource>();
 		audioSource = aSource[0];
 		audioSource1 = aSource[1];
@@ -63,7 +65,8 @@ public class AudioEngine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//StartCoroutine("checkQueue");
+		//checkAudio();
+		StartCoroutine("checkQueue");
 
 		if(Application.loadedLevelName == "MainMenu") {
 			if(!isSfxPlaying) {
@@ -165,12 +168,14 @@ public class AudioEngine : MonoBehaviour {
 	public void playSFX(string snd) {
 		if (audionames.ContainsKey(snd)) {
 			currentSFX = audionames[snd];
-			audioSource.PlayOneShot(currentSFX);
+			//audioSource.PlayOneShot(currentSFX);
 			//Debug.Log("Current SFX name:" + currentSFX);
-			//newAudioSource = gameObject.AddComponent("AudioSource") as AudioSource;
-			//AudioClip newAudioClip = currentSFX;
-			//newAudioSource.clip = currentSFX;
-			//queueASource.Enqueue(newAudioSource);
+			newAudioSource = gameObject.AddComponent("AudioSource") as AudioSource;
+			newAudioSource.playOnAwake = false;
+			newAudioSource.loop = false;
+			AudioClip newAudioClip = currentSFX;
+			newAudioSource.clip = currentSFX;
+			queueASource.Enqueue(newAudioSource);
 			//Debug.Log("Shoot");
 			//Debug.Log("Audio File played");
 		} else {
@@ -187,8 +192,18 @@ public class AudioEngine : MonoBehaviour {
 		Debug.Log("Ship Volume is at:" + _shipVolume);
 	}
 
-//	public IEnumerator checkQueue() {
-//		Debug.Log("Running Queue");
+	public IEnumerator checkQueue() {
+		Debug.Log("Running Queue");
+		if (queueASource.Count != 0) {
+			if(!queueASource.Peek().isPlaying){
+				queueASource.Peek().Play();
+				Debug.Log("Play");
+				yield return new WaitForSeconds(queueASource.Peek().clip.length);
+				Destroy(queueASource.Peek());
+				queueASource.Dequeue();
+				Debug.Log("Deqeue");
+			}
+		}
 
 //		if (queueASource.Count != 0) {
 //			queueASource.Peek().Play();
@@ -201,6 +216,26 @@ public class AudioEngine : MonoBehaviour {
 //			Debug.Log("playing audio" + aS.clip.length);
 //			yield return new WaitForSeconds(aS.clip.length);
 //			queueASource.Remove(aS);
+//		}
+	}
+
+//	public void checkAudio() {
+//		if (queueASource.Count != 0) {
+//			if(!queueASource.Peek().isPlaying){
+//				queueASource.Peek().PlayOneShot(queueASource.Peek().clip);
+//				Debug.Log("Play");
+//				Debug.Log(queueASource.Peek());
+//				audioPlay = true;
+//				Destroy(queueASource.Peek());
+//				queueASource.Dequeue();
+//				Debug.Log("Deqeue");
+//			} 
+//
+////			else if(queueASource.Peek().isPlaying && queueASource.Peek().clip.length == 0.0) {
+////				Destroy(queueASource.Peek());
+////				queueASource.Dequeue();
+////				Debug.Log("Deqeue");
+////			}
 //		}
 //	}
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PlayerInventory : MonoBehaviour
 {
     public GUISkin guiSkin;
-    
+
     public List<Weapon> availableWeapons;
 
     public int numberOfHardpoints = 4;
@@ -21,11 +21,11 @@ public class PlayerInventory : MonoBehaviour
     private bool showAvailableWeapons = false;
     private bool showMissionLog = true;
     private int hardpointSelected;
-    
+
     private Rect equippedWindow;
     private Rect availableWindow;
     public Vector2 buttonSize = new Vector2(140, 20);
-    
+
     //economy
     private int credits = 400;
 
@@ -33,9 +33,9 @@ public class PlayerInventory : MonoBehaviour
 
     void Awake()
     {
-		godInventory = GameObject.Find("GOD").GetComponent<PersistentInventory>();
-		
-	}
+        godInventory = GameObject.Find("GOD").GetComponent<PersistentInventory>();
+
+    }
     void Start()
     {
 
@@ -77,6 +77,11 @@ public class PlayerInventory : MonoBehaviour
     }
     void OnDisable()
     {
+        //godInventory.availableWeapons.Clear();
+        //foreach (Weapon weapon in availableWeapons)
+        //{
+        //    GameObject wpnObj = Instantiate(weapon.gameObject)
+        //}
         godInventory.equippedWeapons = equippedWeapons;
         godInventory.availableWeapons = availableWeapons;
     }
@@ -132,13 +137,16 @@ public class PlayerInventory : MonoBehaviour
     void OnGUI()
     {
         GUI.skin = guiSkin;
-        //DisplayEquippedWeapons();
-        //DisplayMinorOptions();
-        //if (showMissionLog) DisplayMissions();
+        if (Application.loadedLevelName == "GameScene")
+        {
+            DisplayEquippedWeapons();
+            DisplayMinorOptions();
+            if (showMissionLog) DisplayMissions();
+        }
 
         if (displayInventory)
         {
-            
+
             equippedWindow = GUI.Window(0, equippedWindow, EquippedWindow, "Equipped Weapons");
             if (showAvailableWeapons)
             {
@@ -241,7 +249,7 @@ public class PlayerInventory : MonoBehaviour
     }
 
 
-    
+
     public void ToggleInventory()
     {
         displayInventory = !displayInventory;
