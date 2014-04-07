@@ -34,7 +34,7 @@ using System.Text;
 
         private int numComponents = 0;
 
-        private float timeFactor = 0.1f;
+        public static float timeFactor = 1f;
 
         public int getNumComponents()
         {
@@ -99,7 +99,7 @@ using System.Text;
         public double calcPeriodInSeconds()
         {
 
-            periodInSeconds = Math.Sqrt(radius * radius * radius) * timeFactor ;
+            periodInSeconds = Math.Sqrt(radius * radius * radius);
 
                 calcTheRest();
             return periodInSeconds;
@@ -137,11 +137,22 @@ using System.Text;
         public void Update()
         {
             Physics();
+
+			if (Input.GetKey(KeyCode.W)) 
+			{
+			timeFactor *= 1.0002f;
+			}
+			else if (Input.GetKey(KeyCode.S)) 
+			{
+				timeFactor *= 0.9998f;
+			}
+
+			//Debug.Log (timeFactor);
         }
 
         private void Physics()
         {
-            float DELTATIME = Time.deltaTime;
+		float DELTATIME = Time.deltaTime * timeFactor;
             //physics
             AngularVelocity = (float)(linearVelocityScalar / periodInSeconds);
             Angle += ((AngularVelocity * DELTATIME) + ((0.5f * AngularAcceleration) * (DELTATIME * DELTATIME)));

@@ -16,6 +16,11 @@ public class ExitDock : MonoBehaviour {
             ScreenFader.EndScene();
 			Application.LoadLevel("GameScene");
         }
+
+		if (Input.GetKeyDown(KeyCode.Escape)) 
+		{
+			Application.LoadLevel("TestFTLScene");
+		}
 	}
     void OnGUI()
     {

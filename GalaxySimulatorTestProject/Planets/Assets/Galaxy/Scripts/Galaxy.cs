@@ -24,32 +24,32 @@ public class Galaxy : MonoBehaviour
 
     public string debugText = "";
 
-    private const int minNumStars = 10;
-    private const int maxNumStars = 15;
+    private const int minNumStars = 20;
+    private const int maxNumStars = 25;
     private int minStarRange = 8000;
     private int maxStarRange = 10000;
     private int StarRangeIncr;
 
-    private const int minNumRockPlanetsPerStar = 0;
-    private const int maxNumRockPlanetsPerStar = 4;
+    private const int minNumRockPlanetsPerStar = 1;
+    private const int maxNumRockPlanetsPerStar = 6;
     private int minRockPlanetRange = 100;
     private int maxRockPlanetRange = 150;
     private int RockPlanetRangeIncr;
 
-    private const int minNumMoonsPerRockPlanet = 0;
-    private const int maxNumMoonsPerRockPlanet = 2;
+    private const int minNumMoonsPerRockPlanet = 1;
+    private const int maxNumMoonsPerRockPlanet = 4;
     private int minRockMoonRange = 20;
     private int maxRockMoonRange = 30;
     private int RockMoonRangeIncr;
 
-    private const int minNumGasGiants = 0;
-    private const int maxNumGasGiants = 6;
+    private const int minNumGasGiants = 1;
+    private const int maxNumGasGiants = 8;
     private int minGasGiantRange = 300;
     private int maxGasGiantRange = 750;
     private int GasGiantRangeIncr;
 
     private const int minNumMoonsPerGG = 1;
-    private const int maxNumMoonsPerGG = 8;
+    private const int maxNumMoonsPerGG = 27 ;
     private int minGGMoonRange = 10;
     private int maxGGMoonRange = 25;
     private int GGMoonRangeIncr;
