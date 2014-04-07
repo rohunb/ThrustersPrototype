@@ -66,7 +66,7 @@ public class AudioEngine : MonoBehaviour {
 	void Update () {
 
 		//checkAudio();
-		StartCoroutine("checkQueue");
+		//StartCoroutine("checkQueue");
 
 		if(Application.loadedLevelName == "MainMenu") {
 			if(!isSfxPlaying) {
@@ -192,22 +192,24 @@ public class AudioEngine : MonoBehaviour {
 		Debug.Log("Ship Volume is at:" + _shipVolume);
 	}
 
-	public IEnumerator checkQueue() {
-		Debug.Log("Running Queue");
-		if (queueASource.Count != 0) {
-			if(!queueASource.Peek().isPlaying){
-				queueASource.Peek().PlayOneShot(queueASource.Peek().clip);
-				Debug.Log("Play");
-	
-				yield return new WaitForSeconds(queueASource.Peek().clip.length);
-				queueASource.Peek().Stop();
-				Destroy(queueASource.Peek());
-				queueASource.Dequeue();
-				Debug.Log("Deqeue");
-			
-		}
-	}
-	}
+	//public IEnumerator checkQueue() 
+//	{
+//		Debug.Log("Running Queue");
+//		if (queueASource.Count != 0) 
+//		{
+//			if(!queueASource.Peek().isPlaying)
+//			{
+//				queueASource.Peek().PlayOneShot(queueASource.Peek().clip);
+//				Debug.Log("Play");
+//	
+//				yield return new WaitForSeconds(queueASource.Peek().clip.length);
+//				queueASource.Peek().Stop();
+//				Destroy(queueASource.Peek());
+//				queueASource.Dequeue();
+//				Debug.Log("Deqeue");			
+//			}
+//		}
+//	}
 
 	public void checkAudio() {
 		Debug.Log("Running Queue");

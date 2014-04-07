@@ -32,7 +32,8 @@ public class Weapon : MonoBehaviour {
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
             //movableGun.LookAt(mousePos);
-            transform.LookAt(mousePos);
+            //transform.LookAt(mousePos);
+			transform.rotation = SixenseInput.Controllers[1].Rotation;
 
         }
     }
