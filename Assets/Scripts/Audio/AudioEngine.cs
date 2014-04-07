@@ -196,46 +196,36 @@ public class AudioEngine : MonoBehaviour {
 		Debug.Log("Running Queue");
 		if (queueASource.Count != 0) {
 			if(!queueASource.Peek().isPlaying){
-				queueASource.Peek().Play();
+				queueASource.Peek().PlayOneShot(queueASource.Peek().clip);
 				Debug.Log("Play");
+	
 				yield return new WaitForSeconds(queueASource.Peek().clip.length);
+				queueASource.Peek().Stop();
 				Destroy(queueASource.Peek());
 				queueASource.Dequeue();
 				Debug.Log("Deqeue");
-			}
+			
 		}
-
-//		if (queueASource.Count != 0) {
-//			queueASource.Peek().Play();
-//			Debug.Log("Play");
-//			yield return new WaitForSeconds(queueASource.Peek().clip.length);
-//			queueASource.Dequeue();
-//		}
-//		foreach (AudioSource aS in queueASource) {
-//			aS.Play();
-//			Debug.Log("playing audio" + aS.clip.length);
-//			yield return new WaitForSeconds(aS.clip.length);
-//			queueASource.Remove(aS);
-//		}
+	}
 	}
 
-//	public void checkAudio() {
-//		if (queueASource.Count != 0) {
-//			if(!queueASource.Peek().isPlaying){
-//				queueASource.Peek().PlayOneShot(queueASource.Peek().clip);
-//				Debug.Log("Play");
-//				Debug.Log(queueASource.Peek());
-//				audioPlay = true;
+	public void checkAudio() {
+		Debug.Log("Running Queue");
+		if (queueASource.Count != 0) {
+			if(!queueASource.Peek().isPlaying){
+				queueASource.Peek().PlayOneShot(queueASource.Peek().clip);
+				Debug.Log("Play");
+				Debug.Log(queueASource.Peek().audio.time);
+			
+				//queueASource.Peek().Stop();
 //				Destroy(queueASource.Peek());
 //				queueASource.Dequeue();
 //				Debug.Log("Deqeue");
-//			} 
-//
-////			else if(queueASource.Peek().isPlaying && queueASource.Peek().clip.length == 0.0) {
-////				Destroy(queueASource.Peek());
-////				queueASource.Dequeue();
-////				Debug.Log("Deqeue");
-////			}
-//		}
-//	}
+			
+			}
+			Destroy(queueASource.Peek());
+			queueASource.Dequeue();
+			Debug.Log("Deqeue");
+		}
+	}
 }
