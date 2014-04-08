@@ -22,7 +22,7 @@ public class crosshair : MonoBehaviour {
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit, Mathf.Infinity,1<<10))
         {
-            screenHitPos = transform.InverseTransformPoint(hit.point);
+            screenHitPos = weapon.InverseTransformPoint(hit.point);
             //Debug.Log(screenHitPos);
         }
 		if (Camera.main)
@@ -33,21 +33,25 @@ public class crosshair : MonoBehaviour {
 			Ray botLeft = Camera.main.ViewportPointToRay(new Vector3(0, 0, 0));
 
 			Debug.DrawRay(topLeft.origin,topLeft.direction*10000f,Color.red);
-			Debug.DrawRay(topRight.origin,topRight.direction*10000f,Color.red);
-			Debug.DrawRay(botLeft.origin,botLeft.direction*10000f,Color.red);
+			Debug.DrawRay(topRight.origin,topRight.direction*10000f,Color.blue);
+			Debug.DrawRay(botLeft.origin,botLeft.direction*10000f,Color.green);
 			float left, right, top, bottom;
 			
 			Physics.Raycast(topLeft, out hit, Mathf.Infinity, 1 << 10);
-			left = hit.point.x;
-			top = hit.point.y;
+            //left = hit.point.x;
+            //top = hit.point.y;
+            left = weapon.InverseTransformPoint(hit.point).x;
+            top = weapon.InverseTransformPoint(hit.point).y;
 
 			
 			
 			Physics.Raycast(topRight, out hit, Mathf.Infinity, 1 << 10);
-			right = hit.point.x;
+			//right = hit.point.x;
+            right = weapon.InverseTransformPoint(hit.point).x;
 			
 			Physics.Raycast(botLeft, out hit, Mathf.Infinity, 1 << 10);
 			bottom = hit.point.y;
+            bottom = weapon.InverseTransformPoint(hit.point).y;
 			
 			float screenWidth = right - left;
 			float screenHeight = top -bottom;
