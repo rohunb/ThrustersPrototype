@@ -7,7 +7,7 @@ public class Weapon_Lasers : Weapon
     void Start()
     {
         weaponType = WeaponType.Primary;
-        Debug.Log("start");
+
     }
     public override void Init()
     {

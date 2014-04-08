@@ -2,40 +2,84 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PersistentInventory : MonoBehaviour {
-    
-    public List<Weapon> availableWeapons;
-    public List<Weapon> equippedWeaponsList;
+public class PersistentInventory : MonoBehaviour
+{
+    //public List<Weapon> availableWeapons;
+    //public List<Weapon> equippedWeaponsList;
     public int numberOfHardpoints = 4;
-    public Weapon[] equippedWeapons;
+    //public Weapon[] equippedWeapons;
+
+    public GameObject laser;
+    public GameObject railgun;
+    public GameObject missile;
+    public GameObject clusterMissile;
+    public GameObject torpedo;
+    public GameObject miningLaser;
+
+    public List<string> availableWeapons;
+    public string[] equippedWeapons;
 
 
-	// Use this for initialization
+    /*
+    Laser Cannon
+    Mining Laser
+    Missile Launcher
+    Railgun
+    Torpedo Launcher
+     */
+
+	
 	void Start () {
-        equippedWeapons = new Weapon[numberOfHardpoints];
-        int i = 0;
-        //for (int i = 0; i < equippedWeaponsList.Count; i++)
-        while(i<equippedWeaponsList.Count)
-        {
-            equippedWeapons[i] = equippedWeaponsList[i];
-            i++;
-        }
-        
+        availableWeapons = new List<string>();
+        equippedWeapons = new string[numberOfHardpoints];
+        //equippedWeapons = new Weapon[numberOfHardpoints];
+        //int i = 0;
+        //////for (int i = 0; i < equippedWeaponsList.Count; i++)
+        //while (i < equippedWeaponsList.Count)
+        //{
+        //    equippedWeapons[i] = equippedWeaponsList[i];
+        //    i++;
+        //}
+        //equippedWeapons[0] = "Laser Cannon";
+        //equippedWeapons[1] = "Railgun";
+        Debug.Log("start persistent");
+        equippedWeapons[0] = "Mining Laser";
+        equippedWeapons[1] = "Mining Laser";
+        equippedWeapons[2] = "Mining Laser";
+        equippedWeapons[3] = "Mining Laser";
+        //for (int i = 1; i < numberOfHardpoints; i++)
+        //{
+        //    equippedWeapons[i] = "";
+        //}
+
 
 	}
-    void OnLevelWasLoaded(int level)
-    {
-        if (Application.loadedLevelName == "GameScene" || Application.loadedLevelName == "DockedScene")
-        {
-            int i = 0;
-            //for (int i = 0; i < equippedWeaponsList.Count; i++)
-            while (i < equippedWeaponsList.Count)
-            {
-                equippedWeapons[i] = equippedWeaponsList[i];
-                i++;
-            }
-        }
-    }
+    //void OnLevelWasLoaded(int level)
+    //{
+    //    if (Application.loadedLevelName == "GameScene" || Application.loadedLevelName == "DockedScene")
+    //    {
+    //        int i = 0;
+    //        //for (int i = 0; i < equippedWeaponsList.Count; i++)
+    //        while (i < equippedWeaponsList.Count)
+    //        {
+    //            equippedWeapons[i] = equippedWeaponsList[i];
+    //            i++;
+    //        }
+    //    }
+    //}
+    //public void SaveInventory(Weapon[] _equippedWeapons, List<Weapon> _availableWeapons)
+    //{
+    //    equippedWeapons = _equippedWeapons;
+    //    availableWeapons = _availableWeapons;
+    //    foreach (Weapon weapon in equippedWeapons)
+    //    {
+    //        weapon.transform.parent = transform;
+    //    }
+    //    foreach (Weapon weapon in availableWeapons)
+    //    {
+    //        weapon.transform.parent = transform;
+    //    }
+    //}
 	// Update is called once per frame
 	//void Update () {
         //for (int i = 0; i < equippedWeapons.Length; i++)
