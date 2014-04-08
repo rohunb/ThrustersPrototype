@@ -14,7 +14,15 @@ public class PlayerInventory : MonoBehaviour
     public Transform inventoryLoc;
     public Transform weaponTransform;
 
+    public GameObject laser;
+    public GameObject railgun;
+    public GameObject missile;
+    public GameObject clusterMissile;
+    public GameObject torpedo;
+    public GameObject miningLaser;
+
     PersistentInventory godInventory;
+    GameObject god;
 
     //inventory GUI
     private bool displayInventory = false;
@@ -33,47 +41,174 @@ public class PlayerInventory : MonoBehaviour
 
     void Awake()
     {
-        godInventory = GameObject.Find("GOD").GetComponent<PersistentInventory>();
+        god = GameObject.Find("GOD");
+        godInventory = god.GetComponent<PersistentInventory>();
 
     }
     void Start()
     {
 
         credits = 400;
-        availableWeapons = godInventory.availableWeapons;
+        //availableWeapons = godInventory.availableWeapons;
 
         equippedWeapons = new Weapon[numberOfHardpoints];
 
         equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numberOfHardpoints * 30);
-        availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
+        LoadInventory();
+        //availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
 
+        //foreach (Weapon weapon in availableWeapons)
+        //{
+        //    weapon.transform.position = inventoryLoc.position;
+        //    weapon.GetComponent<Weapon>().enabled = false;
+        //    weapon.origin = gameObject;
+        //}
+        //for (int i = 0; i < equippedWeapons.Length; i++)
+        //{
+
+        //    if (!equippedWeapons[i] && godInventory.equippedWeapons[i])
+        //    {
+        //        GameObject weaponObj = Instantiate(godInventory.equippedWeapons[i].gameObject, hardPoints[i].position, hardPoints[i].rotation) as GameObject;
+        //        Weapon weapon = weaponObj.GetComponent<Weapon>();
+        //        weapon.Init();
+        //        weapon.origin = gameObject;
+        //        equippedWeapons[i] = weapon;
+        //        weapon.transform.parent = weaponTransform;
+        //        weapon.transform.position = hardPoints[i].position;
+        //        //weapon.enabled = true;
+
+        //    }
+        //}
+
+        //foreach (Weapon weapon in availableWeapons)
+        //{
+        //    weapon.origin = gameObject;
+        //}
+    }
+    void SaveInventory()
+    {
+        //godInventory.equippedWeapons = equippedWeapons;
+        //godInventory.availableWeapons = availableWeapons;
+
+        //Debug.Log("save inventory");
+        //Debug.Log(Application.loadedLevelName);
+        //Debug.Log(gameObject.name);
+        //godInventory.availableWeapons.Clear();
+        //foreach (Weapon weapon in availableWeapons)
+        //{
+        //    GameObject wpnObj = Instantiate(weapon.gameObject) as GameObject;
+        //    //wpnObj.transform.parent = godInventory.gameObject.transform;
+        //    wpnObj.transform.parent = god.transform;
+        //    //wpnObj.transform.position = Vector3.zero;
+        //    godInventory.availableWeapons.Add(wpnObj.GetComponent<Weapon>());
+        //}
+        //godInventory.equippedWeaponsList.Clear();
+        //for (int i = 0; i < equippedWeapons.Length; i++)
+        //{
+        //    if (equippedWeapons[i])
+        //    {
+        //        GameObject wpnObj = Instantiate(equippedWeapons[i].gameObject) as GameObject;
+        //        wpnObj.transform.parent = god.transform;
+        //        wpnObj.transform.position = Vector3.zero;
+        //        godInventory.equippedWeapons[i] = (wpnObj.GetComponent<Weapon>());
+        //    }
+        //    else
+        //    {
+        //        godInventory.equippedWeapons[i] = null;
+        //    }
+        //}
+        //godInventory.equippedWeapons = equippedWeapons;
+        //godInventory.availableWeapons = availableWeapons;
+
+        //godInventory.SaveInventory(equippedWeapons, availableWeapons);
+
+        godInventory.availableWeapons.Clear();
         foreach (Weapon weapon in availableWeapons)
         {
-            weapon.transform.position = inventoryLoc.position;
-            weapon.GetComponent<Weapon>().enabled = false;
-            weapon.origin = gameObject;
+            godInventory.availableWeapons.Add(weapon.wpnName);
         }
-        for (int i = 0; i < equippedWeapons.Length; i++)
-        {
 
-            if (!equippedWeapons[i] && godInventory.equippedWeapons[i])
+        for (int i = 0; i < numberOfHardpoints; i++)
+        {
+            //Debug.Log(equippedWeapons[i].name);
+            if(equippedWeapons[i].gameObject)
             {
-                GameObject weaponObj = Instantiate(godInventory.equippedWeapons[i].gameObject, hardPoints[i].position, hardPoints[i].rotation) as GameObject;
+                //Debug.Log("Saving to "+i+" " +equippedWeapons[i].wpnName);
+                godInventory.equippedWeapons[i] = equippedWeapons[i].wpnName;
+            }
+            else
+            {
+                //Debug.Log("Saving to " + i + "none");
+                godInventory.equippedWeapons[i] = "";
+            }
+        }
+
+    }
+    void LoadInventory()
+    {
+        //availableWeapons = godInventory.availableWeapons;
+        availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
+
+        //foreach (Weapon weapon in godInventory.availableWeapons)
+        //{
+        //    GameObject weaponObj = Instantiate(weapon.gameObject, inventoryLoc.position, inventoryLoc.rotation) as GameObject;
+        //    weaponObj.transform.parent = weaponTransform;
+        //    weaponObj.transform.position = Vector3.zero;
+        //    Weapon wpn = weapon.GetComponent<Weapon>();
+        //    wpn.enabled = false;
+        //    wpn.origin = gameObject;
+        //    availableWeapons.Add(wpn);
+
+        //}
+        //for (int i = 0; i < equippedWeapons.Length; i++)
+        //{
+
+        //    if (godInventory.equippedWeapons[i])
+        //    {
+        //        GameObject weaponObj = Instantiate(godInventory.equippedWeapons[i].gameObject, hardPoints[i].position, hardPoints[i].rotation) as GameObject;
+        //        Weapon weapon = weaponObj.GetComponent<Weapon>();
+        //        weapon.Init();
+        //        weapon.origin = gameObject;
+        //        equippedWeapons[i] = weapon;
+        //        weapon.transform.parent = weaponTransform;
+        //        weapon.transform.position = hardPoints[i].position;
+        //        //weapon.enabled = true;
+        //    }
+        //    else
+        //    {
+        //        equippedWeapons[i] = null;
+        //    }
+        //}
+        foreach (string wpnName in godInventory.availableWeapons)
+        {
+            GameObject weaponObj = Instantiate(GetWpnObj(wpnName)) as GameObject;
+            weaponObj.transform.parent = weaponTransform;
+            weaponObj.transform.position = Vector3.zero;
+            Weapon wpn = weaponObj.GetComponent<Weapon>();
+            wpn.enabled = false;
+            wpn.origin = gameObject;
+            availableWeapons.Add(wpn);
+        }
+        for (int i = 0; i < numberOfHardpoints; i++)
+        {
+            if(godInventory.equippedWeapons[i]!="")
+            {
+                GameObject weaponObj = Instantiate(GetWpnObj(godInventory.equippedWeapons[i])) as GameObject;
                 Weapon weapon = weaponObj.GetComponent<Weapon>();
                 weapon.Init();
                 weapon.origin = gameObject;
                 equippedWeapons[i] = weapon;
                 weapon.transform.parent = weaponTransform;
                 weapon.transform.position = hardPoints[i].position;
+                weapon.transform.rotation = hardPoints[i].rotation;
                 //weapon.enabled = true;
-
+            }
+            else
+            {
+                equippedWeapons[i] = null;
             }
         }
 
-        //foreach (Weapon weapon in availableWeapons)
-        //{
-        //    weapon.origin = gameObject;
-        //}
     }
     void OnDisable()
     {
@@ -82,8 +217,37 @@ public class PlayerInventory : MonoBehaviour
         //{
         //    GameObject wpnObj = Instantiate(weapon.gameObject)
         //}
-        godInventory.equippedWeapons = equippedWeapons;
-        godInventory.availableWeapons = availableWeapons;
+        //godInventory.equippedWeapons = equippedWeapons;
+        //godInventory.availableWeapons = availableWeapons;
+        SaveInventory();
+    }
+    GameObject GetWpnObj(string wpnName)
+    {
+        /*
+    Laser Cannon
+    Mining Laser
+    Missile Launcher
+    Railgun
+    Torpedo Launcher
+     */
+
+        switch (wpnName)
+        {
+            case "Laser Cannon":
+                return laser;
+            case "Railgun":
+                return railgun;
+            case "Missile Launcher":
+                return missile;
+            case "Cluster Missiles":
+                return clusterMissile;
+            case "Torpedo Launcher":
+                return torpedo;
+            case "Mining Laser":
+                return miningLaser;
+            default:
+                return laser;
+        }
     }
     public int GetCredits()
     {
@@ -100,13 +264,10 @@ public class PlayerInventory : MonoBehaviour
         else
             return false;
     }
-    //this is called from the persistent inventory when the scene loads
-    public void EquipWeaponAtStart(GameObject wpnObj)
-    {
-
-    }
+    
     public void EquipWeaponFromHold(int hardpointIndex, int availableWeaponsIndex)
     {
+        Debug.Log(hardpointIndex);
         if (equippedWeapons[hardpointIndex])
         {
             //equippedWeapons[hardpointSelected].gameObject.SetActive(false);
@@ -119,7 +280,7 @@ public class PlayerInventory : MonoBehaviour
         equippedWeapons[hardpointIndex] = availableWeapons[availableWeaponsIndex];
         equippedWeapons[hardpointIndex].transform.position = hardPoints[hardpointIndex].position;
         equippedWeapons[hardpointIndex].transform.rotation = hardPoints[hardpointIndex].rotation;
-        //equippedWeapons[hardpointSelected].gameObject.SetActive(true);
+        equippedWeapons[hardpointSelected].gameObject.SetActive(true);
         equippedWeapons[hardpointIndex].gameObject.GetComponent<Weapon>().enabled = true;
         availableWeapons.Remove(availableWeapons[availableWeaponsIndex]);
     }
@@ -127,8 +288,8 @@ public class PlayerInventory : MonoBehaviour
     {
         Weapon weapon = _weapon.GetComponent<Weapon>();
         weapon.transform.parent = weaponTransform;
-        weapon.transform.localPosition = Vector3.zero;
-        weapon.transform.localRotation = Quaternion.identity;
+        weapon.transform.position = Vector3.zero;
+        weapon.transform.rotation = Quaternion.identity;
 
         availableWeapons.Add(weapon);
 

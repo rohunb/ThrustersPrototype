@@ -14,7 +14,7 @@ public class SpaceStation : MonoBehaviour {
 	void Update () {
 		if (displayVendorPrompt && Input.GetKeyDown(KeyCode.F))
 		{
-			print("Entering Dock Scene");
+
 			ScreenFader.EndScene();
 			GOD.cameraPos = GameObject.Find ("BackgroundCamera").transform.position;
 			GOD.cameraRot = GameObject.Find ("BackgroundCamera").transform.rotation;

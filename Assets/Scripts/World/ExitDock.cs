@@ -19,7 +19,7 @@ public class ExitDock : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.Escape)) 
 		{
-			Application.LoadLevel("TestFTLScene");
+			//Application.LoadLevel("TestFTLScene");
 		}
 	}
     void OnGUI()

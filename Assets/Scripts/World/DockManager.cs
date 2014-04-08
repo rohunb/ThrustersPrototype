@@ -227,8 +227,6 @@ public class DockManager : MonoBehaviour
     {
         string buttonText;
         
-        Debug.Log("playerInv.equippedWeapons.Length: " + playerInv.equippedWeapons.Length);
-
         for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
         {
             GUI.Label(new Rect(5, 20 + i * 20, 120, 20), "" + (i + 1) + ": ");
