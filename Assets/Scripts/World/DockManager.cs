@@ -205,6 +205,17 @@ public class DockManager : MonoBehaviour
                 PlayerCanMove(true);
             }
         }
+		if (showMissionTerm)
+		{
+			vendorWindow = GUI.Window(2, vendorWindow, VendorWindow, "Mission Terminal");
+			//availableWindow = GUI.Window(1, availableWindow, AvailableWindow, "Cargo Hold");
+			if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height - 100, 100, 50), "Exit Terminal"))
+			{
+				GOD.audioengine.playSFX("TerminalExit");
+				ExitAllTerminals();
+				PlayerCanMove(true);
+			}
+		}
         if (showPopup)
         {
             //GUI.Box(popupRect, popUpText);
