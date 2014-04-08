@@ -6,6 +6,7 @@ public class crosshair : MonoBehaviour {
     float yMin;
     public Texture2D crosshairTex;
     public Transform weapon;
+
 	void OnGUI()
     {
         
@@ -22,19 +23,25 @@ public class crosshair : MonoBehaviour {
         if(Physics.Raycast(ray, out hit, Mathf.Infinity,1<<10))
         {
             screenHitPos = transform.InverseTransformPoint(hit.point);
-            Debug.Log(screenHitPos);
+            //Debug.Log(screenHitPos);
         }
 		if (Camera.main)
 		{
+			//Debug.Log ("holyshit!!! I HAZ camera!!");
 			Ray topLeft = Camera.main.ViewportPointToRay(new Vector3(0, 1, 0));
 			Ray topRight = Camera.main.ScreenPointToRay(new Vector3(Screen.width, Screen.height - 1, 0));
 			Ray botLeft = Camera.main.ViewportPointToRay(new Vector3(0, 0, 0));
 
+			Debug.DrawRay(topLeft.origin,topLeft.direction*10000f,Color.red);
+			Debug.DrawRay(topRight.origin,topRight.direction*10000f,Color.red);
+			Debug.DrawRay(botLeft.origin,botLeft.direction*10000f,Color.red);
 			float left, right, top, bottom;
 			
 			Physics.Raycast(topLeft, out hit, Mathf.Infinity, 1 << 10);
 			left = hit.point.x;
 			top = hit.point.y;
+
+			
 			
 			Physics.Raycast(topRight, out hit, Mathf.Infinity, 1 << 10);
 			right = hit.point.x;
@@ -44,14 +51,14 @@ public class crosshair : MonoBehaviour {
 			
 			float screenWidth = right - left;
 			float screenHeight = top -bottom;
-			//Debug.Log(screenHeight+" , "+ screenWidth);
-			//.Log("left right top, bottom: " + new Vector4(left, right, top, bottom));
+			Debug.Log(screenHeight+" , "+ screenWidth);
+			Debug.Log("left right top, bottom: " + new Vector4(left, right, top, bottom));
 			
 			xMin = (screenWidth/2+screenHitPos.x) / screenWidth * Screen.width;
 			yMin = (screenHeight/2-screenHitPos.y) / screenHeight * Screen.height;
 			//xMin = Screen.width / 2;
 			//yMin = Screen.height / 2;
-			//Debug.Log("xMin, yMin: "+new Vector2(xMin, yMin));
+			Debug.Log("xMin, yMin: "+new Vector2(xMin, yMin));
 		}
 		
 		

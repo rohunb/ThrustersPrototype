@@ -18,10 +18,16 @@ public class Weapon : MonoBehaviour {
     public int cost = 40;
     public enum WeaponType { Primary,Secondary,Tertiary,Utility}
     public WeaponType weaponType;
-
+	public Texture2D crosshairTex;
     public Transform movableGun;
 
-    public virtual void Init() { }
+    public virtual void Init() 
+	{ 
+//		crosshair xhair = gameObject.AddComponent<crosshair>();
+//		xhair.crosshairTex = crosshairTex;
+//		xhair.weapon = transform;
+
+	}
     public virtual void Fire()
     {
         
