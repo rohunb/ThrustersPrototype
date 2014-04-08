@@ -34,7 +34,7 @@ public class Weapon : MonoBehaviour {
     }
     protected virtual void Update()
     {
-        if (lookAtMouse)// && Camera.main)
+        if (lookAtMouse && Camera.main)
         {
 			if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
 			{
@@ -47,8 +47,8 @@ public class Weapon : MonoBehaviour {
 			}
 			else
 			{
-				//Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
-				//transform.LookAt(mousePos);
+				Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
+				transform.LookAt(mousePos);
 			}
         }
     }
