@@ -27,6 +27,7 @@ public class DockManager : MonoBehaviour
     Rect equippedWindow;
     Rect availableWindow;
     Rect vendorWindow;
+	Rect missionWindow;
     Rect vendorScrollRect;
     Rect popupRect;
     Vector2 scrollPosition = Vector2.zero;
@@ -44,6 +45,7 @@ public class DockManager : MonoBehaviour
     int vendorWpnSelected;
 
     PersistentInventory godInventory;
+	PersistentMission godMission;
 
     void Awake()
     {
@@ -64,6 +66,7 @@ public class DockManager : MonoBehaviour
         equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numHardpoints * 30);
         vendorWindow = new Rect(50, Screen.height / 2 - 200, 200, /*vendorWeapons.Count * 30*/ 400);
         vendorScrollRect = new Rect(2, 20, 200, /*vendorWeapons.Count * 30*/ 400);
+		missionWindow = new Rect(50, Screen.height / 2 - 200, 200, 200);
         //availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 10+playerInv.availableWeapons.Count * 20);
         popupRect = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100);
         weaponOutlines = new GameObject[playerInv.numberOfHardpoints];
@@ -207,7 +210,8 @@ public class DockManager : MonoBehaviour
         }
 		if (showMissionTerm)
 		{
-			vendorWindow = GUI.Window(2, vendorWindow, VendorWindow, "Mission Terminal");
+			missionWindow = GUI.Window(2, missionWindow, MissionWindow, "Missions");
+			//missionWindow = GUI.Window(2, missionWindow, MissionWindow, "Mission Terminal");
 			//availableWindow = GUI.Window(1, availableWindow, AvailableWindow, "Cargo Hold");
 			if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height - 100, 100, 50), "Exit Terminal"))
 			{
@@ -274,6 +278,10 @@ public class DockManager : MonoBehaviour
             }
         }
     }
+	void MissionWindow(int windowID)
+	{
+		GUI.Label(new Rect(5, 20, 120, 20), "Aval Missions: ");
+	}
     void PopupWindow(int windowID)
     {
         GUI.Label(new Rect(10, 15, popupRect.width, 120), popUpText);
@@ -323,6 +331,7 @@ public class DockManager : MonoBehaviour
     public void ShowMissionTerminal()
     {
         showMissionTerm = true;
+		PlayerCanMove(false);
     }
     public void ShowVendorTerminal()
     {

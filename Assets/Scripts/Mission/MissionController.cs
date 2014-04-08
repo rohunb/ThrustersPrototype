@@ -13,6 +13,9 @@ public class MissionController : MonoBehaviour {
         DistressCall,
         DestroyStructure
     }
+
+	PersistentMission godMission;
+
     public MissionType missionType;
     public Transform waypoint;
     public Vector3 enemySpawnPoint;

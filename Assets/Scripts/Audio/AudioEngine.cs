@@ -10,11 +10,9 @@ public class AudioEngine : MonoBehaviour {
 	private static float _beforeVolume;
 	private static bool _mute;
 
-	public Queue<AudioSource> queueASource;
 	private AudioSource audioSource;
 	private AudioSource audioSource1;
 	private AudioSource audioSource2;
-	private AudioSource newAudioSource;
 
 	//Sound Effect shit
 	private AudioClip currentSFX;
@@ -42,7 +40,6 @@ public class AudioEngine : MonoBehaviour {
 		isSfxPlaying2 = false;
 		isSfxPlaying3 = false;
 		AudioListener.volume = _volume;
-		queueASource = new Queue<AudioSource>();
 		AudioSource[] aSource = GetComponents<AudioSource>();
 		audioSource = aSource[0];
 		audioSource1 = aSource[1];
@@ -65,11 +62,11 @@ public class AudioEngine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//checkAudio();
-		//StartCoroutine("checkQueue");
-
 		if(Application.loadedLevelName == "MainMenu") {
 			if(!isSfxPlaying) {
+				isSfxPlaying1 = false;
+				isSfxPlaying2 = false;
+				isSfxPlaying3 = false;
 				bgSFX = Resources.Load<AudioClip>("Audio/Background/IntroBG");
 				audioSource1.loop = true;
 				audioSource1.clip = bgSFX;
@@ -78,6 +75,11 @@ public class AudioEngine : MonoBehaviour {
 			}
 		} else if(Application.loadedLevelName == "GameScene") {
 			if(!isSfxPlaying1) {
+				isSfxPlaying = false;
+				isSfxPlaying2 = false;
+				isSfxPlaying3 = false;
+				audioSource1.Stop();
+				audioSource2.Stop();
 				bgSFX = Resources.Load<AudioClip>("Audio/Background/InGameBG");
 				shipSFX = Resources.Load<AudioClip>("Audio/Effects/Thrusters");
 				audioSource1.loop = true;
@@ -90,22 +92,28 @@ public class AudioEngine : MonoBehaviour {
 			}
 		} else if(Application.loadedLevelName == "DockedScene") {
 			if(!isSfxPlaying2) {
+				isSfxPlaying = false;
+				isSfxPlaying1 = false;
+				isSfxPlaying3 = false;
+				audioSource1.Stop();
+				audioSource2.Stop();
 				bgSFX = Resources.Load<AudioClip>("Audio/Background/DockBg");
 				audioSource1.loop = true;
 				audioSource1.clip = bgSFX;
 				audioSource1.Play();
-			//	audioSource1.Stop();
-				audioSource2.Stop();
 				isSfxPlaying2 = true;
 			}
 		} else if(Application.loadedLevelName == "FTLScene") {
 			if(!isSfxPlaying3) {
+				isSfxPlaying = false;
+				isSfxPlaying1 = false;
+				isSfxPlaying3 = false;
+				audioSource1.Stop();
+				audioSource2.Stop();
 				bgSFX = Resources.Load<AudioClip>("Audio/Background/FTLBg");
 				audioSource1.loop = true;
 				audioSource1.clip = bgSFX;
 				audioSource1.Play();
-			//	audioSource1.Stop();
-				audioSource2.Stop();
 				isSfxPlaying3 = true;
 			}
 		}
@@ -123,7 +131,6 @@ public class AudioEngine : MonoBehaviour {
 				isVolumeUp();
 			}
 		}
-
 	}
 
 	public void isVolumeDown() {
@@ -168,15 +175,7 @@ public class AudioEngine : MonoBehaviour {
 	public void playSFX(string snd) {
 		if (audionames.ContainsKey(snd)) {
 			currentSFX = audionames[snd];
-			//audioSource.PlayOneShot(currentSFX);
-			//Debug.Log("Current SFX name:" + currentSFX);
-			newAudioSource = gameObject.AddComponent("AudioSource") as AudioSource;
-			newAudioSource.playOnAwake = false;
-			newAudioSource.loop = false;
-			AudioClip newAudioClip = currentSFX;
-			newAudioSource.clip = currentSFX;
-			queueASource.Enqueue(newAudioSource);
-			//Debug.Log("Shoot");
+			audioSource.PlayOneShot(currentSFX);
 			//Debug.Log("Audio File played");
 		} else {
 			Debug.Log("Audio File failed to play!");
@@ -190,44 +189,5 @@ public class AudioEngine : MonoBehaviour {
 		Debug.Log("SFX Volume is at:" + _sfxVolume);
 		Debug.Log("Music Volume is at:" + _musicVolume);
 		Debug.Log("Ship Volume is at:" + _shipVolume);
-	}
-
-	//public IEnumerator checkQueue() 
-//	{
-//		Debug.Log("Running Queue");
-//		if (queueASource.Count != 0) 
-//		{
-//			if(!queueASource.Peek().isPlaying)
-//			{
-//				queueASource.Peek().PlayOneShot(queueASource.Peek().clip);
-//				Debug.Log("Play");
-//	
-//				yield return new WaitForSeconds(queueASource.Peek().clip.length);
-//				queueASource.Peek().Stop();
-//				Destroy(queueASource.Peek());
-//				queueASource.Dequeue();
-//				Debug.Log("Deqeue");			
-//			}
-//		}
-//	}
-
-	public void checkAudio() {
-		Debug.Log("Running Queue");
-		if (queueASource.Count != 0) {
-			if(!queueASource.Peek().isPlaying){
-				queueASource.Peek().PlayOneShot(queueASource.Peek().clip);
-				Debug.Log("Play");
-				Debug.Log(queueASource.Peek().audio.time);
-			
-				//queueASource.Peek().Stop();
-//				Destroy(queueASource.Peek());
-//				queueASource.Dequeue();
-//				Debug.Log("Deqeue");
-			
-			}
-			Destroy(queueASource.Peek());
-			queueASource.Dequeue();
-			Debug.Log("Deqeue");
-		}
 	}
 }
