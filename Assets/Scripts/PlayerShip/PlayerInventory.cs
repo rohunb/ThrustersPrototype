@@ -54,6 +54,7 @@ public class PlayerInventory : MonoBehaviour
         equippedWeapons = new Weapon[numberOfHardpoints];
 
         equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numberOfHardpoints * 30);
+
         LoadInventory();
         //availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
 
@@ -131,21 +132,23 @@ public class PlayerInventory : MonoBehaviour
         for (int i = 0; i < numberOfHardpoints; i++)
         {
             //Debug.Log(equippedWeapons[i].name);
-            if(equippedWeapons[i].gameObject)
+            if(equippedWeapons[i]==null)
             {
-                //Debug.Log("Saving to "+i+" " +equippedWeapons[i].wpnName);
-                godInventory.equippedWeapons[i] = equippedWeapons[i].wpnName;
+				//Debug.Log("Saving to " + i + "none");
+				godInventory.equippedWeapons[i] = "";
+
             }
             else
             {
-                //Debug.Log("Saving to " + i + "none");
-                godInventory.equippedWeapons[i] = "";
-            }
-        }
-
-    }
-    void LoadInventory()
+				//Debug.Log("Saving to "+i+" " +equippedWeapons[i].wpnName);
+				godInventory.equippedWeapons[i] = equippedWeapons[i].wpnName; 
+			}
+		}
+		
+	}
+	void LoadInventory()
     {
+		Debug.Log("loading");
         //availableWeapons = godInventory.availableWeapons;
         availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
 
@@ -193,14 +196,16 @@ public class PlayerInventory : MonoBehaviour
         {
             if(godInventory.equippedWeapons[i]!="")
             {
+				Debug.Log("creating wpn: "+godInventory.equippedWeapons[i]);
                 GameObject weaponObj = Instantiate(GetWpnObj(godInventory.equippedWeapons[i])) as GameObject;
-                Weapon weapon = weaponObj.GetComponent<Weapon>();
+				weaponObj.transform.parent = weaponTransform;
+				weaponObj.transform.position = hardPoints[i].position;
+				weaponObj.transform.rotation = hardPoints[i].rotation;
+				Weapon weapon = weaponObj.GetComponent<Weapon>();
                 weapon.Init();
                 weapon.origin = gameObject;
                 equippedWeapons[i] = weapon;
-                weapon.transform.parent = weaponTransform;
-                weapon.transform.position = hardPoints[i].position;
-                weapon.transform.rotation = hardPoints[i].rotation;
+                
                 //weapon.enabled = true;
             }
             else

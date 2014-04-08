@@ -29,25 +29,25 @@ public class ShipAttack : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
-		{
-			GameObject go = GameObject.Find("FakeMousePointer");
-			
-			go.transform.rotation = SixenseInput.Controllers[1].Rotation;
-
-			Ray rayCharles = new Ray(go.transform.position, go.transform.forward);
-			RaycastHit hit;
-			
-			bool didIHitAnything = Physics.Raycast(rayCharles, out hit);
-
-			hit.point = Camera.main.WorldToScreenPoint(hit.point);
-
-			xMin = (hit.point.x / Screen.width);
-			yMin = (hit.point.y / Screen.height);
-			
-			Debug.DrawLine(rayCharles.origin, hit.point);
-			
-		}
+//		if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
+//		{
+//			GameObject go = GameObject.Find("FakeMousePointer");
+//			
+//			go.transform.rotation = SixenseInput.Controllers[1].Rotation;
+//
+//			Ray rayCharles = new Ray(go.transform.position, go.transform.forward);
+//			RaycastHit hit;
+//			
+//			bool didIHitAnything = Physics.Raycast(rayCharles, out hit);
+//
+//			hit.point = Camera.main.WorldToScreenPoint(hit.point);
+//
+//			xMin = (hit.point.x / Screen.width);
+//			yMin = (hit.point.y / Screen.height);
+//			
+//			Debug.DrawLine(rayCharles.origin, hit.point);
+//			
+//		}
 
         if(target)
         {
@@ -180,14 +180,13 @@ public class ShipAttack : MonoBehaviour {
         {
             xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
             yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
+
+			GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
         }
         else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
         {
 
-
         }
-
-        GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
 
         GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
         GUILayout.BeginVertical();

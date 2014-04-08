@@ -11,7 +11,14 @@ public class LookAtMouse : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
-        transform.LookAt(mousePos);
-        //transform.LookAt(new Vector3(mousePos.x, mousePos.y, 100));
+
+		if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
+		{
+			transform.rotation = SixenseInput.Controllers[1].Rotation;
+		}
+		else
+		{
+			transform.LookAt(mousePos);
+		}
 	}
 }
