@@ -55,7 +55,7 @@ public class ShipAttack : MonoBehaviour {
         {
             //xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
             //yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
-
+			/*
             Vector3 screenHitPos = Vector3.zero;
             Ray ray = new Ray(targeter.position, targeter.forward);
             //Debug.DrawRay(ray.origin, ray.direction * 1000f,Color.red);
@@ -105,46 +105,110 @@ public class ShipAttack : MonoBehaviour {
                 Debug.Log("xMin, yMin: " + new Vector2(xMin, yMin));
 
             }
-            else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
-            {
+			//*/
 
-            }
-
-
-            if (target)
-            {
-                foreach (Weapon weapon in inventory.equippedWeapons)
-                {
-                    if (weapon.weaponType == Weapon.WeaponType.Secondary)
-                        weapon.target = target;
-                }
-                float distToTarget = Vector3.Distance(transform.position, target.position);
-                float minSpeed = 0;
-                int i = 0;
-                while (i < inventory.equippedWeapons.Length)
-                {
-                    if (inventory.equippedWeapons[i].weaponType == Weapon.WeaponType.Primary)
-                    {
-                        minSpeed = inventory.equippedWeapons[i].projectileSpeed;
-                        break;
-                    }
-                    i++;
-                }
-                while (i < inventory.equippedWeapons.Length)
-                {
-                    if (inventory.equippedWeapons[i].weaponType == Weapon.WeaponType.Primary
-                        && inventory.equippedWeapons[i].projectileSpeed < minSpeed)
-                    {
-                        minSpeed = inventory.equippedWeapons[i].projectileSpeed;
-                    }
-                    i++;
-                }
-                float timeToTarget = distToTarget / minSpeed;
-                targetLead = target.position + target.rigidbody.velocity * timeToTarget;
-
-            }
+            
 
         }
+		else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
+		{
+
+			Vector3 screenHitPos = Vector3.zero;
+			Ray ray = new Ray(mousePointTargeter.position, mousePointTargeter.forward);
+			Debug.DrawRay(ray.origin, ray.direction * 10000f,Color.yellow);
+			RaycastHit hit;
+			if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 10))
+			{
+				//screenHitPos = targeter.InverseTransformPoint(hit.point);
+				screenHitPos = hit.point;
+				Debug.Log(screenHitPos);
+				//Debug.Log(screenHitPos);
+			}
+			if(Camera.main)
+			{
+
+				Vector3 targetedPos = Camera.main.WorldToScreenPoint(screenHitPos);
+				xMin = targetedPos.x;
+				yMin = targetedPos.y;
+				Debug.Log("xMin, yMin: " + new Vector2(xMin, yMin));
+			}
+
+			/*
+			if (Camera.main)
+			{
+				Ray topLeft = Camera.main.ViewportPointToRay(new Vector3(0, 1, 0));
+				Ray topRight = Camera.main.ScreenPointToRay(new Vector3(Screen.width, Screen.height - 1, 0));
+				Ray botLeft = Camera.main.ViewportPointToRay(new Vector3(0, 0, 0));
+				
+				Debug.DrawRay(topLeft.origin, topLeft.direction * 10000f, Color.red);
+				Debug.DrawRay(topRight.origin, topRight.direction * 10000f, Color.blue);
+				Debug.DrawRay(botLeft.origin, botLeft.direction * 10000f, Color.green);
+				float left, right, top, bottom;
+				
+				Physics.Raycast(topLeft, out hit, Mathf.Infinity, 1 << 10);
+				//left = hit.point.x;
+				//top = hit.point.y;
+				left = targeter.InverseTransformPoint(hit.point).x;
+				top = targeter.InverseTransformPoint(hit.point).y;
+				
+				
+				
+				Physics.Raycast(topRight, out hit, Mathf.Infinity, 1 << 10);
+				//right = hit.point.x;
+				right = targeter.InverseTransformPoint(hit.point).x;
+				
+				Physics.Raycast(botLeft, out hit, Mathf.Infinity, 1 << 10);
+				bottom = hit.point.y;
+				bottom = targeter.InverseTransformPoint(hit.point).y;
+				
+				float screenWidth = right - left;
+				float screenHeight = top - bottom;
+
+				Debug.Log(screenWidth + "," + screenHeight);
+				
+				xMin = ((screenWidth / 2.0f) + screenHitPos.x) / screenWidth * Screen.width;
+				yMin = ((screenHeight / 2.0f) - screenHitPos.y) / screenHeight * Screen.height;
+				//xMin = Screen.width / 2;
+				//yMin = Screen.height / 2;
+
+				
+			}
+			*/
+		}
+
+		if (target)
+		{
+			foreach (Weapon weapon in inventory.equippedWeapons)
+			{
+				if (weapon && weapon.weaponType == Weapon.WeaponType.Secondary)
+					weapon.target = target;
+			}
+			float distToTarget = Vector3.Distance(transform.position, target.position);
+			float minSpeed = 0;
+			int i = 0;
+			while (i < inventory.equippedWeapons.Length)
+			{
+				if (inventory.equippedWeapons[i].weaponType == Weapon.WeaponType.Primary)
+				{
+					minSpeed = inventory.equippedWeapons[i].projectileSpeed;
+					break;
+				}
+				i++;
+			}
+			while (i < inventory.equippedWeapons.Length)
+			{
+				if ( inventory.equippedWeapons[i] && inventory.equippedWeapons[i].weaponType == Weapon.WeaponType.Primary
+				    && inventory.equippedWeapons[i].projectileSpeed < minSpeed)
+				{
+					minSpeed = inventory.equippedWeapons[i].projectileSpeed;
+				}
+				i++;
+			}
+			float timeToTarget = distToTarget / minSpeed;
+			targetLead = target.position + target.rigidbody.velocity * timeToTarget;
+			
+		}
+
     }
     public void FirePrimary()
     {
@@ -251,7 +315,7 @@ public class ShipAttack : MonoBehaviour {
         }
         else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
         {
-
+			GUI.DrawTexture(new Rect(xMin, Screen.height-yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
         }
 
         GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));

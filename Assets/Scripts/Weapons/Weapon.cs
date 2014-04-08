@@ -38,7 +38,7 @@ public class Weapon : MonoBehaviour {
         {
 			if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
 			{
-				Debug.Log("s");
+
 				transform.localRotation = SixenseInput.Controllers[1].Rotation;
 				//transform.rotation=Quaternion.identity;
 //				Quaternion rot = SixenseInput.Controllers[1].Rotation;

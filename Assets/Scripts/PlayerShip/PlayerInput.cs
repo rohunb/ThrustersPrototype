@@ -61,6 +61,7 @@ public class PlayerInput : MonoBehaviour {
                 {
                     inputXOne = SixenseInput.Controllers[0].JoystickX;
                     inputYOne = SixenseInput.Controllers[0].JoystickY;
+
                 }
 
                 if (inputXOne > 0.5f)
@@ -75,23 +76,62 @@ public class PlayerInput : MonoBehaviour {
 
                 if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
                 {
-                    shipMove.MoveBack(1f);
+                    //shipMove.MoveBack(1f);
+					shipMove.MoveFoward(1f);
                 }
 
                 if (SixenseInput.Controllers[1].Trigger == 1) //right trigger
                 {
-                    shipMove.MoveFoward(1f);
+                    //shipMove.MoveFoward(1f);
+					shipAttack.FirePrimary();
                 }
 
-                if (SixenseInput.Controllers[0].GetButtonDown(SixenseButtons.BUMPER))
+                if (SixenseInput.Controllers[0].GetButton(SixenseButtons.BUMPER))
                 {
-                    shipMove.MoveDown(1f);
+					shipMove.MoveBack(1f);
+                    //shipMove.MoveDown(1f);
                 }
 
-                if (SixenseInput.Controllers[1].GetButtonDown(SixenseButtons.BUMPER))
+                if (SixenseInput.Controllers[1].GetButton(SixenseButtons.BUMPER))
                 {
-                    shipMove.MoveUp(1f);
+					shipAttack.FireSecondary();
+                    //shipMove.MoveUp(1f);
                 }
+				
+				if (SixenseInput.Controllers[1].GetButton(SixenseButtons.ONE))
+				{
+
+					shipAttack.FireUtility();
+				}
+				else
+				{
+					shipAttack.StopFiringUtility();
+				}
+
+				if (SixenseInput.Controllers[0].GetButton(SixenseButtons.START))
+				{
+					shipMove.FireAfterburner();
+					
+				}
+				else
+				{
+					shipMove.StopFiringAfterburners();
+				}
+
+				if (Mathf.Abs (SixenseInput.Controllers[1].JoystickX) > 0.25)
+				{
+				shipAttack.TargetNextEnemy();
+				}
+
+				if (SixenseInput.Controllers[1].GetButton (SixenseButtons.JOYSTICK)) 
+			    {
+					shipAttack.TargetNearestEnemy();
+				}
+
+				if (SixenseInput.Controllers[1].GetButton(SixenseButtons.TWO))
+				{
+					shipAttack.FireTertiary();
+				}
 
                 if (SixenseInput.Controllers[0].Rotation.x < -0.25f)
                 {

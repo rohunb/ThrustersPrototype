@@ -55,8 +55,8 @@ public class crosshair : MonoBehaviour {
 			
 			float screenWidth = right - left;
 			float screenHeight = top -bottom;
-			Debug.Log(screenHeight+" , "+ screenWidth);
-			Debug.Log("left right top, bottom: " + new Vector4(left, right, top, bottom));
+
+			//Debug.Log("left right top, bottom: " + new Vector4(left, right, top, bottom));
 			
 			xMin = (screenWidth/2+screenHitPos.x) / screenWidth * Screen.width;
 			yMin = (screenHeight/2-screenHitPos.y) / screenHeight * Screen.height;
