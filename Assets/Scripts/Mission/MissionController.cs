@@ -14,7 +14,7 @@ public class MissionController : MonoBehaviour {
         DestroyStructure
     }
 
-	PersistentMission godMission;
+
 
     public MissionType missionType;
     public Transform waypoint;

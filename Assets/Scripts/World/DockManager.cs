@@ -44,6 +44,7 @@ public class DockManager : MonoBehaviour
     GameObject[] weapons;
     public List<GameObject> vendorWeapons;
     int vendorWpnSelected;
+	string selectedMission;
 
     PersistentInventory godInventory;
 
@@ -224,6 +225,11 @@ public class DockManager : MonoBehaviour
             //GUI.Box(popupRect, popUpText);
             popupRect = GUI.Window(3, popupRect, PopupWindow, "");
         }
+		if (showMissionPopup)
+		{
+			//GUI.Box(popupRect, popUpText);
+			popupRect = GUI.Window(3, popupRect, MissionPopupWindow, "");
+		}
     }
 
     void EquippedWindow(int windowID)
@@ -286,20 +292,11 @@ public class DockManager : MonoBehaviour
 		for (int i = 0; i < GOD.godMission.MissionName.Length; i++) {
 			if(GUI.Button(new Rect(5, 80 + i * 20, 190, 20), GOD.godMission.MissionName[i].ToString())) {
 				GOD.audioengine.playSFX("TerminalBtn");
-				showPopup = true;
-				popUpText = "Buy Weapon: ";
+				selectedMission = GOD.godMission.MissionName[i].ToString();
+				showMissionPopup = true;
+				popUpText = "<color=red>One mission at a time!</color> \n Confirm Mission: \n" + GOD.godMission.MissionName[i].ToString();
 			}
 		}
-
-//		for (int i = 0; i < playerInv.availableWeapons.Count; i++)
-//		{
-//			if (GUI.Button(new Rect(15, 43 + i * 20, 150, 20), playerInv.availableWeapons[i].wpnName))
-//			{
-//				GOD.audioengine.playSFX("TerminalBtn");
-//				attachingWeapon = true;
-//				weaponSelected = i;
-//			}
-//		}
 	}
     void PopupWindow(int windowID)
     {
@@ -325,13 +322,15 @@ public class DockManager : MonoBehaviour
 		GUI.Label(new Rect(10, 15, popupRect.width, 120), popUpText);
 		if (GUI.Button(new Rect(5, popupRect.height - 40, popupRect.width / 2 - 10, 40), "Yes"))
 		{
-			
 			GOD.audioengine.playSFX("TerminalBtnYes");
+			GOD.godMission.setMissionType(selectedMission);
 			ResetPopup();
+			Debug.Log("Set current mission to: " + selectedMission);
 		}
 		if (GUI.Button(new Rect(popupRect.width - popupRect.width / 2 + 10, popupRect.height - 40, popupRect.width / 2 - 10, 40), "No"))
 		{
 			GOD.audioengine.playSFX("TerminalBtn");
+			selectedMission = null;
 			ResetPopup();
 		}
 	}
@@ -355,6 +354,7 @@ public class DockManager : MonoBehaviour
         showMissionTerm = false;
         showVendorTerm = false;
         showPopup = false;
+		showMissionPopup = false;
     }
     public void ShowEquipTerminal()
     {
@@ -382,6 +382,7 @@ public class DockManager : MonoBehaviour
     }
     void ResetPopup()
     {
+		showMissionPopup = false;
         showPopup = false;
         popUpText = "";
     }

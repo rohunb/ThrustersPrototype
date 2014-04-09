@@ -25,6 +25,9 @@ public class PlayerMissionController : MonoBehaviour
     private GameObject specialTarget;
     private Texture2D specialTargetTexture;
     private bool showSpecialTargetBox;
+
+	private string playerMission;
+
     // Use this for initialization
     void Start()
     {
