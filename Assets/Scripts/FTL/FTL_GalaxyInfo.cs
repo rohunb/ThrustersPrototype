@@ -107,7 +107,9 @@ public class FTL_GalaxyInfo : MonoBehaviour
             starRelativePos.Add(relativeDir);
             systemRings[i].transform.position = new Vector3(relativeDir.x,2000.5f,relativeDir.y);
             //systemRings[i].transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f));
-            systemRings[i].GetComponent<SystemRing>().ringText.text = myGalaxy.poStars[i].name;
+            SystemRing systemRing = systemRings[i].GetComponent<SystemRing>();
+            systemRing.ringText.text = myGalaxy.poStars[i].name;
+            systemRing.starSystem = myGalaxy.poStars[i];
         }
 
 	}

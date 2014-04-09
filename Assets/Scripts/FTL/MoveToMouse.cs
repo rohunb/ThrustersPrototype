@@ -6,6 +6,7 @@ public class MoveToMouse : MonoBehaviour {
     Vector3 velocity = Vector3.zero;
     public float speed = 5f;
     public int galaxyMapLayer = 12;
+    public bool canMove = true;
 	// Use this for initialization
 	void Start () {
         target = transform.position;
@@ -14,19 +15,29 @@ public class MoveToMouse : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetMouseButton(0))
+        Rect buttonRect = new Rect(Screen.width / 2 - 100, Screen.height - 60, 200, 40);
+        canMove = !(buttonRect.Contains(Input.mousePosition));
+
+        if (canMove)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 500, 1 << galaxyMapLayer))
+            if (Input.GetMouseButton(0))
             {
-                target = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-                transform.LookAt(target);
-            }
-        }
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        MoveToCursor();
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 500, 1 << galaxyMapLayer))
+                {
+                    target = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                    transform.LookAt(target);
+                }
+            }
+
+            MoveToCursor();
+        }
+        else
+        {
+            Debug.Log("cannot move");
+        }
 	}
 
     void MoveToCursor()
