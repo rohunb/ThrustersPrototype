@@ -9,8 +9,7 @@ public class PlayerInput : MonoBehaviour {
     private bool stablizing = false;
     private Vector2 mousePos;
     public Vector2 mouseDeadZone = new Vector2(0.0f, 0.0f);
-
-
+	
     //hydra game object
     SixenseInput hydraInput;
 
@@ -74,16 +73,16 @@ public class PlayerInput : MonoBehaviour {
                     shipMove.StrafeLeft(inputXOne * 2);
                 }
 
-                if (SixenseInput.Controllers[0].Trigger == 1) //left trigger
+                if (SixenseInput.Controllers[0].Trigger > 0.25f) //left trigger
                 {
                     //shipMove.MoveBack(1f);
-					shipMove.MoveFoward(1f);
+				shipMove.MoveFoward(SixenseInput.Controllers[0].Trigger);
                 }
 
                 if (SixenseInput.Controllers[1].Trigger == 1) //right trigger
                 {
                     //shipMove.MoveFoward(1f);
-					shipAttack.FirePrimary();
+				shipAttack.FirePrimary();
                 }
 
                 if (SixenseInput.Controllers[0].GetButton(SixenseButtons.BUMPER))
@@ -118,7 +117,7 @@ public class PlayerInput : MonoBehaviour {
 					shipMove.StopFiringAfterburners();
 				}
 
-				if (Mathf.Abs (SixenseInput.Controllers[1].JoystickX) > 0.25)
+				if (Mathf.Abs (SixenseInput.Controllers[1].JoystickX) > 0.95)
 				{
 				shipAttack.TargetNextEnemy();
 				}
@@ -135,35 +134,34 @@ public class PlayerInput : MonoBehaviour {
 
                 if (SixenseInput.Controllers[0].Rotation.x < -0.25f)
                 {
-                    shipMove.PitchUp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x));
+                    shipMove.PitchUp(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x * 2.0f), 0f, 1f));
                 }
-
                 if (SixenseInput.Controllers[0].Rotation.x > 0.25f)
                 {
-                    shipMove.PitchDown(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x));
+				shipMove.PitchDown(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x * 2.0f), 0f, 1f));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.y < -0.25f)
                 {
-                    shipMove.TurnLeft(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y));
+				shipMove.TurnLeft(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y * 2.0f), 0f, 1f));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.y > 0.25f)
                 {
-                    shipMove.TurnRight(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y));
+				shipMove.TurnRight(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y * 2.0f), 0f, 1f));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.z < -0.25f)
                 {
-                    shipMove.RollRight(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z));
+				shipMove.RollRight(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z * 2.0f), 0f, 1f));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.z > 0.25f)
                 {
-                    shipMove.RollLeft(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z));
+				shipMove.RollLeft(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z * 2.0f), 0f, 1f));
                 }
 
-                bool controller1Stable, controller2Stable;
+			bool controller1Stable; //, controller2Stable;
 
                 controller1Stable = (SixenseInput.Controllers[0].Rotation.x < 0.2f && SixenseInput.Controllers[0].Rotation.y < 0.2f && SixenseInput.Controllers[0].Rotation.z < 0.2f);
                 //controller2Stable = (SixenseInput.Controllers[1].Rotation.x < 0.2f && SixenseInput.Controllers[1].Rotation.y < 0.2f && SixenseInput.Controllers[1].Rotation.z < 0.2f);
@@ -172,7 +170,7 @@ public class PlayerInput : MonoBehaviour {
                 {
                     shipMove.KillLinearVelocity();
                 }
-
+			UniversalKeyboardControls();
                 //move a little bit in Bkg space
                 //BkgCamera.position = (transform.position / 2000f);
                 break;
@@ -327,5 +325,11 @@ public class PlayerInput : MonoBehaviour {
         {
             playerInventory.ToggleMissionLog();
         }
+
+		//FTL Drive
+		if (Input.GetKey(KeyCode.P))
+		{
+			Application.LoadLevel ("FTLScene");
+		}
     }
 }

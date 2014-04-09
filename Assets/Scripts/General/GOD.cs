@@ -16,9 +16,12 @@ public class GOD : MonoBehaviour {
 
     public static bool firstUpdate;
 	public static bool goToRandomPointInGalaxy = false;
+	public static bool startAMission = false;
 
 	public GameObject targetPlanet;
 	private float rangeFromPlanet = 200;
+
+	//private MissionType mType;
 
 	// Use this for initialization
 	void Start () {
@@ -32,7 +35,13 @@ public class GOD : MonoBehaviour {
 
 		if (!GOD.goToRandomPointInGalaxy) 
 		{
-			Invoke("waitForaBit", 2.0f);
+			Invoke("waitForaBit", 0.5f);
+		}
+
+		if (GOD.startAMission) 
+		{
+			Invoke("waitForaBit", 0.5f);
+			GOD.startAMission = false;
 		}
 
 
@@ -75,5 +84,10 @@ public class GOD : MonoBehaviour {
 	{
 		GOD.goToRandomPointInGalaxy = true;
 		
+	}
+
+	void missionStart()
+	{
+
 	}
 }

@@ -48,7 +48,10 @@ public class Spaceship : MonoBehaviour {
         {
             if (GUI.Button(new Rect(Screen.width / 2 - Screen.width * .1f, Screen.height * .9f, Screen.width * .2f, Screen.height * .09f), "Start Mission"))
             {
-                Application.LoadLevel("DockedScene");
+                //Application.LoadLevel("DockedScene");
+				GOD.goToRandomPointInGalaxy = true;
+
+				Application.LoadLevel("GameScene");
             }
             Rect missionRect = new Rect(Screen.width / 2 - 140, Screen.height / 2 - 60, 280, 120);
 
