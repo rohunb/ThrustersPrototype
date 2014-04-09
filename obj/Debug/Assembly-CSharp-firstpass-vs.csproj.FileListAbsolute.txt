@@ -20,3 +20,14 @@ C:\Users\Alex\Desktop\Repositories\ThrustersPrototype\Temp\bin\Debug\ICSharpCode
 C:\Users\Alex\Desktop\Repositories\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass-vs.csprojResolveAssemblyReference.cache
 C:\Users\Alex\Desktop\Repositories\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass.dll
 C:\Users\Alex\Desktop\Repositories\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass.pdb
+D:\GitHub\ThrustersPrototype\Temp\bin\Debug\Assembly-CSharp-firstpass.dll
+D:\GitHub\ThrustersPrototype\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+D:\GitHub\ThrustersPrototype\Temp\bin\Debug\UnityEditor.dll
+D:\GitHub\ThrustersPrototype\Temp\bin\Debug\UnityEngine.dll
+D:\GitHub\ThrustersPrototype\Temp\bin\Debug\Mono.Cecil.dll
+D:\GitHub\ThrustersPrototype\Temp\bin\Debug\nunit.framework.dll
+D:\GitHub\ThrustersPrototype\Temp\bin\Debug\Unity.DataContract.dll
+D:\GitHub\ThrustersPrototype\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+D:\GitHub\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass-vs.csprojResolveAssemblyReference.cache
+D:\GitHub\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass.dll
+D:\GitHub\ThrustersPrototype\obj\Debug\Assembly-CSharp-firstpass.pdb
