@@ -16,6 +16,7 @@ public class FTL_GalaxyInfo : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+        Screen.showCursor = true;
 		myGalaxy = GameObject.Find ("Galaxy").GetComponent<Galaxy>();
 
 		Debug.Log ("[SMBH] " + myGalaxy.superMassiveBlackHole.transform.position + " , " + myGalaxy.superMassiveBlackHole.name);
@@ -104,7 +105,7 @@ public class FTL_GalaxyInfo : MonoBehaviour
             Vector2 relativeDir = myGalaxy.poStars[i].Position - galaxyCenterPos;
             relativeDir *= scaleConversionFactor;
             starRelativePos.Add(relativeDir);
-            systemRings[i].transform.position = new Vector3(relativeDir.x,1.0f,relativeDir.y);
+            systemRings[i].transform.position = new Vector3(relativeDir.x,2000.5f,relativeDir.y);
             //systemRings[i].transform.Rotate(new Vector3(90.0f, 0.0f, 0.0f));
             systemRings[i].GetComponent<SystemRing>().ringText.text = myGalaxy.poStars[i].name;
         }
