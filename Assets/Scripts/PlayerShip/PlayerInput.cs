@@ -76,7 +76,7 @@ public class PlayerInput : MonoBehaviour {
                 if (SixenseInput.Controllers[0].Trigger > 0.25f) //left trigger
                 {
                     //shipMove.MoveBack(1f);
-				shipMove.MoveFoward(SixenseInput.Controllers[0].Trigger);
+				shipMove.MoveFoward(SixenseInput.Controllers[0].Trigger * 2.0f);
                 }
 
                 if (SixenseInput.Controllers[1].Trigger == 1) //right trigger
@@ -138,27 +138,27 @@ public class PlayerInput : MonoBehaviour {
                 }
                 if (SixenseInput.Controllers[0].Rotation.x > 0.25f)
                 {
-				shipMove.PitchDown(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x * 2.0f), 0f, 1f));
+					shipMove.PitchDown(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.x * 2.0f), 0f, 1f));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.y < -0.25f)
                 {
-				shipMove.TurnLeft(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y * 2.0f), 0f, 1f));
+					shipMove.TurnLeft(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y * 2.0f));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.y > 0.25f)
                 {
-				shipMove.TurnRight(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y * 2.0f), 0f, 1f));
+					shipMove.TurnRight(Mathf.Abs(SixenseInput.Controllers[0].Rotation.y * 2.0f));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.z < -0.25f)
                 {
-				shipMove.RollRight(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z * 2.0f), 0f, 1f));
+					shipMove.RollRight(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z * 1.5f));
                 }
 
                 if (SixenseInput.Controllers[0].Rotation.z > 0.25f)
                 {
-				shipMove.RollLeft(Mathf.Clamp(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z * 2.0f), 0f, 1f));
+					shipMove.RollLeft(Mathf.Abs(SixenseInput.Controllers[0].Rotation.z * 1.5f));
                 }
 
 			bool controller1Stable; //, controller2Stable;
