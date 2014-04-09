@@ -23,6 +23,7 @@ public class DockManager : MonoBehaviour
     bool showVendorTerm = false;
     bool showMissionTerm = false;
     bool showPopup = false;
+	bool showMissionPopup = false;
 
     Rect equippedWindow;
     Rect availableWindow;
@@ -43,9 +44,9 @@ public class DockManager : MonoBehaviour
     GameObject[] weapons;
     public List<GameObject> vendorWeapons;
     int vendorWpnSelected;
+	string selectedMission;
 
     PersistentInventory godInventory;
-	PersistentMission godMission;
 
     void Awake()
     {
@@ -211,7 +212,6 @@ public class DockManager : MonoBehaviour
 		if (showMissionTerm)
 		{
 			missionWindow = GUI.Window(2, missionWindow, MissionWindow, "Missions");
-			//missionWindow = GUI.Window(2, missionWindow, MissionWindow, "Mission Terminal");
 			//availableWindow = GUI.Window(1, availableWindow, AvailableWindow, "Cargo Hold");
 			if (GUI.Button(new Rect(Screen.width / 2 - 50, Screen.height - 100, 100, 50), "Exit Terminal"))
 			{
@@ -225,6 +225,11 @@ public class DockManager : MonoBehaviour
             //GUI.Box(popupRect, popUpText);
             popupRect = GUI.Window(3, popupRect, PopupWindow, "");
         }
+		if (showMissionPopup)
+		{
+			//GUI.Box(popupRect, popUpText);
+			popupRect = GUI.Window(3, popupRect, MissionPopupWindow, "");
+		}
     }
 
     void EquippedWindow(int windowID)
@@ -280,7 +285,18 @@ public class DockManager : MonoBehaviour
     }
 	void MissionWindow(int windowID)
 	{
-		GUI.Label(new Rect(5, 20, 120, 20), "Aval Missions: ");
+		GUI.Label(new Rect(5, 20, 250, 20), "Current Mission: ");
+		GUI.Label(new Rect(5, 40, 190, 20), GOD.godMission.currentMission);
+		GUI.Label(new Rect(5, 60, 120, 20), "Optional Missions: ");
+
+		for (int i = 0; i < GOD.godMission.MissionName.Length; i++) {
+			if(GUI.Button(new Rect(5, 80 + i * 20, 190, 20), GOD.godMission.MissionName[i].ToString())) {
+				GOD.audioengine.playSFX("TerminalBtn");
+				selectedMission = GOD.godMission.MissionName[i].ToString();
+				showMissionPopup = true;
+				popUpText = "<color=red>One mission at a time!</color> \n Confirm Mission: \n" + GOD.godMission.MissionName[i].ToString();
+			}
+		}
 	}
     void PopupWindow(int windowID)
     {
@@ -301,6 +317,23 @@ public class DockManager : MonoBehaviour
             ResetPopup();
         }
     }
+	void MissionPopupWindow(int windowID)
+	{
+		GUI.Label(new Rect(10, 15, popupRect.width, 120), popUpText);
+		if (GUI.Button(new Rect(5, popupRect.height - 40, popupRect.width / 2 - 10, 40), "Yes"))
+		{
+			GOD.audioengine.playSFX("TerminalBtnYes");
+			GOD.godMission.setMissionType(selectedMission);
+			ResetPopup();
+			Debug.Log("Set current mission to: " + selectedMission);
+		}
+		if (GUI.Button(new Rect(popupRect.width - popupRect.width / 2 + 10, popupRect.height - 40, popupRect.width / 2 - 10, 40), "No"))
+		{
+			GOD.audioengine.playSFX("TerminalBtn");
+			selectedMission = null;
+			ResetPopup();
+		}
+	}
     void ShowHardPoints()
     {
         foreach (GameObject weaponOutline in weaponOutlines)
@@ -321,6 +354,7 @@ public class DockManager : MonoBehaviour
         showMissionTerm = false;
         showVendorTerm = false;
         showPopup = false;
+		showMissionPopup = false;
     }
     public void ShowEquipTerminal()
     {
@@ -348,6 +382,7 @@ public class DockManager : MonoBehaviour
     }
     void ResetPopup()
     {
+		showMissionPopup = false;
         showPopup = false;
         popUpText = "";
     }
