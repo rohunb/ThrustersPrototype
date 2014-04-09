@@ -6,6 +6,7 @@ public class GOD : MonoBehaviour {
 
 	public static AudioEngine audioengine;
     public static Galaxy galaxy;
+	public static PersistentMission godMission;
 
     public static WhatControllerAmIUsing whatControllerAmIUsing;
 
@@ -27,6 +28,7 @@ public class GOD : MonoBehaviour {
 	void Start () {
 		audioengine = (AudioEngine)FindObjectOfType(typeof(AudioEngine));
         galaxy = (Galaxy)FindObjectOfType(typeof(Galaxy));
+		godMission = (PersistentMission)FindObjectOfType(typeof(PersistentMission));
         DontDestroyOnLoad(gameObject);
         firstUpdate = true;
         whatControllerAmIUsing = WhatControllerAmIUsing.MOUSE_KEYBOARD;
