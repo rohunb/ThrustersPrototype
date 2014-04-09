@@ -62,7 +62,7 @@ public class crosshair : MonoBehaviour {
 			yMin = (screenHeight/2-screenHitPos.y) / screenHeight * Screen.height;
 			//xMin = Screen.width / 2;
 			//yMin = Screen.height / 2;
-			Debug.Log("xMin, yMin: "+new Vector2(xMin, yMin));
+			//Debug.Log("xMin, yMin: "+new Vector2(xMin, yMin));
 		}
 		
 		

@@ -16,11 +16,11 @@ public class Galaxy : MonoBehaviour
     public GameObject[] gasGiants;
     public GameObject[] ggMoons;
 
-    private List<PhysicsObject> poStars;
-    private List<PhysicsObject> poTPlanets;
-    private List<PhysicsObject> poTMoons;
-    private List<PhysicsObject> poGPlanets;
-    private List<PhysicsObject> poGMoons;
+    public List<PhysicsObject> poStars;
+    public List<PhysicsObject> poTPlanets;
+	public List<PhysicsObject> poTMoons;
+	public List<PhysicsObject> poGPlanets;
+	public List<PhysicsObject> poGMoons;
 
     public GameObject PlanetImOrbitting;
 
@@ -68,6 +68,84 @@ public class Galaxy : MonoBehaviour
 
     private PhysicsObject objectsInSimulation;
 
+	private string[] planetNames = {"ARRAY_ELEMENT_0", "Monope", "Ospiea","Scuetov","Eystomia","Snouavis","Esbrypso","Dreuohines","Eachpichi","Bloasoarilia",
+									"Eycaystora","Zurus","Uwhilia","Groenia","Iyprorth","Stauacury","Utswora","Scoieyama","Astvosie","Criokaocarro",
+									"Ayyuywheron","Foclite","Egloria","Praiwei","Oacrillon","Plueegawa","Oysmoth","Preyomia","Ioclzuna","Groysuozuno",
+									"Iyziuswypso","Reruta","Ocreshan","Scuatune","Aeshao","Breuonerth","Ecshomia","Chuutania","Uogrquna","Shuoceter",
+									"Ienayskerth","Petune","Ocladus","Strealiv","Eglypso","Spoagawa","Urgloria","Traeotera","Eathcarvis","Bloaciurilia",
+									"Aypeygruna","Quthea","Oslorth","Cleatera","Oicliri","Bloaagawa","Oksciea","Stuoonerth","Iysnjurn","Preacaotera",
+									"Iawuclapus","Qunov","Ocromia","Tronerth","Eiclarth","Cluoutera","Oycroth","Snoeclite","Oyslqarth","Chiayiecarro",
+									"Aymauscuna","Fanov","Estrosie","Straehines","Eusmion","Thoyucarro","Esshomia","Trueater","Ouslmarvis","Strayhiythea",
+									"Uijoclion","Hoter","Ubrarvis","Bliynov","Augrides","Sheenus","Ofchilia","Cloualea","Iethtides","Smoykeiter","Uyyuycrapus",
+									"Festea","Ushyke","Shuytune","Ublinda","Smiaupra","Ajswinda","Sneoonus","Agrviuq","Braytuahines","Uexuewhiri","Jastea",
+									"Achyke","Snoynerth","Iasnilles","Stiaestea","Afstars","Thuyanov","Iygrhurn","Slaqeistea","Oyruibreron", "Daliv",
+									"Uslio","Greatani","Obrir","Stoeanert","Amsnert","Smiuomi","Aiwhgapu","Whaoxuiste","Eguyscapu","Jari","Achar",
+									"Cloyam","Aoflart","Druyuphu","Uiswot","Chioale","Iystryert","Skuitainu","Eybaoplio","Bani","Astio","Bliote",
+									"Ueglide","Bliuoti","Arstrio","Skaoacarr","Autrmoll","Fruewuethe","Uwiepresha","Lecarr","Aslor","Dreito","Oysliu",
+									"Stuaenu","Anprarvi","Smeieyam","Eystrjar","Chiataote","Eupeibliu","Yotur","Echarvi","Thuyphu","Aisnert","Snouato",
+									"Ulthadu","Trieaphu","Iosnbyk","Fraiiete","Eamiospun","Vatani","Ufladu","Stuytani","Aopra","Skuyuzun","Obclo","Glaeayam",
+									"Uiprnille","Snoyduate","Oloasnio","Rami","Uwhesha","Snuoni","Iyskar","Bloiuyam","Erclun","Plaionert","Iusnwar","Sloitoeto",
+									"Ueiaesport","Xuste","Ustori","Preitun","Uisla","Flioatun","Epglero","Cruyanu","Ofrkesha","Straziatani","Uetudrio","Vegant",
+									"Aslesha","Spoenu","Iawhyps","Blueecarr","Ujswesha","Swuovi","Aprlert","Stuikeorili","Oaheybrert","Yeclit","Egrono","Glaytani",
+									"Usnar","Snouate","Ehcrille","Smaeeli","Oychgad","Glaifoagant","Eowaslyke","Dubo","Utrarvi","Blaeto","Iaprert","Craioru","Urflert",
+									"Sceyahir","Upljosi","Playkauru","Ayfasnor","Guto","Estyps","Troitani","Aeclur","Breyeno","Ubbladu","Gleuuvi","Oprzeo","Whiafoani",
+									"Iypuichero","Wete","Owhille","Sleuli","Ieprie","Grueobo","Opstror","Speiephu","Uyslzie","Whoitaote","Eugeustar","Wuzun","Uflon",
+									"Driyste","Uiwheo","Sneuugaw","Ehglort","Sheaubo","Aeglbich","Creunoerut","Eopuyslar","Suni","Uslur","Criuto","Uispesha","Thoyehir",
+									"Agprili","Snieater","Oflqot","Floejeile","Iagiesmosi","Lonop","Atrort","Trieto","Oytrille","Sheyute","Exbrie","Sciaenu","Ostfili",
+									"Glioyiohir","Iutiudragu","Loni","Awhono","Chuahir","Oystresha","Whiuenu","Etwhapu","Flauani","Uosktori","Snagiuto","Ayxiochon",
+									"Matur","Ushide","Prayte","Aestryk","Truyote","Obswarvi","Whouahir","Aofllille","Stiokoyphu","Uiqiyflyk","Xonu","Ogrono","Pluete",
+									"Iysparvi","Gliouli","Orclosi","Freiular","Uiprror","Strekayvi","Aoquopromi","Bogant","Uspoll","Freuhine","Aepryk","Slueucarr",
+									"Eisnor","Chuoatani","Iacrlor","Plioyoular","Oelousco","Panide","Usloll","Sheypr","Augrarvi","Griuahir","Erblur","Whuoute",
+									"Aechqoll","Stuafionert","Afoythot","Sano","Adradu","Glater","Iaflir","Priyunide","Obsnart","Stoaarili","Iosmmun","Gloyyaecarr",
+									"Oefiaprio","Govi","Etha","Trueli","Iascosi","Sluepr","Oxgleo","Gloonu","Iugrveo","Playgaupr","Apeusnero","Juyam","Aglori",
+									"Theohine","Oasteo","Choaayam","Eyslapu","Dreoophu","Ieglmar","Gloybeyrut","Uavuythor","Qeti","Ugrori","Swumi","Oawhot",
+									"Troyoste","Acsmesha","Treiocarr","Eiswqyk","Skeycoate","Augaugryk","Fanide","Eshori","Chaonert","Uiclot","Straoote","Actrero",
+									"Smaoatur","Ustsillo","Glauqiomi","Eiresmono","Nacarr","Oswesha","Speyno","Ufloll","Whoyate","Englie","Grieali","Uashyind",
+									"Scoekiozun","Eiboclori","Qorut","Estriu","Draizun","Ochipp","Snouale","Agswon","Fraeoru","Eusmvide","Smianoihir","Oymaiclind",
+									"Jeyam","Oflun","Dreli","Oyshur","Clioarut","Uftrio","Droeovi","Uagrzillo","Striosoelar","Oiyoiscero","Legaw","Ofrille","Fraymi",
+									"Oeblor","Sliyupr","Ukplot","Preyonu","Aothwyri","Trienuicur","Ohaublapu","Zuli","Uclir","Whuotun","Uoblur","Drieuti","Ebsca",
+									"Glaonu","Oeshmio","Claoqani","Uexoytrert","Tenu","Eclar","Sluhine","Uichori","Scieorili","Uvclind","Slueetani","Eislqur",
+									"Choydaiyam","Iyyaedro","Date","Etrille","Sciorut","Uowhir","Pruaato","Ajprot","Whaouli","Ouplsillo","Scuiceyphu","Aikoysmie",
+									"Wale","Aprun","Stoiyam","Ayplyk","Brieuto","Ovdrori","Grooti","Ewhtar","Stauraicur","Uazuestra","Yozun","Ubresha","Whuter",
+									"Aoswagu","Cloeetun","Ehpror","Sheaobo","Uchjille","Cloagoeter","Ezeythio","Facur","Echoll","Priaclit","Uistrart","Blaiurut",
+									"Amswie","Sluyeyam","Easwpoll","Whoeqetani","Ayiaprie","Lephu","Eswyk","Criymi","Aybryk","Shaiugant","Erspor","Froyeste",
+									"Ewhbesha","Shuydeithe","Ougauskio","Zagaw","Aslio","Skiyvi","Ouscarvi","Sliooto","Ewscot","Struouyam","Aytrvio","Swoatohine",
+									"Oanoydryri","Jopr","Uglyk","Briycur","Iecrille","Spaiarut","Oystrarvi","Fruieto","Aoshtili","Stuejuyhir","Iefiebride","Qeto",
+									"Eglori","Strali","Easlagu","Triaoter","Epslar","Drieawe","Ueplvyri","Sceameiclit","Eateuchar","Sagant","Oscero","Pleuwe",
+									"Owhio","Treyucarr","Oxtrar","Crouocur","Iothwar","Praoxoile","Iupefrur","Xopr","Egrarvi","Creale","Oasnyri","Fraahir","Uwshyk",
+									"Druaubo","Oyfrwide","Preywezun","Oiuystun","Juhine","Efragu","Clothe","Ueblar","Smuiuyam","Amsnoll","Plaoacarr","Oyprwot",
+									"Stuyleiwe","Umiystarvi","Qoni","Uthili","Spoyno","Aowhar","Chueonert","Ohwhind","Swoazun","Uflvyps","Freuqatani","Iyqocrir",
+									"Dorili","Ustradu","Blaole","Uoprot","Sliaapr","Evplio","Stoiorut","Uachgich","Gruigeonu","Oaseyglono","Sagant","Epla",
+									"Gruiste","Oprar","Driuavi","Umstron","Thauutur","Uopryori","Thukuivi","Aylaibroll","Muru","Asmot","Sliobo","Uesposi","Frieonop",
+									"Uxsloll","Sceoovi","Eystrhich","Bloimabo","Oetiyscyps","Gonu","Uflir","Gloahine","Aufrarvi","Smuyeni","Oqsmarvi","Criaoru",
+									"Uyblmide","Sneagayter","Oizuflipp","Vunu","Ebride","Cragant","Uoswomi","Claoeli","Orshar","Spuari","Aiscmor","Cluapaepr",
+									"Uayoyswili","Hali","Awharvi","Sheumi","Eustio","Fliaenert","Abgla","Plaiali","Uiswhili","Sloumaeno","Uituebrar","Peto","Aspie",
+									"Snoytani","Oigrero","Straouru","Otdror","Thiaeno","Aiblkero","Truoleti","Iaqouskomi","Cete","Eflide","Slainert","Ieflyk",
+									"Shiuuste","Ocswich","Spuyeyam","Ouwhtort","Criycurili","Eitiugrono","Woclit","Astrir","Draumi","Eablon","Shuionide","Ohscio",
+									"Thoaoto","Ouslrille","Groayano","Aqaothori","Gewe","Escipp","Blaunu","Euswert","Fleyate","Edblili","Druiunide","Ouchpori",
+									"Traozayli","Aibusparvi","Huphu","Uspart","Pliyyam","Eplie","Creaclit","Eystyk","Smoenide","Ablxosi","Trewounu","Iohiysmiu",
+									"Wuclit","Usmyps","Smionert","Uadrert","Proyegaw","Oqthort","Sheouli","Aiflcipp","Trayoli","Oiteachio","Lunu","Esmeo","Swoacur",
+									"Oystagu","Skiaumi","Ansmon","Sheuacarr","Iacryar","Draujianide","Oawucleo","Qari","Eflyri","Bloinop","Osnagu","Smuyanide",
+									"Abstor","Swaiocur","Oaprfyps","Swueluphu","Uahoslilles","Dutur","Espart","Fliuru","Oisceo","Braoepr","Agfrert","Driootani",
+									"Uyprgor","Scexucur","Aonachon","Sutur","Asnero","Pluazun","Uystrarvi","Shoaonide","Aystar","Strueovi","Uygrfagu","Skauyeli",
+									"Ayliuscyk","Popr","Aswort","Griethe","Edrori","Dreyacur","Aptrun","Gloeogant","Aecrtad","Gloesiecur","Iomouscert","Qunide",
+									"Usciu","Sniyle","Iygrori","Bloiabo","Eywhir","Snuoate","Egldomi","Gluejiytur","Aukoicrart","Korut","Aglarvi","Snoegaw","Iatrono",
+									"Fruoste","Evtrur","Whoeste","Iuplyyk","Froideyru","Oeceaflar","Xahir","Astron","Smeori","Eogriu","Fleyeti","Ucclyps","Skayuti",
+									"Aifrzomi","Smoegeini","Ouweitromi","Goste","Eskarvi","Bruaclit","Ouscon","Blaeunu","Alclio","Steuenu","Aythyun","Sceumiugant",
+									"Oececlomi","Wagant","Aplot","Chaeru","Aiblyps","Creioli","Urgryri","Whuiobo","Oifrtyps","Slaudiotani","Asaeflili","Felar","Adrille",
+									"Shuarili","Ouplort","Cleooni","Akwhar","Bleaogaw","Eclqarvi","Freojuerili","Ezoispiu","Pawe","Udrun","Shaogaw","Uaprert","Frueehir",
+									"Uxblor","Snuoaru","Oasndono","Flayjoygaw","Apieplero","Hawe","Aclir","Chayhine","Aisnert","Glauati","Eyswili","Whoeurut","Iatrtad",
+									"Traiwuru","Iadaflapu","Layam","Atha","Strayte","Iostrori","Truyecur","Uystar","Sleooclit","Eoflcar","Proyweular","Uarouwhon","Hecarr",
+									"Ushur","Smeiclit","Eshur","Blaiehine","Alskipp","Smoyunu","Oushfapu","Fleaxuayam","Ayjotrot","Yuri","Uskert","Chuari","Ouscesha",
+									"Groienide","Uhsmun","Shoueyam","Eaplyadu","Bluebierut","Oizuaskero","Yugaw","Odripp","Bleiclit","Uoshur","Briooru","Awglero",
+									"Prayetun","Uesmlar","Shaiyiucarr","Uegiospipp","Lahine","Ubryri","Croite","Eosladu","Glooto","Ugtrapu","Steiarut","Ieswtesha",
+									"Swaofule","Oaqoiblero","Wanide","Ofradu","Smiovi","Oythio","Croeote","Oiclio","Preaogaw","Ebrlur","Craeioyri","Aupoygreo","Nuru","Oclon",
+									"Gliatun","Eflon","Smaeater","Ayplomi","Draoatur","Oeclbagu","Plauxaiti","Uysaclili","Iahir","Eswar","Groucarr","Aospor","Sluaupr","Udwhie",
+									"Gleyato","Eitrxagu","Spuzeute","Uacuowho","Hucarr","Osmadu","Praezun","Aifryk","Triuunert","Uzslipp","Cleoayam","Aiflcot","Praenioru",
+									"Uevuachar","Hucarr","Osmadu","Praezun","Aifryk","Triuunert","Uzslipp","Cleoayam","Aiflcot","Praenioru","Uevuachar","Saclit","Ospipp",
+									"Smepr","Ayplich","Choeegaw","Ewpripp","Thoierili","Aeshgapu","Floamuopr","Aerebreo","Pozun","Acrarvi","Broaste","Uiscar","Friaati",
+									"Encrori","Grieerut","Ostliu","Gluyjiozun", "Oufocrili"};
+
     public PhysicsObject getMainObject()
     {
         return objectsInSimulation;
@@ -79,7 +157,11 @@ public class Galaxy : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
-
+		poStars = new List<PhysicsObject>();
+		poTPlanets = new List<PhysicsObject>();
+		poTMoons = new List<PhysicsObject>();
+		poGPlanets = new List<PhysicsObject>();
+		poGMoons = new List<PhysicsObject>();
 
         createGalaxy();
 
@@ -105,9 +187,10 @@ public class Galaxy : MonoBehaviour
         starCount = random.Next(maxNumStars - minNumStars + 1) + minNumStars;
 
         int tempMinStarRange = minStarRange;
-        int tempMaxStarRanger = maxStarRange;
+        int tempMaxStarRange = maxStarRange;
         for (int i = 0; i < starCount; i++)
         {
+			int orbittingObjectCount = 0;
             minStarRange += StarRangeIncr;
             maxStarRange += StarRangeIncr;
 
@@ -121,12 +204,14 @@ public class Galaxy : MonoBehaviour
             while (randY > (minStarRange * -1) && randY < minStarRange)
             {
                 randY = random.Next((maxStarRange * -1), maxStarRange);
-            }
-
+			}
             star_phy = new PhysicsObject(new Vector2(blackHole.transform.position.x + randX, blackHole.transform.position.y + randY), 11, PhysicsObjectType.STAR, random.Next(0, 360));
             star_phy.calcRadius(smbh_phy);
             smbh_phy.addComponent(star_phy);
             objectsInSimulation.addComponent(star_phy);
+			star_phy.name = getRandomName();
+			poStars.Add(star_phy);
+			star_phy.name = getRandomName();
             GameObject starSystem = Instantiate(stars[UnityEngine.Random.Range(0, stars.Length)], new Vector3(star_phy.Position.x, 0, star_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
             starSystem.layer = BACKGROUND_LAYER;
             star_phy.myGameObject = starSystem;
@@ -142,7 +227,7 @@ public class Galaxy : MonoBehaviour
 
             for (int j = 0; j < rockPlanetCount; j++)
             {
-
+				orbittingObjectCount++;
                 minRockPlanetRange += RockPlanetRangeIncr;
                 maxRockPlanetRange += RockPlanetRangeIncr;
 
@@ -166,6 +251,8 @@ public class Galaxy : MonoBehaviour
                 star_phy.addComponent(rockPlanet_phy);
                 objectsInSimulation.addComponent(rockPlanet_phy);
                 //GameObject RockPlanet = Instantiate(rockPlanets[UnityEngine.Random.Range(0, rockPlanets.Length - 1)], new Vector3(rockPlanet_phy.Position.x, 0, rockPlanet_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+				poTPlanets.Add (rockPlanet_phy);
+				rockPlanet_phy.name = star_phy.name + " " + getRomanNumeral(orbittingObjectCount);
 				GameObject RockPlanet = Instantiate(rockPlanets[UnityEngine.Random.Range(0, rockPlanets.Length  -1)], new Vector3(rockPlanet_phy.Position.x, 0, rockPlanet_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
 				RockPlanet.layer = BACKGROUND_LAYER;
                 RockPlanet.tag = "Planet";
@@ -200,7 +287,9 @@ public class Galaxy : MonoBehaviour
                     rockMoon_phy.calcRadius(rockPlanet_phy);
                     rockPlanet_phy.addComponent(rockMoon_phy);
                     objectsInSimulation.addComponent(rockMoon_phy);
-                    GameObject RockMoon = Instantiate(rockMoons[UnityEngine.Random.Range(0, rockMoons.Length - 1)], new Vector3(rockMoon_phy.Position.x, 0, rockMoon_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+					poTMoons.Add (rockMoon_phy);
+					rockMoon_phy.name = rockPlanet_phy.name + " - " + getRandomName();
+					GameObject RockMoon = Instantiate(rockMoons[UnityEngine.Random.Range(0, rockMoons.Length - 1)], new Vector3(rockMoon_phy.Position.x, 0, rockMoon_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                     RockMoon.layer = BACKGROUND_LAYER;
                     rockMoon_phy.myGameObject = RockMoon;
                     RockMoon.transform.parent = RockPlanet.transform;
@@ -219,6 +308,7 @@ public class Galaxy : MonoBehaviour
             int tempMaxGGPlanet = maxGasGiantRange;
             for (int l = 0; l < gasGiantCount; l++)
             {
+				orbittingObjectCount++;
                 minGasGiantRange += GasGiantRangeIncr;
                 maxGasGiantRange += GasGiantRangeIncr;
 
@@ -238,8 +328,11 @@ public class Galaxy : MonoBehaviour
                 gasGiant_phy.calcRadius(star_phy);
                 star_phy.addComponent(gasGiant_phy);
                 objectsInSimulation.addComponent(gasGiant_phy);
-                GameObject GasGiant = Instantiate(gasGiants[UnityEngine.Random.Range(0, gasGiants.Length - 1)], new Vector3(gasGiant_phy.Position.x, 0, gasGiant_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+				poGPlanets.Add (gasGiant_phy);
+				gasGiant_phy.name = star_phy.name + " " + getRomanNumeral(orbittingObjectCount);
+				GameObject GasGiant = Instantiate(gasGiants[UnityEngine.Random.Range(0, gasGiants.Length - 1)], new Vector3(gasGiant_phy.Position.x, 0, gasGiant_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                 GasGiant.layer = BACKGROUND_LAYER;
+				GasGiant.tag = "Planet";
                 gasGiant_phy.myGameObject = GasGiant;
                 GasGiant.transform.parent = starSystem.transform;
                 gasGiant_phy.rotateScript = GasGiant.GetComponent<rotate>();
@@ -271,7 +364,9 @@ public class Galaxy : MonoBehaviour
                     gasGiantMoon_phy.calcRadius(gasGiant_phy);
                     gasGiant_phy.addComponent(gasGiantMoon_phy);
                     objectsInSimulation.addComponent(gasGiantMoon_phy);
-                    GameObject GGMoon = Instantiate(ggMoons[UnityEngine.Random.Range(0, ggMoons.Length - 1)], new Vector3(gasGiantMoon_phy.Position.x, 0, gasGiantMoon_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
+					poGMoons.Add (gasGiantMoon_phy);
+					gasGiantMoon_phy.name = gasGiant_phy.name + " - " + getRandomName();
+					GameObject GGMoon = Instantiate(ggMoons[UnityEngine.Random.Range(0, ggMoons.Length - 1)], new Vector3(gasGiantMoon_phy.Position.x, 0, gasGiantMoon_phy.Position.y), Quaternion.LookRotation(Vector3.left)) as GameObject;
                     GGMoon.layer = BACKGROUND_LAYER;
                     GGMoon.tag = "Planet";
                     gasGiantMoon_phy.myGameObject = GGMoon;
@@ -286,6 +381,98 @@ public class Galaxy : MonoBehaviour
             maxGasGiantRange = tempMaxGGPlanet;
         } //end star for loop
         minStarRange = tempMinStarRange;
-        maxStarRange = tempMaxStarRanger;
+        maxStarRange = tempMaxStarRange;
+	
     }
+
+	private string getRandomName()
+	{
+		int randomNameIndex = 0;
+		string chosenName;
+		do
+		{
+			randomNameIndex = UnityEngine.Random.Range (1, planetNames.Length - 1);
+			chosenName = planetNames[randomNameIndex];
+
+		}while (planetNames[randomNameIndex] == null);
+
+		planetNames[randomNameIndex] = null;
+
+		return chosenName;
+	}
+
+	private string getRomanNumeral(int number)
+	{
+		string romanNumeral = "";
+
+		switch (number) 
+		{
+			case 1:
+				romanNumeral = "I";
+				break;
+			case 2:
+				romanNumeral = "II";
+				break;
+			case 3:
+				romanNumeral = "III";
+				break;
+			case 4:
+				romanNumeral = "IV";
+				break;
+			case 5:
+				romanNumeral = "V";
+				break;
+			case 6:
+				romanNumeral = "VI";
+				break;
+			case 7:
+				romanNumeral = "VII";
+				break;
+			case 8:
+				romanNumeral = "VIII";
+				break;
+			case 9:
+				romanNumeral = "IX";
+				break;
+			case 10:
+				romanNumeral = "X";
+				break;
+			case 11:
+				romanNumeral = "XI";
+				break;
+			case 12:
+				romanNumeral = "XII";
+				break;
+			case 13:
+				romanNumeral = "XIII";
+				break;
+			case 14:
+				romanNumeral = "XIV";
+				break;
+			case 15:
+				romanNumeral = "XV";
+				break;
+			case 16:
+				romanNumeral = "XVI";
+				break;
+			case 17:
+				romanNumeral = "XXVII";
+				break;
+			case 18:
+				romanNumeral = "XVIII";
+				break;
+			case 19:
+				romanNumeral = "IXX";
+				break;
+			case 20:
+				romanNumeral = "XX";
+				break;
+
+			default:
+				romanNumeral = "WTF... Something isnt right with the number you gave to getRomanNumeral";
+				break;
+		}
+
+		return romanNumeral;
+	}
 } //end class

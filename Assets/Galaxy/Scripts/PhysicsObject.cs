@@ -7,6 +7,7 @@ using System.Text;
     public enum PhysicsObjectType { SMBH, STAR, ROCK_PLANET, ROCK_MOON, GAS_GIANT, G_G_MOON, GALAXY }
     public class PhysicsObject
     {
+		public string name = "test";
         public rotate rotateScript;
         private List<PhysicsObject> components = new List<PhysicsObject>();
 
