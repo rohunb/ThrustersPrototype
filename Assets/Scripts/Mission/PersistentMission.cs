@@ -3,33 +3,36 @@ using System.Collections;
 
 public class PersistentMission : MonoBehaviour {
 
-	public enum MissionType
-	{
-		Exterminate, //x number of ships at waypoint
-		Assassinate, //kill a particular ship (likely to spawn with cronies)
-		Gather, //mine or gather an item carried by an enemy
-		FedEx, //deliver something to another base/planet
-		DistressCall,
-		DestroyStructure
-	}
+//	public enum MissionType
+//	{
+//		Exterminate, //x number of ships at waypoint
+//		Assassinate, //kill a particular ship (likely to spawn with cronies)
+//		Gather, //mine or gather an item carried by an enemy
+//		FedEx, //deliver something to another base/planet
+//		DistressCall,
+//		DestroyStructure
+//	}
 
-	MissionType myMission;
+	public string[] MissionName = new string[] { 
+		"Exterminate", "Assassinate", "Gather", "FedEx", "DistressCall", "DestoryStructure" };
+
+	public string currentMission;
 
 	// Use this for initialization
 	void Start () {
-		myMission = MissionType.Assassinate;
+		currentMission = null;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		listMissionType();
+	
 	}
 
-	public void listMissionType() {
-
+	public string getCurrentMission() {
+		return currentMission;
 	}
 
-	public void setMissionType(MissionType mission) {
-		myMission = mission;
+	public void setMissionType(string missionChoice) {
+		currentMission = missionChoice;
 	}
 }
