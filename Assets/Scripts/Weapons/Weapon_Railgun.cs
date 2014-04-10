@@ -40,14 +40,30 @@ public class Weapon_Railgun : Weapon {
         mover.speed = projectileSpeed;
         mover.range = range;
 
-        ProjectileDamager damager = railshotClone.GetComponent<ProjectileDamager>();
-        damager.origin = origin;
-        damager.damage = damage;
+        //ProjectileDamager damager = railshotClone.GetComponent<ProjectileDamager>();
+        //damager.origin = origin;
+        //damager.damage = damage;
 
+        CheckForCollision();
         CreateRailEffect(Mathf.RoundToInt(range));
 
         yield return new WaitForSeconds(reloadTimer);
         canFire = true;
+    }
+    void CheckForCollision()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(shootPoint.position, shootPoint.forward);
+        if(Physics.Raycast(ray, out hit, range, ~(1<<playerLayer)))
+        {
+            
+            GameObject other = hit.collider.gameObject;
+            Debug.Log(other.tag);
+            if (other.tag == "EnemyShip" || other.tag == "EnemyStructure")
+            {
+                other.GetComponent<Health>().TakeDamage(damage);
+            }
+        }
     }
     void CreateRailEffect(int length)
     {
