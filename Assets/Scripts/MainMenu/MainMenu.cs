@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour {
     float soundVolume = .75f;
     float shipVolume = .75f;
 
+    public GUISkin guiSkin;
+
     // Use this for initialization
     void Start () {
     }
@@ -24,32 +26,34 @@ public class MainMenu : MonoBehaviour {
 
     void OnGUI()
     {
+        GUI.skin = guiSkin;
+
         if (showMainMenu)
         {
-            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .2f, Screen.width * .2f, Screen.height * .12f), "New Game"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .24f, Screen.width * .2f, Screen.height * .06f), "New Game"))
             {
                 GOD.audioengine.playSFX("MenuPlayBtn");
                 Application.LoadLevel(1);
                // fadeToGameScene = true;
             }
-            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .32f, Screen.width * .2f, Screen.height * .12f), "Continue"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .34f, Screen.width * .2f, Screen.height * .06f), "Continue"))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 //showMainMenu = false;
             }
-            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .44f, Screen.width * .2f, Screen.height * .12f), "Options"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .44f, Screen.width * .2f, Screen.height * .06f), "Options"))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 showOptions = true;
                 showMainMenu = false;
             }
-            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .56f, Screen.width * .2f, Screen.height * .12f), "Credits"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .54f, Screen.width * .2f, Screen.height * .06f), "Credits"))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 showCredits = true;
                 showMainMenu = false;
             }
-            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .68f, Screen.width * .2f, Screen.height * .12f), "Quit"))
+            if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .64f, Screen.width * .2f, Screen.height * .06f), "Quit"))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 showQuit = true;

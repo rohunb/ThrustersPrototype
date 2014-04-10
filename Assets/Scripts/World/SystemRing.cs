@@ -6,7 +6,7 @@ public class SystemRing : MonoBehaviour {
     public TextMesh ringText;
     public PhysicsObject starSystem;
     MoveToMouse spaceshipMover;
-
+    public GUISkin guiSkin;
     bool showMissionPopup = false;
 
     void Awake()
@@ -33,6 +33,7 @@ public class SystemRing : MonoBehaviour {
     }
     void OnGUI()
     {
+        GUI.skin = guiSkin;
         if(showMissionPopup)
         {
             if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height - 60, 200, 40), "Enter "+starSystem.name+" "))

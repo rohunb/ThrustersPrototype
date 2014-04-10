@@ -64,6 +64,7 @@
      <None Include="Assets\Sample Assets\Effects\Light Shafts\Shaders\Coord.shader" />
      <None Include="Assets\Sample Assets\Effects\Projectors\Shaders\Projector Additive.shader" />
      <None Include="Assets\Sample Assets\Characters and Vehicles\Aircraft\Aircraft Guidelines.txt" />
+     <None Include="Assets\GUI\ControlP5\ReadMe.txt" />
      <None Include="Assets\Sample Assets\Effects\Light Shafts\Shaders\InterpolateAlongRays.shader" />
      <None Include="Assets\Sample Assets\Effects\Light Shafts\Shaders\DepthBreaks.shader" />
      <None Include="Assets\Standard Assets\Shaders\Toony-BasicOutline.shader" />

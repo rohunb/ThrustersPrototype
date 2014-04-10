@@ -47,6 +47,9 @@ public class DockManager : MonoBehaviour
 	string selectedMission;
 
     PersistentInventory godInventory;
+    public Vector2 buttonSize= new Vector2(100,30);
+
+    public GUISkin guiSkin;
 
     void Awake()
     {
@@ -64,12 +67,12 @@ public class DockManager : MonoBehaviour
     {
 
         Screen.showCursor = true;
-        equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numHardpoints * 30);
+        equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numHardpoints * (buttonSize.y+7));
         vendorWindow = new Rect(50, Screen.height / 2 - 200, 200, /*vendorWeapons.Count * 30*/ 400);
         vendorScrollRect = new Rect(2, 20, 200, /*vendorWeapons.Count * 30*/ 400);
 		missionWindow = new Rect(50, Screen.height / 2 - 200, 200, 200);
         //availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 10+playerInv.availableWeapons.Count * 20);
-        popupRect = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100);
+        popupRect = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 225, 100);
         weaponOutlines = new GameObject[playerInv.numberOfHardpoints];
         weapons = new GameObject[playerInv.numberOfHardpoints];
         //foreach (Transform hardpoint in playerInv.hardPoints)
@@ -88,7 +91,7 @@ public class DockManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 60+playerInv.availableWeapons.Count * 20);
+        availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 60 + playerInv.availableWeapons.Count * (buttonSize.y+2));
 
         if ((showEquipTerm) &&
             Input.GetKeyDown(KeyCode.Escape))
@@ -190,6 +193,7 @@ public class DockManager : MonoBehaviour
 
     void OnGUI()
     {
+        GUI.skin = guiSkin;
         if (showEquipTerm)
         {
             equippedWindow = GUI.Window(0, equippedWindow, EquippedWindow, "Hardpoints");
@@ -242,12 +246,12 @@ public class DockManager : MonoBehaviour
         
         for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
         {
-            GUI.Label(new Rect(5, 20 + i * 20, 120, 20), "" + (i + 1) + ": ");
+            GUI.Label(new Rect(5, 30 + i * buttonSize.y, 120, buttonSize.y), "" + (i + 1) + ": ");
             if (playerInv.equippedWeapons[i])
                 buttonText = playerInv.equippedWeapons[i].wpnName;
             else
                 buttonText = "------";
-            if (GUI.Button(new Rect(15, 20 + i * 20, 150, 20), buttonText))
+            if (GUI.Button(new Rect(15, 20 + i * buttonSize.y, 150, buttonSize.y), buttonText))
             {
 
             }
@@ -255,12 +259,12 @@ public class DockManager : MonoBehaviour
     }
     void VendorWindow(int windowID)
     {
-        scrollPosition = GUI.BeginScrollView(vendorScrollRect, scrollPosition, new Rect(0, 0, 200, vendorWeapons.Count * 20));
+        scrollPosition = GUI.BeginScrollView(vendorScrollRect, scrollPosition, new Rect(0, 0, 200, vendorWeapons.Count * (buttonSize.y + 7)));
         for (int i = 0; i < vendorWeapons.Count; i++)
         {
-            GUI.Label(new Rect(1, 0 + i * 20, 120, 20), "" + (i + 1) + ": ");
+            GUI.Label(new Rect(1, 10 + i * buttonSize.y, 120, buttonSize.y), "" + (i + 1) + ": ");
             Weapon vendorWpn = vendorWeapons[i].GetComponent<Weapon>();
-            if (GUI.Button(new Rect(17, 0 + i * 20, 150, 20), vendorWpn.wpnName))
+            if (GUI.Button(new Rect(17, 0 + i * buttonSize.y, 150, buttonSize.y), vendorWpn.wpnName))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 vendorWpnSelected = i;
@@ -275,11 +279,11 @@ public class DockManager : MonoBehaviour
     }
     void AvailableWindow(int windowID)
     {
-        GUI.Label(new Rect(5, 20, 120, 20), "Credits: " + playerInv.GetCredits());
+        GUI.Label(new Rect(5, 20, 120, buttonSize.y), "Credits: " + playerInv.GetCredits());
         for (int i = 0; i < playerInv.availableWeapons.Count; i++)
         {
-            GUI.Label(new Rect(5, 43 + i * 20, 120, 20), "" + (i + 1) + ": ");
-            if (GUI.Button(new Rect(15, 43 + i * 20, 150, 20), playerInv.availableWeapons[i].wpnName))
+            GUI.Label(new Rect(5, 53 + i * buttonSize.y, 120, buttonSize.y), "" + (i + 1) + ": ");
+            if (GUI.Button(new Rect(15, 43 + i * buttonSize.y, 150, buttonSize.y), playerInv.availableWeapons[i].wpnName))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 attachingWeapon = true;
@@ -289,12 +293,13 @@ public class DockManager : MonoBehaviour
     }
 	void MissionWindow(int windowID)
 	{
-		GUI.Label(new Rect(5, 20, 250, 20), "Current Mission: ");
-		GUI.Label(new Rect(5, 40, 190, 20), GOD.godMission.currentMission);
-		GUI.Label(new Rect(5, 60, 120, 20), "Optional Missions: ");
+        GUI.Label(new Rect(5, 20, 250, buttonSize.y), "Current Mission: ");
+        GUI.Label(new Rect(5, 40, 190, buttonSize.y), GOD.godMission.currentMission);
+        GUI.Label(new Rect(5, 60, 120, buttonSize.y), "Optional Missions: ");
 
 		for (int i = 0; i < GOD.godMission.MissionName.Length; i++) {
-			if(GUI.Button(new Rect(5, 80 + i * 20, 190, 20), GOD.godMission.MissionName[i].ToString())) {
+            if (GUI.Button(new Rect(5, 80 + i * buttonSize.y, 190, buttonSize.y), GOD.godMission.MissionName[i].ToString()))
+            {
 				GOD.audioengine.playSFX("TerminalBtn");
 				selectedMission = GOD.godMission.MissionName[i].ToString();
 				showMissionPopup = true;
@@ -304,7 +309,7 @@ public class DockManager : MonoBehaviour
 	}
     void PopupWindow(int windowID)
     {
-        GUI.Label(new Rect(10, 15, popupRect.width, 120), popUpText);
+        GUI.Label(new Rect(10, 25, popupRect.width, 120), popUpText);
         if (GUI.Button(new Rect(5, popupRect.height - 40, popupRect.width / 2 - 10, 40), "Yes"))
         {
             if (playerInv.CreateTransaction(-vendorWeapons[vendorWpnSelected].GetComponent<Weapon>().cost))
