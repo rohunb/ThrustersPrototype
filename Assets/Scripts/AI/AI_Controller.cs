@@ -139,7 +139,12 @@ public class AI_Controller : MonoBehaviour
                     MoveForward();
                     Brake();
                 }
-                else MoveForward();
+                else if(distToTarget >=maxRange)
+                {
+                    MoveForwardFaster();
+                }
+                else
+                    MoveForward();
                 break;
             case AI_States.Fleeing:
                 LookAwayFromTarget();
@@ -208,6 +213,10 @@ public class AI_Controller : MonoBehaviour
         //transform.position += transform.forward * moveSpeed * Time.deltaTime;
         //rigidbody.AddForce(transform.forward * fwdThrustForce);
         FireForwardThrusters(1.0f);
+    }
+    void MoveForwardFaster()
+    {
+        FireForwardThrusters(5.0f);
     }
     void MoveBack()
     {

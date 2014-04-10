@@ -5,14 +5,17 @@ public class ExitDock : MonoBehaviour {
 
     bool displayExitPrompt = false;
     DockManager dockManager;
+    PlayerInventory playerInv;
     void Awake()
     {
         dockManager = GameObject.FindGameObjectWithTag("DockManager").GetComponent<DockManager>();
+        playerInv = GameObject.Find("DockedShip").GetComponent<PlayerInventory>();
     }
 	// Update is called once per frame
 	void Update () {
 	    if(displayExitPrompt && Input.GetKeyDown(KeyCode.F))
         {
+            playerInv.SaveInventory();
             ScreenFader.EndScene();
 			Application.LoadLevel("GameScene");
         }

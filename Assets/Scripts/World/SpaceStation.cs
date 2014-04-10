@@ -4,17 +4,19 @@ using System.Collections;
 public class SpaceStation : MonoBehaviour {
 
 	bool displayVendorPrompt = false;
+    PlayerInventory playerInv;
+
+	void Awake()
+    {
+        playerInv = GameObject.Find("sexyShip").GetComponent<PlayerInventory>();
+    }
 	
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (displayVendorPrompt && Input.GetKeyDown(KeyCode.F))
 		{
-
+            playerInv.SaveInventory();
 			ScreenFader.EndScene();
 			GOD.cameraPos = GameObject.Find ("BackgroundCamera").transform.position;
 			GOD.cameraRot = GameObject.Find ("BackgroundCamera").transform.rotation;

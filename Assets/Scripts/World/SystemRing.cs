@@ -37,13 +37,9 @@ public class SystemRing : MonoBehaviour {
         {
             if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height - 60, 200, 40), "Enter "+starSystem.name+" "))
             {
-                spaceshipMover.canMove = false;
                 GoToSystem();
             }
-            else
-            {
-                spaceshipMover.canMove = true;
-            }
+            
         }
         
     }

@@ -30,12 +30,13 @@ public class PersistentInventory : MonoBehaviour
 
 	
 	void Start () {
-        availableWeapons = new List<string>();
-        equippedWeapons = new string[numberOfHardpoints];
-		equippedWeapons[0] = "Railgun";
-		for (int i = 1; i < numberOfHardpoints; i++)
+        //availableWeapons = new List<string>();
+        //equippedWeapons = new string[numberOfHardpoints];
+        //equippedWeapons[0] = "Railgun";
+		for (int i = 0; i < numberOfHardpoints; i++)
 		{
-			equippedWeapons[i] = "";
+			//equippedWeapons[i] = "";
+            Debug.Log(equippedWeapons[i]);
 		}
 
         //equippedWeapons = new Weapon[numberOfHardpoints];

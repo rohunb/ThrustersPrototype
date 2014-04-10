@@ -86,7 +86,7 @@ public class PlayerInventory : MonoBehaviour
         //    weapon.origin = gameObject;
         //}
     }
-    void SaveInventory()
+    public void SaveInventory()
     {
         //godInventory.equippedWeapons = equippedWeapons;
         //godInventory.availableWeapons = availableWeapons;
@@ -146,7 +146,7 @@ public class PlayerInventory : MonoBehaviour
 		}
 		
 	}
-	void LoadInventory()
+	public void LoadInventory()
     {
 		Debug.Log("loading");
         //availableWeapons = godInventory.availableWeapons;
@@ -224,7 +224,7 @@ public class PlayerInventory : MonoBehaviour
         //}
         //godInventory.equippedWeapons = equippedWeapons;
         //godInventory.availableWeapons = availableWeapons;
-        SaveInventory();
+        //SaveInventory();
     }
     GameObject GetWpnObj(string wpnName)
     {
