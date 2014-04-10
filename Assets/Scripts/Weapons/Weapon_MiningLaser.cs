@@ -77,7 +77,7 @@ public class Weapon_MiningLaser : Weapon {
     {
         RaycastHit hit;
         Ray ray = new Ray(shootPoint.position, shootPoint.forward);
-        if (Physics.Raycast(ray, out hit, range))
+        if (Physics.Raycast(ray, out hit, range,~(1<<playerLayer)))
         {
             length = Mathf.RoundToInt(hit.distance);
             if (currentTimer >= mineInterval && hit.transform.tag == "Asteroid")

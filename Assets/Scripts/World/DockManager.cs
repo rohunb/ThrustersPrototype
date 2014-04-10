@@ -115,6 +115,7 @@ public class DockManager : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << hardpointsLayer))
             {
+                
                 weapon.SetActive(true);
                 int hardpointSelected;
                 switch (hit.collider.name)
@@ -130,7 +131,7 @@ public class DockManager : MonoBehaviour
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
-
+                            weaponOutlines[hardpointSelected].SetActive(false);
                             weapons[hardpointSelected].SetActive(true);
                         }
                         break;
@@ -145,6 +146,7 @@ public class DockManager : MonoBehaviour
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            weaponOutlines[hardpointSelected].SetActive(false);
                             weapons[hardpointSelected].SetActive(true);
                         }
                         break;
@@ -159,6 +161,7 @@ public class DockManager : MonoBehaviour
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            weaponOutlines[hardpointSelected].SetActive(false);
                             weapons[hardpointSelected].SetActive(true);
                         }
                         break;
@@ -173,11 +176,12 @@ public class DockManager : MonoBehaviour
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            weaponOutlines[hardpointSelected].SetActive(false);
                             weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                 }
-
+                ShowHardPoints();
             }
 
         }
@@ -336,10 +340,14 @@ public class DockManager : MonoBehaviour
 	}
     void ShowHardPoints()
     {
-        foreach (GameObject weaponOutline in weaponOutlines)
+        //foreach (GameObject weaponOutline in weaponOutlines)
+        for (int i = 0; i < weaponOutlines.Length; i++)
         {
-            weaponOutline.SetActive(true);
+            if(!playerInv.equippedWeapons[i])
+                weaponOutlines[i].SetActive(true);
+
         }
+        
     }
     void DontShowHardPoints()
     {

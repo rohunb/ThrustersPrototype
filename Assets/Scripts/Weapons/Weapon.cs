@@ -20,7 +20,7 @@ public class Weapon : MonoBehaviour {
     public WeaponType weaponType;
 	public Texture2D crosshairTex;
     public Transform movableGun;
-
+    public int playerLayer = 14;
     public virtual void Init() 
 	{ 
 //		crosshair xhair = gameObject.AddComponent<crosshair>();

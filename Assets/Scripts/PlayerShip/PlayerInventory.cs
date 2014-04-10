@@ -196,7 +196,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if(godInventory.equippedWeapons[i]!="")
             {
-				Debug.Log("creating wpn: "+godInventory.equippedWeapons[i]);
+
                 GameObject weaponObj = Instantiate(GetWpnObj(godInventory.equippedWeapons[i])) as GameObject;
 				weaponObj.transform.parent = weaponTransform;
 				weaponObj.transform.position = hardPoints[i].position;

@@ -18,7 +18,7 @@ public class SystemRing : MonoBehaviour {
     {
         if (other.collider.tag == "Player")
         {
-            Debug.Log(starSystem.name);
+
             showMissionPopup = true;
         }
 
@@ -46,7 +46,7 @@ public class SystemRing : MonoBehaviour {
     void GoToSystem()
     {
         Debug.Log("Going to system: "+starSystem.name);
-        
+        Application.LoadLevel("GameScene");
 
     }
 }
