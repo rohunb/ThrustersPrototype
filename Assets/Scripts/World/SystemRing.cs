@@ -45,6 +45,7 @@ public class SystemRing : MonoBehaviour {
     }
     void GoToSystem()
     {
+        GOD.missionStart(starSystem);
         Debug.Log("Going to system: "+starSystem.name);
         Application.LoadLevel("GameScene");
 

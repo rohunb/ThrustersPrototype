@@ -17,10 +17,11 @@ public class GOD : MonoBehaviour {
 
     public static bool firstUpdate;
 	public static bool goToRandomPointInGalaxy = false;
+    public static bool goToSpecificSystem = false;
 	public static bool startAMission = false;
 
-	public GameObject targetPlanet;
-	private float rangeFromPlanet = 200;
+	private static GameObject targetPlanet;
+	private float rangeFromPlanet = 2000f;
 
 	//private MissionType mType;
 
@@ -38,12 +39,6 @@ public class GOD : MonoBehaviour {
 		if (!GOD.goToRandomPointInGalaxy) 
 		{
 			Invoke("waitForaBit", 0.5f);
-		}
-
-		if (GOD.startAMission) 
-		{
-			Invoke("waitForaBit", 0.5f);
-			GOD.startAMission = false;
 		}
 
 
@@ -74,6 +69,15 @@ public class GOD : MonoBehaviour {
 				GameObject.Find("BackgroundCamera").transform.LookAt(targetPlanet.transform.position);
 				GOD.goToRandomPointInGalaxy = false;
 			}
+
+            if (GOD.goToSpecificSystem)
+            {
+                GameObject.Find("BackgroundCamera").transform.position = targetPlanet.transform.position - new Vector3(rangeFromPlanet, 0, 0);
+                GameObject.Find("BackgroundCamera").transform.LookAt(targetPlanet.transform.position);
+                GOD.goToSpecificSystem = false;
+
+                //ADD CODE FOR STARTING A MISSION HERE
+            }
                 break;
             case "MainMenu":
                 break;
@@ -88,8 +92,9 @@ public class GOD : MonoBehaviour {
 		
 	}
 
-	void missionStart()
+	public static void missionStart(PhysicsObject missionLocation)
 	{
-
+        targetPlanet = missionLocation.myGameObject;
+        GOD.goToSpecificSystem = true;
 	}
 }
