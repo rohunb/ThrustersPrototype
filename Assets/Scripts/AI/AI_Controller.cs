@@ -83,16 +83,16 @@ public class AI_Controller : MonoBehaviour
                         ai_state = AI_States.Hunting;
                     if (distToTarget <= weaponsRange)
                     {
-                        if (distToTarget <= minRange)
-                        {
-                            ai_state = AI_States.StopAndAttack;
-                            Invoke("BreakAway", timeToBreakaway);
-                        }
-                        else
-                        {
+                        //if (distToTarget <= minRange)
+                        //{
+                        //    ai_state = AI_States.StopAndAttack;
+                        //    Invoke("BreakAway", timeToBreakaway);
+                        //}
+                        //else
+                        //{
                             ai_state = AI_States.AttackMove;
                             Invoke("BreakAway", timeToBreakaway);
-                        }
+                        //}
                     }
                 }
                 break;

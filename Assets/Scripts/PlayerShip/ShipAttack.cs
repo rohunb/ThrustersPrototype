@@ -53,8 +53,8 @@ public class ShipAttack : MonoBehaviour {
 
         if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.MOUSE_KEYBOARD)
         {
-            //xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
-            //yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
+            xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
+            yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
 			/*
             Vector3 screenHitPos = Vector3.zero;
             Ray ray = new Ray(targeter.position, targeter.forward);
