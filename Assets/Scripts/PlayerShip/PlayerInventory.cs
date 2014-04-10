@@ -289,6 +289,16 @@ public class PlayerInventory : MonoBehaviour
         equippedWeapons[hardpointIndex].gameObject.GetComponent<Weapon>().enabled = true;
         availableWeapons.Remove(availableWeapons[availableWeaponsIndex]);
     }
+    public void UnequipWeapon(int hardpointIndex)
+    {
+        if(equippedWeapons[hardpointIndex])
+        {
+            availableWeapons.Add(equippedWeapons[hardpointIndex]);
+            availableWeapons[availableWeapons.Count - 1].transform.position = inventoryLoc.position;
+            availableWeapons[availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
+            equippedWeapons[hardpointIndex] = null;
+        }
+    }
     public void AddWeaponToCargo(GameObject _weapon)
     {
         Weapon weapon = _weapon.GetComponent<Weapon>();

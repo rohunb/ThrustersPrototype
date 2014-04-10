@@ -67,7 +67,7 @@ public class DockManager : MonoBehaviour
     {
 
         Screen.showCursor = true;
-        equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, numHardpoints * (buttonSize.y+7));
+        equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, (numHardpoints+1) * (buttonSize.y+7));
         vendorWindow = new Rect(50, Screen.height / 2 - 200, 200, /*vendorWeapons.Count * 30*/ 400);
         vendorScrollRect = new Rect(2, 20, 200, /*vendorWeapons.Count * 30*/ 400);
 		missionWindow = new Rect(50, Screen.height / 2 - 200, 200, 200);
@@ -256,6 +256,18 @@ public class DockManager : MonoBehaviour
 
             }
         }
+        if (GUI.Button(new Rect(15,  30 + 4 * buttonSize.y, 150, buttonSize.y), "Clear All Hardpoints"))
+        {
+            Debug.Log("clear all");
+            //for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
+            //{
+            //    if (playerInv.equippedWeapons[i])
+            //    {
+            //        playerInv.UnequipWeapon(i);
+            //    }
+            //}
+        }
+
     }
     void VendorWindow(int windowID)
     {
