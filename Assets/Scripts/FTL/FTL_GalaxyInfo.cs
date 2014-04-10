@@ -148,7 +148,7 @@ public class FTL_GalaxyInfo : MonoBehaviour
         x /= 2.0f;
         y /= 2.0f;
         float avg = (x + y) / 2;
-        scaleConversionFactor = 35.0f / avg;
+        scaleConversionFactor = 100.0f / avg;
 
         for (int i = 0; i < numStars; i++)
         {
