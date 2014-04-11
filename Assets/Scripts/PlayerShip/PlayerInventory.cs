@@ -148,7 +148,7 @@ public class PlayerInventory : MonoBehaviour
 	}
 	public void LoadInventory()
     {
-		Debug.Log("loading");
+
         //availableWeapons = godInventory.availableWeapons;
         availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
 
@@ -272,7 +272,7 @@ public class PlayerInventory : MonoBehaviour
     
     public void EquipWeaponFromHold(int hardpointIndex, int availableWeaponsIndex)
     {
-        Debug.Log(hardpointIndex);
+
         if (equippedWeapons[hardpointIndex])
         {
             //equippedWeapons[hardpointSelected].gameObject.SetActive(false);
@@ -285,19 +285,23 @@ public class PlayerInventory : MonoBehaviour
         equippedWeapons[hardpointIndex] = availableWeapons[availableWeaponsIndex];
         equippedWeapons[hardpointIndex].transform.position = hardPoints[hardpointIndex].position;
         equippedWeapons[hardpointIndex].transform.rotation = hardPoints[hardpointIndex].rotation;
-        equippedWeapons[hardpointSelected].gameObject.SetActive(true);
+        equippedWeapons[hardpointIndex].gameObject.SetActive(true);
         equippedWeapons[hardpointIndex].gameObject.GetComponent<Weapon>().enabled = true;
         availableWeapons.Remove(availableWeapons[availableWeaponsIndex]);
     }
-    public void UnequipWeapon(int hardpointIndex)
+    public void UnequipWeapons()
     {
-        if(equippedWeapons[hardpointIndex])
+        for (int i = 0; i < equippedWeapons.Length; i++)
         {
-            availableWeapons.Add(equippedWeapons[hardpointIndex]);
-            availableWeapons[availableWeapons.Count - 1].transform.position = inventoryLoc.position;
-            availableWeapons[availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
-            equippedWeapons[hardpointIndex] = null;
+            if (equippedWeapons[i])
+            {
+                availableWeapons.Add(equippedWeapons[i]);
+                availableWeapons[availableWeapons.Count - 1].transform.position = inventoryLoc.position;
+                availableWeapons[availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
+                equippedWeapons[i] = null;
+            }    
         }
+        
     }
     public void AddWeaponToCargo(GameObject _weapon)
     {

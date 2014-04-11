@@ -266,19 +266,22 @@ public class DockManager : MonoBehaviour
                     playerInv.equippedWeapons[i].transform.rotation = playerInv.hardPoints[i].rotation;
                     playerInv.equippedWeapons[i].GetComponent<Weapon>().enabled = true;
                     playerInv.availableWeapons.Remove(playerInv.availableWeapons[availableWeaponSelected]);
+                    attachingWeapon = false;
                 }
             }
         }
         if (GUI.Button(new Rect(15,  30 + 4 * buttonSize.y, 150, buttonSize.y), "Clear All Hardpoints"))
         {
-            Debug.Log("clear all");
-            //for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
-            //{
-            //    if (playerInv.equippedWeapons[i])
-            //    {
-            //        playerInv.UnequipWeapon(i);
-            //    }
-            //}
+            playerInv.UnequipWeapons();
+            //weaponOutlines[hardpointSelected].SetActive(false);
+            //weapons[hardpointSelected].SetActive(true);
+            //foreach (GameObject weapon in weapons)
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                weapons[i].SetActive(false);
+                weaponOutlines[i].SetActive(true);
+            }
+            
         }
 
     }
