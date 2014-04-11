@@ -4,6 +4,7 @@ using System.Collections;
 public class SystemRing : MonoBehaviour {
 
     public TextMesh ringText;
+    public TextMesh missionIndicator;
     public PhysicsObject starSystem;
     MoveToMouse spaceshipMover;
     public GUISkin guiSkin;
@@ -46,8 +47,8 @@ public class SystemRing : MonoBehaviour {
     }
     void GoToSystem()
     {
-        GOD.missionStart(starSystem);
         Debug.Log("Going to system: "+starSystem.name);
+        GOD.currentLocation = starSystem.name;
         Application.LoadLevel("GameScene");
 
     }

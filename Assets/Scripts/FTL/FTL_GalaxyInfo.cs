@@ -160,6 +160,18 @@ public class FTL_GalaxyInfo : MonoBehaviour
             SystemRing systemRing = systemRings[i].GetComponent<SystemRing>();
             systemRing.ringText.text = myGalaxy.poStars[i].name;
             systemRing.starSystem = myGalaxy.poStars[i];
+
+            if (systemRing.missionIndicator)
+            {
+                if (systemRing.ringText.text == GOD.currentMissionLocation)
+                {
+                    systemRing.missionIndicator.text = "!";
+                }
+                else
+                {
+                    systemRing.missionIndicator.text = "";
+                }
+            }
         }
 	}
 }

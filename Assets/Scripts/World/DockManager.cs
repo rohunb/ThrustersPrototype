@@ -347,6 +347,12 @@ public class DockManager : MonoBehaviour
 			GOD.godMission.setMissionType(selectedMission);
 			ResetPopup();
 			Debug.Log("Set current mission to: " + selectedMission);
+            GOD.currentMission = selectedMission;
+
+            Galaxy myGalaxy = GameObject.Find("Galaxy").GetComponent<Galaxy>();
+            GOD.currentMissionLocation = myGalaxy.GetRandomSystem();
+
+
 		}
 		if (GUI.Button(new Rect(popupRect.width - popupRect.width / 2 + 10, popupRect.height - 40, popupRect.width / 2 - 10, 40), "No"))
 		{

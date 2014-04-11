@@ -167,6 +167,19 @@ public class Galaxy : MonoBehaviour
 
     } //end method
 
+    public string GetRandomSystem()
+    {
+        string returnVar = "";
+
+        int numStars = poStars.Count;
+
+        int randStar = UnityEngine.Random.Range(0, numStars - 1);
+
+        returnVar = poStars[randStar].name;
+
+        return returnVar;
+    }
+
     private void createGalaxy()
     {
         StarRangeIncr = maxStarRange * 2;

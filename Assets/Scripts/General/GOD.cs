@@ -7,6 +7,7 @@ public class GOD : MonoBehaviour {
 	public static AudioEngine audioengine;
     public static Galaxy galaxy;
 	public static PersistentMission godMission;
+    public static string currentLocation = "";
 
     public static WhatControllerAmIUsing whatControllerAmIUsing;
 
@@ -15,6 +16,8 @@ public class GOD : MonoBehaviour {
 
 	public GameObject GalaxyPrefab;
 
+    private GameObject sexyShip;
+
     public static bool firstUpdate;
 	public static bool goToRandomPointInGalaxy = false;
     public static bool goToSpecificSystem = false;
@@ -22,6 +25,9 @@ public class GOD : MonoBehaviour {
 
 	private static GameObject targetPlanet;
 	private float rangeFromPlanet = 2000f;
+
+    public static string currentMission;
+    public static string currentMissionLocation;
 
 	//private MissionType mType;
 
@@ -60,6 +66,7 @@ public class GOD : MonoBehaviour {
             case "DockedScene":
                 break;
             case "GameScene":
+                sexyShip = GameObject.Find("sexyShip");
 			if (GOD.goToRandomPointInGalaxy )
 			{
 				int randIndex = UnityEngine.Random.Range(1, GameObject.FindGameObjectsWithTag("Moon").Length - 1);
@@ -75,11 +82,25 @@ public class GOD : MonoBehaviour {
                 GameObject.Find("BackgroundCamera").transform.position = targetPlanet.transform.position - new Vector3(rangeFromPlanet, 0, 0);
                 GameObject.Find("BackgroundCamera").transform.LookAt(targetPlanet.transform.position);
                 GOD.goToSpecificSystem = false;
+                
+            }
 
-                //ADD CODE FOR STARTING A MISSION HERE
+            if (currentMissionLocation == currentLocation)
+            {
+                if (currentMission == "Exterminate")
+                {
+                    sexyShip.GetComponent<PlayerMissionController>().GenerateNewExterminateMission();
+                }
+
+
+                currentMission = "";
+                currentLocation = "";
             }
                 break;
             case "MainMenu":
+                break;
+            case "FTLScene":
+                Debug.Log(currentMission + "@" + currentMissionLocation);
                 break;
             default:
                 break;

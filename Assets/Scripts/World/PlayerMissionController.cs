@@ -64,17 +64,17 @@ public class PlayerMissionController : MonoBehaviour
         if (displayWaypoint && Vector3.Distance(transform.position, currentWP.position) <= 700f)
             displayWaypoint = false;
     }
-    void GenerateNewExterminateMission()
+    public void GenerateNewExterminateMission()
     {
         missionController.GenerateExterminateMission(MissionController.MissionType.Exterminate, waypointExterminate, enemySpawnPoint.position, numEnemiesToSpawn, AI_Controller.AI_Types.Assassin);
         SetMissionInfo(waypointExterminate, null, null);
     }
-    void GenerateNewDistressMission()
+    public void GenerateNewDistressMission()
     {
         missionController.GenerateDistressMission(MissionController.MissionType.DistressCall, waypointDistress, victimSpawnPoint.position, numEnemiesToSpawn, AI_Controller.AI_Types.FlyBy);
         SetMissionInfo(waypointDistress, missionController.currentVictim, victimIndicatorTexture);
     }
-    void GenerateNewDestroyStructureMission()
+    public void GenerateNewDestroyStructureMission()
     {
         missionController.GenerateDestroyStructureMission(MissionController.MissionType.DestroyStructure, waypointDestroyStruct, enemyStructSpawnPoint.position, numEnemiesToSpawn, AI_Controller.AI_Types.Assassin);
         SetMissionInfo(waypointDestroyStruct, missionController.currentEnemyStruct, enemyStructIndicatorTexture);
