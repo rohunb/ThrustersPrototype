@@ -1,30 +1,13 @@
 fileFormatVersion: 2
-guid: cf0fd89f4df458849ab99a9eb86881f3
+guid: 0c174f9186c241646b6a56a134de4486
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: Armature
-    100002: //RootNode
-    100004: Mount
-    100006: Rail_Ammo
-    100008: Rail_gun
-    400000: Armature
-    400002: //RootNode
-    400004: Mount
-    400006: Rail_Ammo
-    400008: Rail_gun
-    2300000: Armature
-    2300002: Mount
-    2300004: Rail_Ammo
-    2300006: Rail_gun
-    3300000: Armature
-    3300002: Mount
-    3300004: Rail_Ammo
-    3300006: Rail_gun
-    4300000: Mount
-    4300002: Armature
-    4300004: Rail_Ammo
-    4300006: Rail_gun
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Space_stat
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -62,7 +45,7 @@ ModelImporter:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
     normalImportMode: 0
-    tangentImportMode: 0
+    tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
