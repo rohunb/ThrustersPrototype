@@ -91,7 +91,22 @@ public class GOD : MonoBehaviour {
                 {
                     sexyShip.GetComponent<PlayerMissionController>().GenerateNewExterminateMission();
                 }
-
+                else if (currentMission == "DistressCall")
+                {
+                    sexyShip.GetComponent<PlayerMissionController>().GenerateNewDistressMission();
+                }
+                else if (currentMission == "DestoryStructure")
+                {
+                    sexyShip.GetComponent<PlayerMissionController>().GenerateNewDestroyStructureMission();
+                }
+                else if (currentMission == "Gather")
+                {
+                    //start new Gather Mission
+                }
+                else if (currentMission == "Fedex")
+                {
+                    //start new Fedex Mission
+                }
 
                 currentMission = "";
                 currentLocation = "";
@@ -100,7 +115,7 @@ public class GOD : MonoBehaviour {
             case "MainMenu":
                 break;
             case "FTLScene":
-                Debug.Log(currentMission + "@" + currentMissionLocation);
+                //Debug.Log(currentMission + "@" + currentMissionLocation);
                 break;
             default:
                 break;

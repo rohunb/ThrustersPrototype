@@ -310,6 +310,7 @@ public class DockManager : MonoBehaviour
         GUI.Label(new Rect(5, 60, 120, buttonSize.y), "Optional Missions: ");
 
 		for (int i = 0; i < GOD.godMission.MissionName.Length; i++) {
+            Debug.Log(GOD.godMission.MissionName[i].ToString());
             if (GUI.Button(new Rect(5, 80 + i * buttonSize.y, 190, buttonSize.y), GOD.godMission.MissionName[i].ToString()))
             {
 				GOD.audioengine.playSFX("TerminalBtn");
