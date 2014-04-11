@@ -36,7 +36,7 @@ public class DockManager : MonoBehaviour
 
     bool attachingWeapon = false;
     public int hardpointsLayer = 9;
-    int weaponSelected;
+    int availableWeaponSelected;
     public GameObject weaponOutlinePrefab;
     GameObject[] weaponOutlines;
     public GameObject weaponPrefab;
@@ -133,7 +133,7 @@ public class DockManager : MonoBehaviour
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, availableWeaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
                             weapons[hardpointSelected].SetActive(true);
                         }
@@ -148,7 +148,7 @@ public class DockManager : MonoBehaviour
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, availableWeaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
                             weapons[hardpointSelected].SetActive(true);
                         }
@@ -163,7 +163,7 @@ public class DockManager : MonoBehaviour
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, availableWeaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
                             weapons[hardpointSelected].SetActive(true);
                         }
@@ -178,7 +178,7 @@ public class DockManager : MonoBehaviour
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, availableWeaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
                             weapons[hardpointSelected].SetActive(true);
                         }
@@ -253,7 +253,20 @@ public class DockManager : MonoBehaviour
                 buttonText = "------";
             if (GUI.Button(new Rect(15, 20 + i * buttonSize.y, 150, buttonSize.y), buttonText))
             {
-
+                if (attachingWeapon)
+                {
+                    if(playerInv.equippedWeapons[i])
+                    {
+                        playerInv.availableWeapons.Add(playerInv.equippedWeapons[i]);
+                        playerInv.availableWeapons[playerInv.availableWeapons.Count - 1].transform.position = playerInv.inventoryLoc.position;
+                        playerInv.availableWeapons[playerInv.availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
+                    }
+                    playerInv.equippedWeapons[i] = playerInv.availableWeapons[availableWeaponSelected];
+                    playerInv.equippedWeapons[i].transform.position = playerInv.hardPoints[i].position;
+                    playerInv.equippedWeapons[i].transform.rotation = playerInv.hardPoints[i].rotation;
+                    playerInv.equippedWeapons[i].GetComponent<Weapon>().enabled = true;
+                    playerInv.availableWeapons.Remove(playerInv.availableWeapons[availableWeaponSelected]);
+                }
             }
         }
         if (GUI.Button(new Rect(15,  30 + 4 * buttonSize.y, 150, buttonSize.y), "Clear All Hardpoints"))
@@ -299,7 +312,7 @@ public class DockManager : MonoBehaviour
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 attachingWeapon = true;
-                weaponSelected = i;
+                availableWeaponSelected = i;
             }
         }
     }
