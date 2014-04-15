@@ -46,6 +46,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Detonator Explosion Framework\Sample Supporting Emitters\Detonator Spray Helper.js" />
+     <Compile Include="Assets\Detonator Explosion Framework\TestScene\DetonatorTest.js" />
      <Compile Include="Assets\GUI\ControlP5\ControlP5.js" />
      <None Include="Assets\Standard Assets\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Shaders\3DTextShader.shader" />
@@ -53,6 +55,7 @@
      <None Include="Assets\Shaders\Planet.shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Sample Assets\Effects\Light Shafts\Shaders\Coord.shader" />
+     <None Include="Assets\Detonator Explosion Framework\Resources\Detonator\Textures\HeatDistort.shader" />
      <None Include="Assets\Sample Assets\Effects\Projectors\Shaders\Projector Additive.shader" />
      <None Include="Assets\Sample Assets\Characters and Vehicles\Aircraft\Aircraft Guidelines.txt" />
      <None Include="Assets\GUI\ControlP5\ReadMe.txt" />
