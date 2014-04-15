@@ -15,6 +15,11 @@ public class SystemRing : MonoBehaviour {
         spaceshipMover = GameObject.FindGameObjectWithTag("Player").GetComponent<MoveToMouse>();
     }
 
+    void Start()
+    {
+        iTween.FadeTo(GameObject.Find("Fader"), iTween.Hash("alpha", 0, "time", .5));
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.collider.tag == "Player")
@@ -39,7 +44,8 @@ public class SystemRing : MonoBehaviour {
         {
             if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height - 60, 200, 40), "Enter "+starSystem.name+" "))
             {
-                GoToSystem();
+                //GoToSystem();
+                iTween.FadeTo(GameObject.Find("Fader"), iTween.Hash("alpha", 1, "time", .2, "onComplete", "GoToSystem", "onCompleteTarget", gameObject));
             }
             
         }
