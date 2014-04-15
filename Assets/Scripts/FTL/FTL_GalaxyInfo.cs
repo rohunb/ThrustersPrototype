@@ -110,6 +110,10 @@ public class FTL_GalaxyInfo : MonoBehaviour
             systemRing.starSystem = myGalaxy.poStars[i];
         }
 
+		if(GOD.godMission.currentMission != null) {
+			GOD.audioengine.playSFX("FtlAlert");
+		}
+
 	}
 	
 	void Update ()
