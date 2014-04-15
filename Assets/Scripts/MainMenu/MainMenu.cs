@@ -17,6 +17,8 @@ public class MainMenu : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        showMainMenu = false;
+        iTween.FadeTo(GameObject.Find("Screen Fader"), iTween.Hash("alpha", 0, "time", .5, "onComplete", "ShowMenu", "onCompleteTarget", gameObject));
     }
     
     // Update is called once per frame
@@ -33,7 +35,8 @@ public class MainMenu : MonoBehaviour {
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .24f, Screen.width * .2f, Screen.height * .06f), "New Game"))
             {
                 GOD.audioengine.playSFX("MenuPlayBtn");
-                Application.LoadLevel(1);
+                showMainMenu = false;
+                iTween.FadeTo(GameObject.Find("Screen Fader"), iTween.Hash("alpha", 1, "time", .5, "onComplete", "LoadGameScene", "onCompleteTarget", gameObject));
                // fadeToGameScene = true;
             }
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .34f, Screen.width * .2f, Screen.height * .06f), "Continue"))
@@ -63,21 +66,21 @@ public class MainMenu : MonoBehaviour {
 
         if (showOptions)
         {
-            Rect optionsRect = new Rect(Screen.width / 2 - 200, Screen.height / 2 - 100, 400, 200);
+            Rect optionsRect = new Rect(Screen.width / 2 - 150, Screen.height / 2 - 100, 300, 300);
 
             GUI.Box(optionsRect, "Options");
             GUI.BeginGroup(optionsRect);
 
-            GUI.Label(new Rect(optionsRect.width / 2 - 50, 30, 100, 20), "Music Volume");
-            musicVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 50, 130, 20), musicVolume, 0, 1);
+            GUI.Label(new Rect(optionsRect.width / 2 - 50, 50, 100, 20), "Music Volume");
+            musicVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 70, 130, 20), musicVolume, 0, 1);
 
-            GUI.Label(new Rect(optionsRect.width / 2 - 50, 70, 100, 20), "Sound Volume");
-            soundVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 90, 130, 20), soundVolume, 0, 1);
+            GUI.Label(new Rect(optionsRect.width / 2 - 50, 90, 100, 20), "Sound Volume");
+            soundVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 110, 130, 20), soundVolume, 0, 1);
 
-            GUI.Label(new Rect(optionsRect.width / 2 - 50, 110, 100, 20), "Ship Volume");
-            shipVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 130, 130, 20), shipVolume, 0, 1);
+            GUI.Label(new Rect(optionsRect.width / 2 - 50, 130, 100, 20), "Ship Volume");
+            shipVolume = GUI.HorizontalSlider(new Rect(optionsRect.width / 2 - 65, 150, 130, 20), shipVolume, 0, 1);
 
-            if (GUI.Button(new Rect(optionsRect.width / 2 - 65, optionsRect.height - 25, 60, 20), "Confirm"))
+            if (GUI.Button(new Rect(optionsRect.width / 2 - 150, optionsRect.height - 100, 150, 40), "Confirm"))
             {
                 GOD.audioengine.playSFX("TerminalBtnYes");
                 showOptions = false;
@@ -86,7 +89,7 @@ public class MainMenu : MonoBehaviour {
                 //save changes
                 ConfirmChanges();
             }
-            if (GUI.Button(new Rect(optionsRect.width / 2 + 5, optionsRect.height - 25, 60, 20), "Cancel"))
+            if (GUI.Button(new Rect(optionsRect.width / 2, optionsRect.height - 100, 150, 40), "Cancel"))
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 showOptions = false;
@@ -152,5 +155,15 @@ public class MainMenu : MonoBehaviour {
     void CancelChanges()
     {
         print("cancelled changes");
+    }
+
+    void ShowMenu()
+    {
+        showMainMenu = true;
+    }
+
+    void LoadGameScene()
+    {
+        Application.LoadLevel(1);
     }
 }

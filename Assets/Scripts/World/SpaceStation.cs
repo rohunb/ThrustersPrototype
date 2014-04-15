@@ -9,6 +9,7 @@ public class SpaceStation : MonoBehaviour {
 	void Awake()
     {
         playerInv = GameObject.Find("sexyShip").GetComponent<PlayerInventory>();
+        iTween.FadeTo(GameObject.Find("Fader"), iTween.Hash("alpha", 0, "time", .5));
     }
 	
 	
@@ -17,10 +18,10 @@ public class SpaceStation : MonoBehaviour {
 		if (displayVendorPrompt && Input.GetKeyDown(KeyCode.F))
 		{
             playerInv.SaveInventory();
-			ScreenFader.EndScene();
 			GOD.cameraPos = GameObject.Find ("BackgroundCamera").transform.position;
 			GOD.cameraRot = GameObject.Find ("BackgroundCamera").transform.rotation;
-			Application.LoadLevel("DockedScene");
+
+            iTween.FadeTo(GameObject.Find("Fader"), iTween.Hash("alpha", 1, "time", .5, "onComplete", "LoadDockedScene", "onCompleteTarget", GameObject.Find("DockingStation")));
 		}
 	}
 	
@@ -49,4 +50,9 @@ public class SpaceStation : MonoBehaviour {
 			displayVendorPrompt = false;
 		}
 	}
+
+    void LoadDockedScene()
+    {
+        Application.LoadLevel("DockedScene");
+    }
 }

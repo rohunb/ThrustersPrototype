@@ -91,11 +91,11 @@ public class GOD : MonoBehaviour {
                 {
                     sexyShip.GetComponent<PlayerMissionController>().GenerateNewExterminateMission();
                 }
-                else if (currentMission == "DistressCall")
+                else if (currentMission == "Distress Call")
                 {
                     sexyShip.GetComponent<PlayerMissionController>().GenerateNewDistressMission();
                 }
-                else if (currentMission == "DestoryStructure")
+                else if (currentMission == "Destroy Structure")
                 {
                     sexyShip.GetComponent<PlayerMissionController>().GenerateNewDestroyStructureMission();
                 }

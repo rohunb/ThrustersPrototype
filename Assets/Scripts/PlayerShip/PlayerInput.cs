@@ -329,7 +329,12 @@ public class PlayerInput : MonoBehaviour {
 		//FTL Drive
 		if (Input.GetKey(KeyCode.P))
 		{
-			Application.LoadLevel ("FTLScene");
+            iTween.FadeTo(GameObject.Find("Fader"), iTween.Hash("alpha", 1, "time", .5, "onComplete", "LoadFTLScene", "onCompleteTarget", gameObject));
 		}
+    }
+
+    void LoadFTLScene()
+    {
+        Application.LoadLevel("FTLScene");
     }
 }
