@@ -16,7 +16,6 @@ public class ExitDock : MonoBehaviour {
 	    if(displayExitPrompt && Input.GetKeyDown(KeyCode.F))
         {
             playerInv.SaveInventory();
-            ScreenFader.EndScene();
 			Application.LoadLevel("GameScene");
         }
 

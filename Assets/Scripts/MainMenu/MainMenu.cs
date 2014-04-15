@@ -15,8 +15,17 @@ public class MainMenu : MonoBehaviour {
 
     public GUISkin guiSkin;
 
+    Hashtable ht = new Hashtable();
+
+    public GameObject sf;
+
     // Use this for initialization
     void Start () {
+        ht.Add("alpha", 0);
+        ht.Add("time", 1);
+        //ht.Add("delay", .5);
+
+        iTween.FadeTo(sf, ht);
     }
     
     // Update is called once per frame
@@ -33,7 +42,8 @@ public class MainMenu : MonoBehaviour {
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .24f, Screen.width * .2f, Screen.height * .06f), "New Game"))
             {
                 GOD.audioengine.playSFX("MenuPlayBtn");
-                Application.LoadLevel(1);
+                showMainMenu = false;
+                iTween.FadeTo(sf, iTween.Hash("alpha", 1, "time", .5, "onComplete", "LoadGameScene", "onCompleteTarget", gameObject));
                // fadeToGameScene = true;
             }
             if (GUI.Button(new Rect(Screen.width * .05f, Screen.height * .34f, Screen.width * .2f, Screen.height * .06f), "Continue"))
@@ -152,5 +162,10 @@ public class MainMenu : MonoBehaviour {
     void CancelChanges()
     {
         print("cancelled changes");
+    }
+
+    void LoadGameScene()
+    {
+        Application.LoadLevel(1);
     }
 }
