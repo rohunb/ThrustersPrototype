@@ -17,9 +17,6 @@ public class PersistentMission : MonoBehaviour {
 		"Exterminate", "DistressCall", "DestoryStructure"};
 
 
-
-        //"Exterminate", "DistressCall", "DestoryStructure", "Assassinate", "Gather", "FedEx"};
-
 	public string currentMission;
 
 	// Use this for initialization
