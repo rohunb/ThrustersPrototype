@@ -6,8 +6,11 @@ public class ExitDock : MonoBehaviour {
     bool displayExitPrompt = false;
     DockManager dockManager;
     PlayerInventory playerInv;
+
     void Awake()
     {
+        iTween.FadeTo(GameObject.Find("Fader"), iTween.Hash("alpha", 0, "time", .5));
+
         dockManager = GameObject.FindGameObjectWithTag("DockManager").GetComponent<DockManager>();
         playerInv = GameObject.Find("DockedShip").GetComponent<PlayerInventory>();
     }
@@ -16,7 +19,8 @@ public class ExitDock : MonoBehaviour {
 	    if(displayExitPrompt && Input.GetKeyDown(KeyCode.F))
         {
             playerInv.SaveInventory();
-			Application.LoadLevel("GameScene");
+            GUI.enabled = false;
+            iTween.FadeTo(GameObject.Find("Fader"), iTween.Hash("alpha", 1, "time", .5, "onComplete", "LoadGameScene", "onCompleteTarget", gameObject));
         }
 
 		if (Input.GetKeyDown(KeyCode.Escape)) 
@@ -50,4 +54,10 @@ public class ExitDock : MonoBehaviour {
         }
         dockManager.ExitAllTerminals();
     }
+
+    void LoadGameScene()
+    {
+        Application.LoadLevel("GameScene");
+    }
 }
+
