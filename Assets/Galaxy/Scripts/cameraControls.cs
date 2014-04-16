@@ -13,16 +13,24 @@ public class cameraControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameObject camera = GameObject.Find("Camera");
-        MouseOrbit mouseOrbitScript = camera.GetComponent<MouseOrbit>() as MouseOrbit;
+
+        MouseOrbit mouseOrbitScript = GameObject.Find("Main Camera").GetComponent<MouseOrbit>() as MouseOrbit;
 
         if (Input.GetAxis("Mouse ScrollWheel") > 0.1)
         {
-            mouseOrbitScript.distance -= 1000;
+            if (mouseOrbitScript.distance > 10)
+            {
+                mouseOrbitScript.distance -= 10;
+            }
+            
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < -0.1)
         {
-            mouseOrbitScript.distance += 1000;
+            if (mouseOrbitScript.distance < 100)
+            {
+                mouseOrbitScript.distance += 10;
+            }
+            
         }
     }
 }
