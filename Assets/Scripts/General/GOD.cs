@@ -115,7 +115,6 @@ public class GOD : MonoBehaviour {
             case "MainMenu":
                 break;
             case "FTLScene":
-                //Debug.Log(currentMission + "@" + currentMissionLocation);
                 break;
             default:
                 break;
