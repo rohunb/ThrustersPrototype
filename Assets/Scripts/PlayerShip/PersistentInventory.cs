@@ -36,7 +36,7 @@ public class PersistentInventory : MonoBehaviour
 		for (int i = 0; i < numberOfHardpoints; i++)
 		{
 			//equippedWeapons[i] = "";
-            Debug.Log(equippedWeapons[i]);
+            //Debug.Log(equippedWeapons[i]);
 		}
 
         //equippedWeapons = new Weapon[numberOfHardpoints];
@@ -49,7 +49,7 @@ public class PersistentInventory : MonoBehaviour
         //}
         
         //equippedWeapons[1] = "Railgun";
-        Debug.Log("start persistent");
+        //Debug.Log("start persistent");
         //equippedWeapons[0] = "Laser";
 //        equippedWeapons[1] = "Mining Laser";
 //        equippedWeapons[2] = "Mining Laser";

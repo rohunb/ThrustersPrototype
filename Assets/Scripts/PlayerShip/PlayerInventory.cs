@@ -148,7 +148,7 @@ public class PlayerInventory : MonoBehaviour
 	}
 	public void LoadInventory()
     {
-		Debug.Log("loading");
+		//Debug.Log("loading");
         //availableWeapons = godInventory.availableWeapons;
         availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
 

@@ -118,6 +118,7 @@ public class AI_Controller : MonoBehaviour
                     //    }
                     //}
                 }
+
                 break;
             case AI_Types.Vulture:
                 break;
@@ -168,6 +169,7 @@ public class AI_Controller : MonoBehaviour
                 break;
             case AI_States.Waiting:
                 //Debug.Log("waiting");
+                Brake();
                 break;
             default:
                 break;

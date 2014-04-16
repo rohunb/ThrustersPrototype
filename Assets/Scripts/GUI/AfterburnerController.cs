@@ -24,7 +24,7 @@ public class AfterburnerController : MonoBehaviour
     {
         float currAF = shipMove.currentAfterburnerLevel;
         cutoff = 1f - (currAF / maxAF);
-        print(cutoff);
+        //print(cutoff);
 
         renderer.material.SetFloat("_Cutoff", cutoff);
     }

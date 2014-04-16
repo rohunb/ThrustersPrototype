@@ -53,7 +53,7 @@ public class SystemRing : MonoBehaviour {
     }
     void GoToSystem()
     {
-        Debug.Log("Going to system: "+starSystem.name);
+        //Debug.Log("Going to system: "+starSystem.name);
         GOD.currentLocation = starSystem.name;
 		GOD.audioengine.playSFX("FtlMove");
         Application.LoadLevel("GameScene");

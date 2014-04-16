@@ -24,7 +24,7 @@ public class ShieldController : MonoBehaviour
     {
         float currSh = shipHp.shieldStrength;
         cutoff = 1f - (currSh / maxShield);
-        print(cutoff);
+        //print(cutoff);
 
         renderer.material.SetFloat("_Cutoff", cutoff);
     }
