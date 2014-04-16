@@ -21,7 +21,7 @@ public class ShipAttack : MonoBehaviour {
 	// Use this for initialization
     void Start()
     {
-        Screen.showCursor = false;
+        Screen.showCursor = true;
         inventory = gameObject.GetComponent<PlayerInventory>();
         target = null;
 
@@ -53,8 +53,39 @@ public class ShipAttack : MonoBehaviour {
 
         if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.MOUSE_KEYBOARD)
         {
-            xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
+            foreach (Weapon weapon in inventory.equippedWeapons)
+            {
+                weapon.AimAt(mousePos);
+            }
+            xMin = Input.mousePosition.x - (crosshair.width / 2 / 10);
             yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
+
+            //Vector3 screenHitPos = Vector3.zero;
+            //Ray ray = new Ray(mousePointTargeter.position, mousePointTargeter.forward);
+            //Debug.DrawRay(ray.origin, ray.direction * 10000f, Color.yellow);
+            //RaycastHit hit;
+            //if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 10))
+            //{
+            //    //screenHitPos = targeter.InverseTransformPoint(hit.point);
+            //    screenHitPos = hit.point;
+            //    foreach (Weapon weapon in inventory.equippedWeapons)
+            //    {
+            //        weapon.AimAt(screenHitPos);
+            //    }
+            //    //Debug.Log(screenHitPos);
+            //    //Debug.Log(screenHitPos);
+            //}
+            //if (Camera.main)
+            //{
+
+            //    Vector3 targetedPos = Camera.main.WorldToScreenPoint(screenHitPos);
+            //    xMin = targetedPos.x;
+            //    yMin = targetedPos.y;
+            //    //Debug.Log("xMin, yMin: " + new Vector2(xMin, yMin));
+            //}
+
+
 			/*
             Vector3 screenHitPos = Vector3.zero;
             Ray ray = new Ray(targeter.position, targeter.forward);
@@ -121,7 +152,7 @@ public class ShipAttack : MonoBehaviour {
 			{
 				//screenHitPos = targeter.InverseTransformPoint(hit.point);
 				screenHitPos = hit.point;
-				Debug.Log(screenHitPos);
+				//Debug.Log(screenHitPos);
 				//Debug.Log(screenHitPos);
 			}
 			if(Camera.main)
@@ -209,6 +240,80 @@ public class ShipAttack : MonoBehaviour {
 			
 		}
 
+    }
+    void OnGUI()
+    {
+
+        if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.MOUSE_KEYBOARD)
+        {
+            //xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
+            //yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
+
+            //GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
+
+            GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
+
+            //GUI.DrawTexture(new Rect(xMin - (crosshair.width / 20), Screen.height - yMin - (crosshair.width / 20), crosshair.width / 10, crosshair.height / 10), crosshair);
+
+        }
+        else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
+        {
+            GUI.DrawTexture(new Rect(xMin, Screen.height - yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
+        }
+
+        GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
+        GUILayout.BeginVertical();
+        GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
+        GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
+        GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
+        GUILayout.Label("Credits: " + gameObject.GetComponent<PlayerInventory>().GetCredits());
+        if (target)
+        {
+            GUILayout.Label("Target: " + target.name.ToString());
+            GUILayout.Label("Angle to Target: " + Vector3.Angle(targeter.forward, target.position - transform.position).ToString());
+        }
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
+
+        if (target)
+        {
+            float size = 10000 / Vector3.Distance(transform.position, target.position);
+            size = Mathf.Clamp(size, 45f, 112f);
+            Vector3 position = Camera.main.WorldToScreenPoint(target.position);
+            position.y = Screen.height - position.y;
+            position.x = Mathf.Clamp(position.x, 0, Screen.width - size / 2);
+            position.y = Mathf.Clamp(position.y, 0, Screen.height - size / 2);
+            if (Vector3.Angle(targeter.forward, target.position - transform.position) > 90)
+            {
+                if (position.x >= Screen.width / 2)
+                    position.x = Mathf.Clamp(position.x, Screen.width - size / 2, Screen.width - size / 2);
+                else
+                    position.x = Mathf.Clamp(position.x, 0, 0);
+                if (position.y >= Screen.height / 2)
+                    position.y = Mathf.Clamp(position.y, Screen.height - size / 2, Screen.height - size / 2);
+                else
+                    position.y = Mathf.Clamp(position.y, 0, 0);
+
+            }
+            //if (showTargetLead)
+            {
+
+                Vector3 leadPos = Camera.main.WorldToScreenPoint(targetLead);
+                float leadSize = 15f;
+                leadPos.y = Screen.height - leadPos.y;
+                leadPos.x = Mathf.Clamp(leadPos.x, 0, Screen.width - leadSize / 2);
+                leadPos.y = Mathf.Clamp(leadPos.y, 0, Screen.height - leadSize / 2);
+                if (Vector3.Angle(targeter.forward, target.position - transform.position) < 90)
+                {
+                    GUI.DrawTexture(new Rect((leadPos.x - (leadSize / 2)), (leadPos.y - (leadSize / 2)), leadSize, leadSize), targetLeadTexture);
+                }
+            }
+            GUI.DrawTexture(new Rect((position.x - (size / 2)), (position.y - (size / 2)), size, size), targetBoxTexture);
+            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2)), size * 20, size * 2), "Target = " + target.name);
+            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 15), size * 20, size * 2), "Health = " + target.gameObject.GetComponent<Health>().health);
+            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 30), size * 20, size * 2), "Shield = " + target.gameObject.GetComponent<Health>().shieldStrength);
+            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 45), size * 20, size * 2), "Dist = " + Vector3.Distance(transform.position, target.position));
+        }
     }
     public void FirePrimary()
     {
@@ -300,78 +405,7 @@ public class ShipAttack : MonoBehaviour {
         }
         
     }
-    void OnGUI()
-    {
-        
-        if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.MOUSE_KEYBOARD)
-        {
-            //xMin = Screen.width - (Screen.width - Input.mousePosition.x) - (crosshair.width / 2 / 10);
-            //yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);
-
-            //GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
-
-            GUI.DrawTexture(new Rect(xMin, yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
-
-        }
-        else if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
-        {
-			GUI.DrawTexture(new Rect(xMin, Screen.height-yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
-        }
-
-        GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
-        GUILayout.BeginVertical();
-        GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
-        GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
-        GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
-        GUILayout.Label("Credits: " + gameObject.GetComponent<PlayerInventory>().GetCredits());
-        if (target)
-        {
-            GUILayout.Label("Target: " + target.name.ToString());
-            GUILayout.Label("Angle to Target: " + Vector3.Angle(targeter.forward, target.position - transform.position).ToString());
-        }
-        GUILayout.EndVertical();
-        GUILayout.EndArea();
-
-        if (target)
-        {
-            float size = 10000 / Vector3.Distance(transform.position, target.position);
-            size = Mathf.Clamp(size, 45f, 112f);
-            Vector3 position = Camera.main.WorldToScreenPoint(target.position);
-            position.y = Screen.height - position.y;
-            position.x = Mathf.Clamp(position.x, 0, Screen.width - size / 2);
-            position.y = Mathf.Clamp(position.y, 0, Screen.height - size / 2);
-            if (Vector3.Angle(targeter.forward, target.position - transform.position) > 90)
-            {
-                if (position.x >= Screen.width / 2)
-                    position.x = Mathf.Clamp(position.x, Screen.width - size / 2, Screen.width - size / 2);
-                else
-                    position.x = Mathf.Clamp(position.x, 0, 0);
-                if (position.y >= Screen.height / 2)
-                    position.y = Mathf.Clamp(position.y, Screen.height - size / 2, Screen.height - size / 2);
-                else
-                    position.y = Mathf.Clamp(position.y, 0, 0);
-
-            }
-            //if (showTargetLead)
-            {
-
-                Vector3 leadPos = Camera.main.WorldToScreenPoint(targetLead);
-                float leadSize = 15f;
-                leadPos.y = Screen.height - leadPos.y;
-                leadPos.x = Mathf.Clamp(leadPos.x, 0, Screen.width - leadSize / 2);
-                leadPos.y = Mathf.Clamp(leadPos.y, 0, Screen.height - leadSize / 2);
-                if (Vector3.Angle(targeter.forward, target.position - transform.position) < 90)
-                {
-                    GUI.DrawTexture(new Rect((leadPos.x - (leadSize / 2)), (leadPos.y - (leadSize / 2)), leadSize, leadSize), targetLeadTexture);
-                }
-            }
-            GUI.DrawTexture(new Rect((position.x - (size / 2)), (position.y - (size / 2)), size, size), targetBoxTexture);
-            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2)), size * 20, size * 2), "Target = " + target.name);
-            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 15), size * 20, size * 2), "Health = " + target.gameObject.GetComponent<Health>().health);
-            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 30), size * 20, size * 2), "Shield = " + target.gameObject.GetComponent<Health>().shieldStrength);
-            GUI.Label(new Rect((position.x - (size / 2)), (position.y + (size / 2) + 45), size * 20, size * 2), "Dist = " + Vector3.Distance(transform.position, target.position));
-        }
-    }
+    
 
 
 }

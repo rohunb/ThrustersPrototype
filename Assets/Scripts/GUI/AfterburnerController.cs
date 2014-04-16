@@ -39,7 +39,7 @@ public class AfterburnerController : MonoBehaviour
 		}
 
         cutoff = 1f - (currAF / maxAF);
-		Debug.Log(currAF);
+		//Debug.Log(currAF);
         //print(cutoff);
 
         renderer.material.SetFloat("_Cutoff", cutoff);

@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour {
     private MissionController missionController;
 	// Use this for initialization
 	void Start () {
-        playerTarget = GameObject.FindGameObjectWithTag("PlayerShip").transform;
+        playerTarget = GameObject.FindGameObjectWithTag("ShipTargeter").transform;
         GameObject[] enemiesArray = GameObject.FindGameObjectsWithTag("EnemyShip");
         missionController = GameObject.FindGameObjectWithTag("MissionController").GetComponent<MissionController>();
         enemies = new List<GameObject>();

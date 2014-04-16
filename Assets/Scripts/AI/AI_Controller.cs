@@ -204,6 +204,7 @@ public class AI_Controller : MonoBehaviour
     
     void LookAtTarget()
     {
+
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), turnSpeed * Time.deltaTime);
     }
     void LookAwayFromTarget()
