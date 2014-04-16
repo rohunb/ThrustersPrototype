@@ -34,22 +34,32 @@ public class Weapon : MonoBehaviour {
     }
     protected virtual void Update()
     {
-        if (lookAtMouse && Camera.main)
-        {
-			if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
-			{
+        Vector3 screenHitPos = Vector3.zero;
+        Ray ray = new Ray(transform.position, transform.forward);
+        Debug.DrawRay(ray.origin, ray.direction * 10000f, Color.red);
+//        if (lookAtMouse && Camera.main)
+//        {
+//            if (GOD.whatControllerAmIUsing == WhatControllerAmIUsing.HYDRA)
+//            {
 
-				transform.localRotation = SixenseInput.Controllers[1].Rotation;
-				//transform.rotation=Quaternion.identity;
-//				Quaternion rot = SixenseInput.Controllers[1].Rotation;
-//				rot.eulerAngles= Quaternion.Euler(
-				//transform.Rotate(0f,-90f,0);
-			}
-			else
-			{
-				Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
-				transform.LookAt(mousePos);
-			}
+//                transform.localRotation = SixenseInput.Controllers[1].Rotation;
+//                //transform.rotation=Quaternion.identity;
+////				Quaternion rot = SixenseInput.Controllers[1].Rotation;
+////				rot.eulerAngles= Quaternion.Euler(
+//                //transform.Rotate(0f,-90f,0);
+//            }
+//            else
+//            {
+//                Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
+//                transform.LookAt(mousePos);
+//            }
+//        }
+    }
+    public virtual void AimAt(Vector3 targetPos)
+    {
+        if(lookAtMouse)
+        {
+            transform.LookAt(targetPos);
         }
     }
 }

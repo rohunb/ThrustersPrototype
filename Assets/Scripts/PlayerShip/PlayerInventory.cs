@@ -148,7 +148,7 @@ public class PlayerInventory : MonoBehaviour
 	}
 	public void LoadInventory()
     {
-		Debug.Log("loading");
+		//Debug.Log("loading");
         //availableWeapons = godInventory.availableWeapons;
         availableWindow = new Rect(240, Screen.height / 2 - 200, 175, availableWeapons.Count * 30);
 
@@ -316,7 +316,7 @@ public class PlayerInventory : MonoBehaviour
         if (Application.loadedLevelName == "GameScene")
         {
             DisplayEquippedWeapons();
-            DisplayMinorOptions();
+            //DisplayMinorOptions();
             if (showMissionLog) DisplayMissions();
         }
 
@@ -359,21 +359,21 @@ public class PlayerInventory : MonoBehaviour
         GUI.EndGroup();
     }
 
-    void DisplayMinorOptions()
-    {
-        if (GUI.Button(new Rect(Screen.width - 90, 0, 30, 20), "M"))
-        {
+    //void DisplayMinorOptions()
+    //{
+    //    if (GUI.Button(new Rect(Screen.width - 90, 0, 30, 20), "M"))
+    //    {
 
-        }
-        if (GUI.Button(new Rect(Screen.width - 60, 0, 30, 20), "S"))
-        {
+    //    }
+    //    if (GUI.Button(new Rect(Screen.width - 60, 0, 30, 20), "S"))
+    //    {
 
-        }
-        if (GUI.Button(new Rect(Screen.width - 30, 0, 30, 20), "O"))
-        {
+    //    }
+    //    if (GUI.Button(new Rect(Screen.width - 30, 0, 30, 20), "O"))
+    //    {
 
-        }
-    }
+    //    }
+    //}
 
     void EquippedWindow(int windowID)
     {

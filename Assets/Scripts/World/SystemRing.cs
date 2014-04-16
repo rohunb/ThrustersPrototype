@@ -24,7 +24,7 @@ public class SystemRing : MonoBehaviour {
     {
         if (other.collider.tag == "Player")
         {
-            iTween.RotateBy(GameObject.Find("Spaceship"), iTween.Hash("x", 20, "looptype", iTween.LoopType.loop));
+            //iTween.RotateBy(GameObject.Find("Spaceship"), iTween.Hash("x", 20, "looptype", iTween.LoopType.loop));
             showMissionPopup = true;
         }
 
@@ -53,7 +53,7 @@ public class SystemRing : MonoBehaviour {
     }
     void GoToSystem()
     {
-        Debug.Log("Going to system: "+starSystem.name);
+        //Debug.Log("Going to system: "+starSystem.name);
         GOD.currentLocation = starSystem.name;
 		GOD.audioengine.playSFX("FtlMove");
         Application.LoadLevel("GameScene");

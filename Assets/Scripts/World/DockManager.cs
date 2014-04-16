@@ -310,7 +310,7 @@ public class DockManager : MonoBehaviour
         GUI.Label(new Rect(5, 60, 120, buttonSize.y), "Optional Missions: ");
 
 		for (int i = 0; i < GOD.godMission.MissionName.Length; i++) {
-            Debug.Log(GOD.godMission.MissionName[i].ToString());
+            //Debug.Log(GOD.godMission.MissionName[i].ToString());
             if (GUI.Button(new Rect(5, 80 + i * buttonSize.y, 190, buttonSize.y), GOD.godMission.MissionName[i].ToString()))
             {
 				GOD.audioengine.playSFX("TerminalBtn");
@@ -347,7 +347,7 @@ public class DockManager : MonoBehaviour
 			GOD.audioengine.playSFX("TerminalBtnYes");
 			GOD.godMission.setMissionType(selectedMission);
 			ResetPopup();
-			Debug.Log("Set current mission to: " + selectedMission);
+			//Debug.Log("Set current mission to: " + selectedMission);
             GOD.currentMission = selectedMission;
 
             Galaxy myGalaxy = GameObject.Find("Galaxy").GetComponent<Galaxy>();

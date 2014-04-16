@@ -24,7 +24,7 @@ public class HealthController : MonoBehaviour
     {
         float currHp = shipHp.health;
         cutoff = 1f - (currHp / maxHp);
-        print(cutoff);
+        //print(cutoff);
 
         renderer.material.SetFloat("_Cutoff", cutoff);
     }
