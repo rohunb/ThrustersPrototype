@@ -58,7 +58,7 @@ public class Weapon_Railgun : Weapon {
         {
             
             GameObject other = hit.collider.gameObject;
-            Debug.Log(other.tag);
+            //Debug.Log(other.tag);
             if (other.tag == "EnemyShip" || other.tag == "EnemyStructure")
             {
                 other.GetComponent<Health>().TakeDamage(damage);
