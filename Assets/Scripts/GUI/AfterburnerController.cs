@@ -4,6 +4,7 @@ using System.Collections;
 public class AfterburnerController : MonoBehaviour
 {
     float cutoff = 0, maxAF;
+	bool playAlert = false;
 
     ShipMove shipMove;
 
@@ -23,7 +24,22 @@ public class AfterburnerController : MonoBehaviour
     void Update()
     {
         float currAF = shipMove.currentAfterburnerLevel;
+
+		if(currAF < 30.0f && currAF > 15.0f && !playAlert) {
+			GOD.audioengine.playSFX("Warning");
+			playAlert = true;
+		} else if(currAF < 15.0f && currAF > 5.0f && playAlert) {
+			GOD.audioengine.playSFX("Warning");
+			playAlert = false;
+		} else if(currAF < 5.0f) {
+			GOD.audioengine.playSFX("Warning");
+			playAlert = false;
+		} else if(currAF > 30.0f) {
+			playAlert = false;
+		}
+
         cutoff = 1f - (currAF / maxAF);
+		Debug.Log(currAF);
         //print(cutoff);
 
         renderer.material.SetFloat("_Cutoff", cutoff);
