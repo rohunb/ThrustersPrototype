@@ -50,7 +50,7 @@ public class Spaceship : MonoBehaviour {
             {
                 //Application.LoadLevel("DockedScene");
 				GOD.goToRandomPointInGalaxy = true;
-
+		
 				Application.LoadLevel("GameScene");
             }
             Rect missionRect = new Rect(Screen.width / 2 - 140, Screen.height / 2 - 60, 280, 120);

@@ -46,7 +46,7 @@ public class AudioEngine : MonoBehaviour {
 		audioSource2 = aSource[2];
 
 		string[] audioTags = new string[] { 
-			"Laser", "MissleLaunch", "Torpedo", "Railgun", "MiningLaser", "missionTerminalEnd", "missionTerminalEnter", "TerminalEnter", "TerminalExit", "TerminalBtnYes", "TerminalBtn", "MenuPlayBtn"
+			"Laser", "MissleLaunch", "Torpedo", "Railgun", "MiningLaser", "missionTerminalEnd", "missionTerminalEnter", "TerminalEnter", "TerminalExit", "TerminalBtnYes", "TerminalBtn", "MenuPlayBtn", "Warning", "FtlMove", "FtlAlert"
 		};
 
 		//Dictionary
