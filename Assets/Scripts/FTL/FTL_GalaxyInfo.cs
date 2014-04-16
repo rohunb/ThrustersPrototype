@@ -13,6 +13,10 @@ public class FTL_GalaxyInfo : MonoBehaviour
     float scaleConversionFactor;
     public float galaxyMapSize = 50.0f;
 
+    //for the missionIndicator
+    private Transform targetMission;
+    private GameObject missionIndicator;
+
 
     void Awake()
     {
@@ -114,6 +118,8 @@ public class FTL_GalaxyInfo : MonoBehaviour
 			GOD.audioengine.playSFX("FtlAlert");
 		}
 
+        missionIndicator = GameObject.Find("missionSelector");
+
 	}
 	
 	void Update ()
@@ -170,6 +176,8 @@ public class FTL_GalaxyInfo : MonoBehaviour
                 if (systemRing.ringText.text == GOD.currentMissionLocation)
                 {
                     systemRing.missionIndicator.text = "!";
+                    targetMission = systemRing.transform;
+
                 }
                 else
                 {
@@ -177,5 +185,15 @@ public class FTL_GalaxyInfo : MonoBehaviour
                 }
             }
         }
+        if (targetMission)
+        {
+            missionIndicator.transform.LookAt(targetMission);
+        }
+        else
+        {
+            missionIndicator.SetActive(false);
+        }
+        
+
 	}
 }
