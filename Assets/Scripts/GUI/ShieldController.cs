@@ -17,8 +17,6 @@ public class ShieldController : MonoBehaviour
     {
         renderer.material.SetFloat("_Cutoff", cutoff);
         maxShield = shipHp.maxShield;
-
-        iTween.FadeTo(gameObject, iTween.Hash("alpha", 1, "time", .5, "delay", 2));
     }
 
     // Update is called once per frame
