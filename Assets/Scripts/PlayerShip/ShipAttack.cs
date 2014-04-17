@@ -152,6 +152,10 @@ public class ShipAttack : MonoBehaviour {
 			{
 				//screenHitPos = targeter.InverseTransformPoint(hit.point);
 				screenHitPos = hit.point;
+                foreach (Weapon weapon in inventory.equippedWeapons)
+                {
+                    weapon.AimAt(screenHitPos);
+                }
 				//Debug.Log(screenHitPos);
 				//Debug.Log(screenHitPos);
 			}
@@ -161,7 +165,7 @@ public class ShipAttack : MonoBehaviour {
 				Vector3 targetedPos = Camera.main.WorldToScreenPoint(screenHitPos);
 				xMin = targetedPos.x;
 				yMin = targetedPos.y;
-				Debug.Log("xMin, yMin: " + new Vector2(xMin, yMin));
+				//Debug.Log("xMin, yMin: " + new Vector2(xMin, yMin));
 			}
 
 			/*
