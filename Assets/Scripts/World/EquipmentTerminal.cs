@@ -21,7 +21,7 @@ public class EquipmentTerminal : MonoBehaviour {
     }
     void OnGUI()
     {
-        if(displayEquipPrompt)
+        if (displayEquipPrompt && !dockManager.showEquipTerm)
         {
             DisplayEquipPrompt();
         }

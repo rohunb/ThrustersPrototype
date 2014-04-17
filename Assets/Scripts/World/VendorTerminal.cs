@@ -23,7 +23,7 @@ public class VendorTerminal : MonoBehaviour {
     }
     void OnGUI()
     {
-        if (displayVendorPrompt)
+        if (displayVendorPrompt && !dockManager.showVendorTerm)
         {
             DisplayVendorPrompt();
         }
