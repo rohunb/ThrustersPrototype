@@ -9,6 +9,7 @@ public class MissionTerminal : MonoBehaviour {
     void Awake()
     {
         dockManager = GameObject.FindGameObjectWithTag("DockManager").GetComponent<DockManager>();
+
     }
 
     void Update()
@@ -23,7 +24,7 @@ public class MissionTerminal : MonoBehaviour {
     }
     void OnGUI()
     {
-        if (displayMissionPrompt)
+        if (displayMissionPrompt && !dockManager.showMissionTerm)
         {
             DisplayMissionPrompt();
         }
@@ -33,6 +34,7 @@ public class MissionTerminal : MonoBehaviour {
     {
         GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height - 150, 500, 100), "<size=28>Press F to open Mission Terminal</size>");
     }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
