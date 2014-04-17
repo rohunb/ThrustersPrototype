@@ -46,7 +46,9 @@ public class PlayerMissionController : MonoBehaviour
                 GenerateNewDistressMission();
             if (Input.GetKeyDown(KeyCode.F3))
                 GenerateNewDestroyStructureMission();
-        }
+        	if (Input.GetKeyDown(KeyCode.F4))
+				GenerateNewRaceMission();
+		}
 
         if (onMission)
         {
@@ -79,6 +81,10 @@ public class PlayerMissionController : MonoBehaviour
         missionController.GenerateDestroyStructureMission(MissionController.MissionType.DestroyStructure, waypointDestroyStruct, enemyStructSpawnPoint.position, numEnemiesToSpawn, AI_Controller.AI_Types.Assassin);
         SetMissionInfo(waypointDestroyStruct, missionController.currentEnemyStruct, enemyStructIndicatorTexture);
     }
+	public void GenerateNewRaceMission() {
+		missionController.GenerateRaceMission(MissionController.MissionType.Race, 5);
+		SetMissionInfo(missionController.activeRaceWaypoint.transform, null, null);
+	}
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(Screen.width - 200, Screen.height - 200, 150, 150));
@@ -195,7 +201,7 @@ public class PlayerMissionController : MonoBehaviour
         showMissionFailedText = false;
     }
     
-    void SetMissionInfo(Transform _waypoint, GameObject _specialTarget, Texture2D _specialTargetTexture)
+    public void SetMissionInfo(Transform _waypoint, GameObject _specialTarget, Texture2D _specialTargetTexture)
     {
         specialTarget = _specialTarget;
         specialTargetTexture = _specialTargetTexture;
@@ -205,6 +211,7 @@ public class PlayerMissionController : MonoBehaviour
         displayWaypoint = true;
         
     }
+
     void ClearMissionInfo()
     {
         specialTarget = null;
@@ -216,5 +223,10 @@ public class PlayerMissionController : MonoBehaviour
         Invoke("CancelMissionText", 2.0f);
         
     }
+
+	public void UpdateCurrentWaypoint(Transform newWaypoint) {
+		currentWP = newWaypoint;
+        displayWaypoint = true;
+	}
                 
 }

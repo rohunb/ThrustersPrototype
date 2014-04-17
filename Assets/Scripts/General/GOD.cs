@@ -107,6 +107,9 @@ public class GOD : MonoBehaviour {
                 {
                     //start new Fedex Mission
                 }
+				else if(currentMission == "Race") {
+                    sexyShip.GetComponent<PlayerMissionController>().GenerateNewRaceMission();
+				}
 
                 currentMission = "";
                 currentLocation = "";

@@ -19,9 +19,9 @@ public class DockManager : MonoBehaviour
 
     public int numHardpoints = 4;
 
-    bool showEquipTerm = false;
-    bool showVendorTerm = false;
-    bool showMissionTerm = false;
+    public bool showEquipTerm = false;
+    public bool showVendorTerm = false;
+    public bool showMissionTerm = false;
     bool showPopup = false;
 	bool showMissionPopup = false;
 
@@ -67,10 +67,11 @@ public class DockManager : MonoBehaviour
     {
 
         Screen.showCursor = true;
-        equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, (numHardpoints+1) * (buttonSize.y+7));
+        equippedWindow = new Rect(10, Screen.height / 2 - 200, 175, (numHardpoints+1) * (buttonSize.y+10));
         vendorWindow = new Rect(50, Screen.height / 2 - 200, 200, /*vendorWeapons.Count * 30*/ 400);
         vendorScrollRect = new Rect(2, 20, 200, /*vendorWeapons.Count * 30*/ 400);
-		missionWindow = new Rect(50, Screen.height / 2 - 200, 200, 200);
+		//missionWindow = new Rect(50, Screen.height / 2 - 200, 200, 250);
+        missionWindow = new Rect(50, Screen.height / 2 - 200, 200, 50 + GOD.godMission.MissionName.Length * (buttonSize.y+50));
         //availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 10+playerInv.availableWeapons.Count * 20);
         popupRect = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 225, 100);
         weaponOutlines = new GameObject[playerInv.numberOfHardpoints];
@@ -307,11 +308,11 @@ public class DockManager : MonoBehaviour
 	{
         GUI.Label(new Rect(5, 20, 250, buttonSize.y), "Current Mission: ");
         GUI.Label(new Rect(5, 40, 190, buttonSize.y), GOD.godMission.currentMission);
-        GUI.Label(new Rect(5, 60, 120, buttonSize.y), "Optional Missions: ");
+        GUI.Label(new Rect(5, 70, 120, buttonSize.y + 50), "Optional Missions: ");
 
 		for (int i = 0; i < GOD.godMission.MissionName.Length; i++) {
-            //Debug.Log(GOD.godMission.MissionName[i].ToString());
-            if (GUI.Button(new Rect(5, 80 + i * buttonSize.y, 190, buttonSize.y), GOD.godMission.MissionName[i].ToString()))
+            Debug.Log(GOD.godMission.MissionName[i].ToString());
+            if (GUI.Button(new Rect(5, 120 + i * (buttonSize.y + 15), 190, buttonSize.y), GOD.godMission.MissionName[i].ToString()))
             {
 				GOD.audioengine.playSFX("TerminalBtn");
 				selectedMission = GOD.godMission.MissionName[i].ToString();
@@ -322,7 +323,7 @@ public class DockManager : MonoBehaviour
 	}
     void PopupWindow(int windowID)
     {
-        GUI.Label(new Rect(10, 25, popupRect.width, 120), popUpText);
+        GUI.Label(new Rect(10, 5, popupRect.width, 120), popUpText);
         if (GUI.Button(new Rect(5, popupRect.height - 40, popupRect.width / 2 - 10, 40), "Yes"))
         {
             if (playerInv.CreateTransaction(-vendorWeapons[vendorWpnSelected].GetComponent<Weapon>().cost))
@@ -341,7 +342,7 @@ public class DockManager : MonoBehaviour
     }
 	void MissionPopupWindow(int windowID)
 	{
-		GUI.Label(new Rect(10, 15, popupRect.width, 120), popUpText);
+		GUI.Label(new Rect(10, 0, popupRect.width, 120), popUpText);
 		if (GUI.Button(new Rect(5, popupRect.height - 40, popupRect.width / 2 - 10, 40), "Yes"))
 		{
 			GOD.audioengine.playSFX("TerminalBtnYes");

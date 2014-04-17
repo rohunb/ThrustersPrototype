@@ -14,7 +14,7 @@ public class PersistentMission : MonoBehaviour {
 //	}
 
 	public string[] MissionName = new string[] { 
-		"Exterminate", "DistressCall", "DestoryStructure"};
+		"Exterminate", "DistressCall", "DestoryStructure", "Race"};
 
 
 	public string currentMission;

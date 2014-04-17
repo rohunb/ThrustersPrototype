@@ -4,18 +4,16 @@ using System.Collections.Generic;
 
 public class MissionController : MonoBehaviour {
 
-	public enum MissionType
+    public enum MissionType
     {
         Exterminate, //x number of ships at waypoint
         Assassinate, //kill a particular ship (likely to spawn with cronies)
         Gather, //mine or gather an item carried by an enemy
         FedEx, //deliver something to another base/planet
         DistressCall,
-        DestroyStructure
+        DestroyStructure,
+        Race
     }
-
-
-
     public MissionType missionType;
     public Transform waypoint;
     public Vector3 enemySpawnPoint;
@@ -32,15 +30,24 @@ public class MissionController : MonoBehaviour {
     public GameObject currentVictim;
     public GameObject enemyStructPrefab;
     public GameObject currentEnemyStruct;
+    public GameObject waypointPrefab;
+
+    // for race
+    public GameObject raceWaypointGameObject;
+    public GameObject activeRaceWaypoint;
+    public int remainingRaceWaypoints;
+    public float raceTimer = 0.0f;
+
     // Use this for initialization
-	void Start () {
+    void Start () {
         enemyController = GameObject.FindGameObjectWithTag("EnemyController").GetComponent<EnemyController>();
         player = GameObject.FindGameObjectWithTag("PlayerShip").transform;
         missionEnemies = new List<GameObject>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    
+    // Update is called once per frame
+    void Update () {
         switch (missionType)
         {
             case MissionType.Exterminate:
@@ -66,11 +73,14 @@ public class MissionController : MonoBehaviour {
                 if (missionEnemies.Count <= 0 && !currentEnemyStruct)
                     missionComplete = true;
                 break;
+            case MissionType.Race:
+                if (!missionComplete)
+                    raceTimer += Time.deltaTime;
+                break;
             default:
                 break;
         }
-
-	}
+    }
 
     public void CancelMission()
     {
@@ -91,6 +101,8 @@ public class MissionController : MonoBehaviour {
                 break;
             case MissionType.DestroyStructure:
                 break;
+			case MissionType.Race:
+				break;
             default:
                 break;
         }
@@ -121,9 +133,38 @@ public class MissionController : MonoBehaviour {
         missionFailed = false;
         enemiesLeftToKill = _enemiesToKill;
     }
-    public void DespawnMissionEnemies()
-    {
-        foreach (GameObject  enemy in missionEnemies.ToArray())
+
+    public void GenerateRaceMission(MissionType missionType, int raceTotalWaypoints) {
+        this.missionType = missionType;
+        missionComplete = false;
+        missionFailed = false;
+
+        remainingRaceWaypoints = raceTotalWaypoints;
+        CreateRaceWaypoint(player.Find("Targeter").transform.position);
+    }
+
+    public void RaceWaypointHit(GameObject theWaypoint) {
+        remainingRaceWaypoints--;
+
+        if (remainingRaceWaypoints == 0) {
+            missionComplete = true;
+            print("Race Finished! End time: " + raceTimer);
+            // award the player with credits based on their time
+        } else {
+            CreateRaceWaypoint(theWaypoint.transform.position);
+        }
+    }
+
+    public void CreateRaceWaypoint(Vector3 prevWaypoint) {
+        int rndRange = 500;
+        int distanceMax = 1000;
+        Vector3 newWaypoint = prevWaypoint + (player.Find("Targeter").transform.forward * Random.Range(500, distanceMax) + new Vector3(Random.Range(-rndRange, rndRange), Random.Range(-rndRange, rndRange), Random.Range(-rndRange, rndRange)));
+        activeRaceWaypoint = Instantiate(raceWaypointGameObject, newWaypoint, Quaternion.identity) as GameObject;
+        player.GetComponent<PlayerMissionController>().UpdateCurrentWaypoint(activeRaceWaypoint.transform);
+    }
+
+    public void DespawnMissionEnemies() {
+        foreach (GameObject enemy in missionEnemies.ToArray())
         {
             enemyController.DespawnEnemy(enemy);
             missionEnemies.Remove(enemy);
