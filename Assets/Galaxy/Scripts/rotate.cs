@@ -3,8 +3,6 @@ using System.Collections;
 
 public class rotate : MonoBehaviour 
 {
-    public float rotationSpeed = 0;
-    public float rotateAngle = 0;
     public PhysicsObject myObject;
 
 	void Start () 
