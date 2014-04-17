@@ -201,7 +201,7 @@ public class PlayerMissionController : MonoBehaviour
         showMissionFailedText = false;
     }
     
-    void SetMissionInfo(Transform _waypoint, GameObject _specialTarget, Texture2D _specialTargetTexture)
+    public void SetMissionInfo(Transform _waypoint, GameObject _specialTarget, Texture2D _specialTargetTexture)
     {
         specialTarget = _specialTarget;
         specialTargetTexture = _specialTargetTexture;
@@ -226,6 +226,7 @@ public class PlayerMissionController : MonoBehaviour
 
 	public void UpdateCurrentWaypoint(Transform newWaypoint) {
 		currentWP = newWaypoint;
+        displayWaypoint = true;
 	}
                 
 }
