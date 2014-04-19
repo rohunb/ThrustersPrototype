@@ -66,7 +66,14 @@ public class Health : MonoBehaviour {
             shielded = false;
         }
         if (health <= 0)
+        {
             alive = false;
+            if(gameObject.tag=="PlayerShip")
+            {
+                Debug.Log("Game Over");
+                //trigger game over
+            }
+        }
         shieldRecharging = false;
         shieldRechargeCurrentTimer = 0f;
         shieldFlickering = true;
