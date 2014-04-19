@@ -342,8 +342,6 @@ public class DockManager : MonoBehaviour
     }
 	void MissionPopupWindow(int windowID)
 	{
-        Debug.Log("GOD.currentMission " + GOD.currentMission);
-        Debug.Log("GOD.currentMissionLocation " + GOD.currentMissionLocation);
 		GUI.Label(new Rect(10, 0, popupRect.width, 120), popUpText);
 		if (GUI.Button(new Rect(5, popupRect.height - 40, popupRect.width / 2 - 10, 40), "Yes"))
 		{

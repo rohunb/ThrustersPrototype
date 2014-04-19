@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Weapon_Lasers : Weapon
 {
-   
+    public bool homeIn = false;
     void Start()
     {
         weaponType = WeaponType.Primary;
@@ -35,6 +35,9 @@ public class Weapon_Lasers : Weapon
         ProjectileMover mover = laserClone.GetComponent<ProjectileMover>();
         mover.speed = projectileSpeed;
         mover.range = range;
+        if(homeIn)
+            mover.target = target;
+        
         
         yield return new WaitForSeconds(reloadTimer);
         canFire = true;
