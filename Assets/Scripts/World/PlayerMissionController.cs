@@ -220,6 +220,8 @@ public class PlayerMissionController : MonoBehaviour
         currentWP = null;
         onMission = false;
         displayWaypoint = false;
+        GOD.currentMission = "";
+        GOD.currentMissionLocation="";
         Invoke("CancelMissionText", 2.0f);
         
     }

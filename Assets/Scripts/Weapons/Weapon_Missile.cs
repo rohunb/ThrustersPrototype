@@ -24,6 +24,7 @@ public class Weapon_Missile : Weapon {
     {
         GameObject missileClone = Instantiate(projectile, shootPoint.position, shootPoint.rotation) as GameObject;
 		GOD.audioengine.playSFX("MissleLaunch");
+        missileClone.rigidbody.velocity = origin.rigidbody.velocity;
 		missileClone.rigidbody.AddForce(origin.transform.up * -150f, ForceMode.Impulse);
         missileClone.GetComponent<HomingMissile>().target = target;
 

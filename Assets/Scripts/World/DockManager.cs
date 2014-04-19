@@ -311,7 +311,7 @@ public class DockManager : MonoBehaviour
         GUI.Label(new Rect(5, 70, 120, buttonSize.y + 50), "Optional Missions: ");
 
 		for (int i = 0; i < GOD.godMission.MissionName.Length; i++) {
-            Debug.Log(GOD.godMission.MissionName[i].ToString());
+            //Debug.Log(GOD.godMission.MissionName[i].ToString());
             if (GUI.Button(new Rect(5, 120 + i * (buttonSize.y + 15), 190, buttonSize.y), GOD.godMission.MissionName[i].ToString()))
             {
 				GOD.audioengine.playSFX("TerminalBtn");
@@ -342,6 +342,8 @@ public class DockManager : MonoBehaviour
     }
 	void MissionPopupWindow(int windowID)
 	{
+        Debug.Log("GOD.currentMission " + GOD.currentMission);
+        Debug.Log("GOD.currentMissionLocation " + GOD.currentMissionLocation);
 		GUI.Label(new Rect(10, 0, popupRect.width, 120), popUpText);
 		if (GUI.Button(new Rect(5, popupRect.height - 40, popupRect.width / 2 - 10, 40), "Yes"))
 		{

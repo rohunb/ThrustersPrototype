@@ -36,9 +36,11 @@ public class AI_Controller : MonoBehaviour
     public float sightRange = 350f;
     public bool spotted = false;
 
+    
+
     void Start()
     {
-        //target = GameObject.FindGameObjectWithTag("PlayerShip").transform;
+
         switch (ai_type)
         {
             case AI_Types.FlyBy:

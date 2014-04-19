@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour {
     public static List<GameObject> enemies;
     public GameObject explosion;
     public GameObject enemy;
+    [SerializeField]
     private Transform playerTarget;
     private MissionController missionController;
 	// Use this for initialization
