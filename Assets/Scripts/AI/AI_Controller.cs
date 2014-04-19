@@ -23,12 +23,14 @@ public class AI_Controller : MonoBehaviour
     public AI_States ai_state;
     public bool attacking;
     //ai behaviour variables
+    [SerializeField]
     private float distToTarget;
     float angle;
     public float weaponsRange = 250f;
     public float maxRange = 1000f;
     public float minRange = 75f;
     public float timeToBreakaway = 6f;
+    public float timeToReEngage = 4f;
     //flyby
     public bool breakingAway = false;
 
@@ -36,6 +38,7 @@ public class AI_Controller : MonoBehaviour
     public float sightRange = 350f;
     public bool spotted = false;
 
+    bool invokedBreakAway = false;
     
 
     void Start()
@@ -93,7 +96,11 @@ public class AI_Controller : MonoBehaviour
                         //else
                         //{
                             ai_state = AI_States.AttackMove;
-                            Invoke("BreakAway", timeToBreakaway);
+                            if (!invokedBreakAway)
+                            {
+                                Invoke("BreakAway", timeToBreakaway);
+                                invokedBreakAway = true;
+                            }
                         //}
                     }
                 }
@@ -202,6 +209,7 @@ public class AI_Controller : MonoBehaviour
     {
         ai_state = AI_States.Fleeing;
         breakingAway = true;
+        invokedBreakAway = false;
     }
     
     void LookAtTarget()
