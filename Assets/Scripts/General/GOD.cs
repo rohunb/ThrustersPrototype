@@ -119,6 +119,9 @@ public class GOD : MonoBehaviour {
                 break;
             case "FTLScene":
                 break;
+            case "GameOverScene":
+                Destroy(gameObject); //am I doing this right?
+                break;
             default:
                 break;
         }
