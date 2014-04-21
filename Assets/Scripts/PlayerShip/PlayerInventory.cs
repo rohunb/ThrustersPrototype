@@ -272,7 +272,7 @@ public class PlayerInventory : MonoBehaviour
     
     public void EquipWeaponFromHold(int hardpointIndex, int availableWeaponsIndex)
     {
-        Debug.Log(hardpointIndex);
+        //Debug.Log(hardpointIndex);
         if (equippedWeapons[hardpointIndex])
         {
             //equippedWeapons[hardpointSelected].gameObject.SetActive(false);
@@ -285,7 +285,7 @@ public class PlayerInventory : MonoBehaviour
         equippedWeapons[hardpointIndex] = availableWeapons[availableWeaponsIndex];
         equippedWeapons[hardpointIndex].transform.position = hardPoints[hardpointIndex].position;
         equippedWeapons[hardpointIndex].transform.rotation = hardPoints[hardpointIndex].rotation;
-        equippedWeapons[hardpointSelected].gameObject.SetActive(true);
+        equippedWeapons[hardpointIndex].gameObject.SetActive(true);
         equippedWeapons[hardpointIndex].gameObject.GetComponent<Weapon>().enabled = true;
         availableWeapons.Remove(availableWeapons[availableWeaponsIndex]);
     }
@@ -297,6 +297,19 @@ public class PlayerInventory : MonoBehaviour
             availableWeapons[availableWeapons.Count - 1].transform.position = inventoryLoc.position;
             availableWeapons[availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
             equippedWeapons[hardpointIndex] = null;
+        }
+    }
+    public void UnequipWeapons()
+    {
+        for (int i = 0; i < equippedWeapons.Length; i++)
+        {
+            if(equippedWeapons[i])
+            {
+                availableWeapons.Add(equippedWeapons[i]);
+                availableWeapons[availableWeapons.Count - 1].transform.position = inventoryLoc.position;
+                availableWeapons[availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
+                equippedWeapons[i] = null;
+            }
         }
     }
     public void AddWeaponToCargo(GameObject _weapon)

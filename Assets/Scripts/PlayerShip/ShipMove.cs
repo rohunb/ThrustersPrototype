@@ -57,17 +57,17 @@ public class ShipMove : MonoBehaviour {
     }
 
     
-    void OnGUI()
-    {
-        GUILayout.BeginArea(new Rect(10, 10, 150, 150));
-        GUILayout.BeginVertical();
-        GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
-        GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
-        GUILayout.Label("Rotation: " + transform.rotation.ToString());
-        GUILayout.Label("Mouse Pos: " + Camera.main.ScreenToViewportPoint(Input.mousePosition).ToString());
-        GUILayout.EndVertical();
-        GUILayout.EndArea();
-    }
+    //void OnGUI()
+    //{
+    //    GUILayout.BeginArea(new Rect(10, 10, 150, 150));
+    //    GUILayout.BeginVertical();
+    //    GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
+    //    GUILayout.Label("Angular Velocity: " + rigidbody.angularVelocity.ToString());
+    //    GUILayout.Label("Rotation: " + transform.rotation.ToString());
+    //    GUILayout.Label("Mouse Pos: " + Camera.main.ScreenToViewportPoint(Input.mousePosition).ToString());
+    //    GUILayout.EndVertical();
+    //    GUILayout.EndArea();
+    //}
 
     public void FireAfterburner()
     {

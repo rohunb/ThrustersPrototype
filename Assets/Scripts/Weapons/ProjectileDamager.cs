@@ -5,6 +5,7 @@ public class ProjectileDamager : MonoBehaviour
 {
     public int damage;
     public GameObject origin;
+    public GameObject explosionPrefab;
     // Use this for initialization
     public void OnTriggerEnter(Collider other)
     {
@@ -16,7 +17,8 @@ public class ProjectileDamager : MonoBehaviour
 
                     if (other.tag == "EnemyShip" || other.tag == "EnemyStructure")
                     {
-                        //Instantiate(explosion, transform.position, Quaternion.identity);
+                        if(explosionPrefab)
+                            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                         other.GetComponent<Health>().TakeDamage(damage);
                         Destroy(gameObject);
                     }
@@ -24,7 +26,8 @@ public class ProjectileDamager : MonoBehaviour
                 case "EnemyShip":
                     if (other.tag == "PlayerShip" || other.tag=="Victim" )
                     {
-                        //Instantiate(explosion, transform.position, Quaternion.identity);
+                        if (explosionPrefab)
+                            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
                         other.GetComponent<Health>().TakeDamage(damage);
                         Destroy(gameObject);
                     }

@@ -24,6 +24,7 @@ public class Weapon_ClusterMissile : Weapon
     {
         GameObject clusterMissileClone = Instantiate(projectile, shootPoint.position, shootPoint.rotation) as GameObject;
         GOD.audioengine.playSFX("MissleLaunch");
+        clusterMissileClone.rigidbody.velocity = origin.rigidbody.velocity;
         clusterMissileClone.rigidbody.AddForce(origin.transform.up * -150f, ForceMode.Impulse);
         clusterMissileClone.GetComponent<HomingMissile>().target = target;
         ClusterMissile clusterMissile = clusterMissileClone.GetComponent<ClusterMissile>();

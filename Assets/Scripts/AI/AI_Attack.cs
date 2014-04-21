@@ -15,7 +15,7 @@ public class AI_Attack : MonoBehaviour {
         laserCannons = gameObject.GetComponentsInChildren<LaserCannon>();
         canFireLasers = true;
         ai_controller = gameObject.GetComponent<AI_Controller>();
-        //target = ai_controller.target;
+        target = ai_controller.target;
 	}
 	
 	// Update is called once per frame

@@ -31,6 +31,7 @@ public class MissionController : MonoBehaviour {
     public GameObject enemyStructPrefab;
     public GameObject currentEnemyStruct;
     public GameObject waypointPrefab;
+    private Transform playerTarget;
 
     // for race
     public GameObject raceWaypointGameObject;
@@ -42,6 +43,7 @@ public class MissionController : MonoBehaviour {
     void Start () {
         enemyController = GameObject.FindGameObjectWithTag("EnemyController").GetComponent<EnemyController>();
         player = GameObject.FindGameObjectWithTag("PlayerShip").transform;
+        playerTarget = GameObject.FindGameObjectWithTag("ShipTargeter").transform;
         missionEnemies = new List<GameObject>();
     }
 
@@ -110,7 +112,7 @@ public class MissionController : MonoBehaviour {
     public void GenerateExterminateMission(MissionType missionType,Transform _waypoint, Vector3 _enemySpawnPoint, int _enemiesToKill, AI_Controller.AI_Types _ai_type)
     {
         this.missionType = missionType;
-        enemyController.SpawnEnemy(_enemiesToKill, _enemySpawnPoint, _ai_type,player);
+        enemyController.SpawnEnemy(_enemiesToKill, _enemySpawnPoint, _ai_type,playerTarget);
         missionComplete = false;
         missionFailed = false;
         enemiesLeftToKill = _enemiesToKill;
@@ -128,7 +130,7 @@ public class MissionController : MonoBehaviour {
     {
         this.missionType = missionType;
         currentEnemyStruct = Instantiate(enemyStructPrefab, _structurePos, Quaternion.identity) as GameObject;
-        enemyController.SpawnEnemy(_enemiesToKill, _structurePos, _ai_type, player);
+        enemyController.SpawnEnemy(_enemiesToKill, _structurePos, _ai_type, playerTarget);
         missionComplete = false;
         missionFailed = false;
         enemiesLeftToKill = _enemiesToKill;

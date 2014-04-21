@@ -13,11 +13,56 @@ public class MainMenu : MonoBehaviour {
     float shipVolume = .75f;
 
     public GUISkin guiSkin;
+    public string[] alexWork;
+    public string[] rohunWork;
+    public string[] davidWork;
+    public string[] geordieWork;
+    public string[] kyleWork;
+    public string[] christianWork;
+    
+    string[] names = new string[] { "McCann, Alex", "Banerji, Rohun", "Vo, David", "Powers, Geordie", "Nokes, Kyle", "Adao, Christian" };
+    string[,] work;
 
     // Use this for initialization
     void Start () {
         showMainMenu = false;
         iTween.FadeTo(GameObject.Find("Screen Fader"), iTween.Hash("alpha", 0, "time", .5, "onComplete", "ShowMenu", "onCompleteTarget", gameObject));
+        work = new string[names.Length, rohunWork.Length];
+
+        for (int i = 0; i < alexWork.Length; i++)
+        {
+            work[0, i] = alexWork[i];
+        }
+        for (int i = 0; i < rohunWork.Length; i++)
+        {
+            work[1, i] = rohunWork[i];
+        }
+        for (int i = 0; i < davidWork.Length; i++)
+        {
+            work[2, i] = davidWork[i];
+        }
+        for (int i = 0; i < geordieWork.Length; i++)
+        {
+            work[3, i] = geordieWork[i];
+        }
+        for (int i = 0; i < kyleWork.Length; i++)
+        {
+            work[4, i] = kyleWork[i];
+        }
+        for (int i = 0; i < christianWork.Length; i++)
+        {
+            work[5, i] = christianWork[i];
+        }
+
+        //for (int i = 0; i < work.GetLength(0); i++)
+        //{
+        //    for (int j = 0; j < work.GetLength(1); j++)
+        //    {
+        //        if(work[i,j]!=null && work[i,j]!="")
+        //            Debug.Log(work[i, j]);
+        //    }
+        //}
+
     }
     
     // Update is called once per frame
@@ -96,18 +141,62 @@ public class MainMenu : MonoBehaviour {
 
         if (showCredits)
         {
-            Rect creditsRect = new Rect(Screen.width / 2 - 150, Screen.height / 2 - 200, 300, 400);
+            //Rect creditsRect = new Rect(Screen.width / 2 - 150, Screen.height / 2 - 200, 300, 400);
 
+            //GUI.Box(creditsRect, "Credits");
+            //GUI.BeginGroup(creditsRect);
+
+            //string[] names = new string[] { "McCann, Alex", "Banerji, Rohun", "Vo, David", "Powers, Geordie", "Nokes, Kyle", "Adao, Christian" };
+
+            //for (int i = 0; i < names.Length; i++)
+            //{
+            //    GUI.Label(new Rect(creditsRect.width / 2 - 80, 50 + 40 * i, 200, 40), names[i]);
+            //}
+
+            //if (GUI.Button(new Rect(creditsRect.width / 2 - 100, creditsRect.height - 80, 200, 70), "Return"))
+            //{
+            //    GOD.audioengine.playSFX("TerminalBtn");
+            //    showCredits = false;
+            //    showMainMenu = true;
+            //}
+            //GUI.EndGroup();
+            float creditsWidth = Screen.width / 1.32f;
+            float creditsHeight = Screen.height / 1.2f;
+            //Rect creditsRect = new Rect(Screen.width , Screen.height / 21.6f, Screen.width - Screen.width / 38.4f, Screen.height - Screen.height / 21.6f);
+            Rect creditsRect = new Rect(Screen.width / 2 - creditsWidth / 2, Screen.height / 2 - creditsHeight / 2, creditsWidth, creditsHeight);
             GUI.Box(creditsRect, "Credits");
             GUI.BeginGroup(creditsRect);
+            
+            
+            float labelWidth = Screen.width / 9.6f;
+            float labelHeight = Screen.height / 27f;
+            float labelWidthPadding = Screen.width / 96f;
+            float labelHeightPadding = 0;// Screen.height / 108f;
 
-            string[] names = new string[] { "McCann, Alex", "Banerji, Rohun", "Vo, David", "Powers, Geordie", "Nokes, Kyle", "Adao, Christian" };
 
-            for (int i = 0; i < names.Length; i++)
+            //for (int i = 0; i < names.Length; i++)
+            //{
+            //    //GUI.Label(new Rect(creditsRect.width / 2 - 80, 50 + 40 * i, labelWidth, labelHeight), names[i]);
+            //    for (int j = 0; j < length; j++)
+            //{
+			 
+            //}
+            //    GUI.Label(new Rect(creditsRect.left+labelPadding+labelPadding*i,creditsRect.top+labelPadding))
+
+            //}
+            for (int i = 0; i < work.GetLength(0); i++)
             {
-                GUI.Label(new Rect(creditsRect.width / 2 - 80, 50 + 40 * i, 200, 40), names[i]);
+                GUI.Label(new Rect(Screen.width / 13.7f + (labelWidthPadding+labelWidth) * i, Screen.height / 13.6f, labelWidth, labelHeight),"<color=yellow>"+names[i]+"</color>");
+                for (int j = 0; j < work.GetLength(1); j++)
+                {
+                    if (work[i, j] != null && work[i, j] != "")
+                    {
+                        GUI.Label(new Rect(Screen.width / 13.7f + (labelWidthPadding + labelWidth) * i,
+                                            Screen.height / 12f + (labelHeight) * (j+1),
+                                            labelWidth, labelHeight), work[i, j]);
+                    }
+                }
             }
-
             if (GUI.Button(new Rect(creditsRect.width / 2 - 100, creditsRect.height - 80, 200, 70), "Return"))
             {
                 GOD.audioengine.playSFX("TerminalBtn");

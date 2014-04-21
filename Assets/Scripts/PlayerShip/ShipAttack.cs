@@ -18,6 +18,9 @@ public class ShipAttack : MonoBehaviour {
 
 	float xMin = 0, yMin = 0;
 
+    public float aimNearTargetDist = 10f;
+    bool aimNearTarget = false;
+
 	// Use this for initialization
     void Start()
     {
@@ -86,58 +89,7 @@ public class ShipAttack : MonoBehaviour {
             //}
 
 
-			/*
-            Vector3 screenHitPos = Vector3.zero;
-            Ray ray = new Ray(targeter.position, targeter.forward);
-            //Debug.DrawRay(ray.origin, ray.direction * 1000f,Color.red);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 10))
-            {
-                screenHitPos = mousePointTargeter.InverseTransformPoint(hit.point);
-                //Debug.Log(screenHitPos);
-            }
-            if (Camera.main)
-            {
-                //Debug.Log ("holyshit!!! I HAZ camera!!");
-                Ray topLeft = Camera.main.ViewportPointToRay(new Vector3(0, 1, 0));
-                Ray topRight = Camera.main.ScreenPointToRay(new Vector3(Screen.width, Screen.height - 1, 0));
-                Ray botLeft = Camera.main.ViewportPointToRay(new Vector3(0, 0, 0));
-
-                Debug.DrawRay(topLeft.origin, topLeft.direction * 10000f, Color.red);
-                Debug.DrawRay(topRight.origin, topRight.direction * 10000f, Color.blue);
-                Debug.DrawRay(botLeft.origin, botLeft.direction * 10000f, Color.green);
-                float left, right, top, bottom;
-
-                Physics.Raycast(topLeft, out hit, Mathf.Infinity, 1 << 10);
-                //left = hit.point.x;
-                //top = hit.point.y;
-                left = targeter.InverseTransformPoint(hit.point).x;
-                top = targeter.InverseTransformPoint(hit.point).y;
-
-
-
-                Physics.Raycast(topRight, out hit, Mathf.Infinity, 1 << 10);
-                //right = hit.point.x;
-                right = targeter.InverseTransformPoint(hit.point).x;
-
-                Physics.Raycast(botLeft, out hit, Mathf.Infinity, 1 << 10);
-                bottom = hit.point.y;
-                bottom = targeter.InverseTransformPoint(hit.point).y;
-
-                float screenWidth = right - left;
-                float screenHeight = top - bottom;
-                Debug.Log(screenHeight + " , " + screenWidth);
-                Debug.Log("left right top, bottom: " + new Vector4(left, right, top, bottom));
-
-                xMin = (screenWidth / 2 + screenHitPos.x) / screenWidth * Screen.width;
-                yMin = (screenHeight / 2 - screenHitPos.y) / screenHeight * Screen.height;
-                //xMin = Screen.width / 2;
-                //yMin = Screen.height / 2;
-                Debug.Log("xMin, yMin: " + new Vector2(xMin, yMin));
-
-            }
-			//*/
-
+			
             
 
         }
@@ -168,54 +120,13 @@ public class ShipAttack : MonoBehaviour {
 				//Debug.Log("xMin, yMin: " + new Vector2(xMin, yMin));
 			}
 
-			/*
-			if (Camera.main)
-			{
-				Ray topLeft = Camera.main.ViewportPointToRay(new Vector3(0, 1, 0));
-				Ray topRight = Camera.main.ScreenPointToRay(new Vector3(Screen.width, Screen.height - 1, 0));
-				Ray botLeft = Camera.main.ViewportPointToRay(new Vector3(0, 0, 0));
-				
-				Debug.DrawRay(topLeft.origin, topLeft.direction * 10000f, Color.red);
-				Debug.DrawRay(topRight.origin, topRight.direction * 10000f, Color.blue);
-				Debug.DrawRay(botLeft.origin, botLeft.direction * 10000f, Color.green);
-				float left, right, top, bottom;
-				
-				Physics.Raycast(topLeft, out hit, Mathf.Infinity, 1 << 10);
-				//left = hit.point.x;
-				//top = hit.point.y;
-				left = targeter.InverseTransformPoint(hit.point).x;
-				top = targeter.InverseTransformPoint(hit.point).y;
-				
-				
-				
-				Physics.Raycast(topRight, out hit, Mathf.Infinity, 1 << 10);
-				//right = hit.point.x;
-				right = targeter.InverseTransformPoint(hit.point).x;
-				
-				Physics.Raycast(botLeft, out hit, Mathf.Infinity, 1 << 10);
-				bottom = hit.point.y;
-				bottom = targeter.InverseTransformPoint(hit.point).y;
-				
-				float screenWidth = right - left;
-				float screenHeight = top - bottom;
-
-				Debug.Log(screenWidth + "," + screenHeight);
-				
-				xMin = ((screenWidth / 2.0f) + screenHitPos.x) / screenWidth * Screen.width;
-				yMin = ((screenHeight / 2.0f) - screenHitPos.y) / screenHeight * Screen.height;
-				//xMin = Screen.width / 2;
-				//yMin = Screen.height / 2;
-
-				
-			}
-			*/
 		}
 
 		if (target)
 		{
 			foreach (Weapon weapon in inventory.equippedWeapons)
 			{
-				if (weapon && weapon.weaponType == Weapon.WeaponType.Secondary)
+				if (weapon && (weapon.weaponType == Weapon.WeaponType.Secondary || weapon is Weapon_Lasers))
 					weapon.target = target;
 			}
 			float distToTarget = Vector3.Distance(transform.position, target.position);
@@ -265,19 +176,19 @@ public class ShipAttack : MonoBehaviour {
             GUI.DrawTexture(new Rect(xMin, Screen.height - yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
         }
 
-        GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
-        GUILayout.BeginVertical();
-        GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
-        GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
-        GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
-        GUILayout.Label("Credits: " + gameObject.GetComponent<PlayerInventory>().GetCredits());
-        if (target)
-        {
-            GUILayout.Label("Target: " + target.name.ToString());
-            GUILayout.Label("Angle to Target: " + Vector3.Angle(targeter.forward, target.position - transform.position).ToString());
-        }
-        GUILayout.EndVertical();
-        GUILayout.EndArea();
+        //GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
+        //GUILayout.BeginVertical();
+        //GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
+        //GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
+        //GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
+        //GUILayout.Label("Credits: " + gameObject.GetComponent<PlayerInventory>().GetCredits());
+        //if (target)
+        //{
+        //    GUILayout.Label("Target: " + target.name.ToString());
+        //    GUILayout.Label("Angle to Target: " + Vector3.Angle(targeter.forward, target.position - transform.position).ToString());
+        //}
+        //GUILayout.EndVertical();
+        //GUILayout.EndArea();
 
         if (target)
         {

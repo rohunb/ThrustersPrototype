@@ -41,10 +41,11 @@ public class DockManager : MonoBehaviour
     GameObject[] weaponOutlines;
     public GameObject weaponPrefab;
     GameObject weapon;
-    GameObject[] weapons;
+    //GameObject[] weapons;
     public List<GameObject> vendorWeapons;
     int vendorWpnSelected;
 	string selectedMission;
+    int availableWeaponSelected;
 
     PersistentInventory godInventory;
     public Vector2 buttonSize= new Vector2(100,30);
@@ -75,17 +76,17 @@ public class DockManager : MonoBehaviour
         //availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 10+playerInv.availableWeapons.Count * 20);
         popupRect = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 225, 100);
         weaponOutlines = new GameObject[playerInv.numberOfHardpoints];
-        weapons = new GameObject[playerInv.numberOfHardpoints];
+        //weapons = new GameObject[playerInv.numberOfHardpoints];
         //foreach (Transform hardpoint in playerInv.hardPoints)
         for (int i = 0; i < playerInv.numberOfHardpoints; i++)
         {
             weaponOutlines[i] = Instantiate(weaponOutlinePrefab, playerInv.hardPoints[i].position, playerInv.hardPoints[i].rotation) as GameObject;
             weaponOutlines[i].SetActive(false);
-            weapons[i] = Instantiate(weaponPrefab, playerInv.hardPoints[i].position, playerInv.hardPoints[i].rotation) as GameObject;
-            weapons[i].SetActive(false);
+            //weapons[i] = Instantiate(weaponPrefab, playerInv.hardPoints[i].position, playerInv.hardPoints[i].rotation) as GameObject;
+            //weapons[i].SetActive(false);
         }
-        weapon = Instantiate(weaponPrefab) as GameObject;
-        weapon.SetActive(false);
+        //weapon = Instantiate(weaponPrefab) as GameObject;
+        //weapon.SetActive(false);
 
     }
 
@@ -120,7 +121,7 @@ public class DockManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << hardpointsLayer))
             {
                 
-                weapon.SetActive(true);
+                //weapon.SetActive(true);
                 int hardpointSelected;
                 switch (hit.collider.name)
                 {
@@ -128,60 +129,68 @@ public class DockManager : MonoBehaviour
                         hardpointSelected = 0;
                         if (!placeWeapon)
                         {
-                            weapon.transform.position = playerInv.hardPoints[hardpointSelected].position;
-                            weapon.transform.rotation = playerInv.hardPoints[hardpointSelected].rotation;
+                            //weapon.transform.position = playerInv.hardPoints[hardpointSelected].position;
+                            //weapon.transform.rotation = playerInv.hardPoints[hardpointSelected].rotation;
+                            //weaponOutlines[hardpointSelected].SetActive(false);
                         }
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            //playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, availableWeaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
-                            weapons[hardpointSelected].SetActive(true);
+                            //weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                     case "HardPoint2":
                         hardpointSelected = 1;
                         if (!placeWeapon)
                         {
-                            weapon.transform.position = playerInv.hardPoints[hardpointSelected].position;
-                            weapon.transform.rotation = playerInv.hardPoints[hardpointSelected].rotation;
+                            //weapon.transform.position = playerInv.hardPoints[hardpointSelected].position;
+                            //weapon.transform.rotation = playerInv.hardPoints[hardpointSelected].rotation;
+                            //weaponOutlines[hardpointSelected].SetActive(false);
                         }
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            //playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, availableWeaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
-                            weapons[hardpointSelected].SetActive(true);
+                            //weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                     case "HardPoint3":
                         hardpointSelected = 2;
                         if (!placeWeapon)
                         {
-                            weapon.transform.position = playerInv.hardPoints[hardpointSelected].position;
-                            weapon.transform.rotation = playerInv.hardPoints[hardpointSelected].rotation;
+                            //weapon.transform.position = playerInv.hardPoints[hardpointSelected].position;
+                            //weapon.transform.rotation = playerInv.hardPoints[hardpointSelected].rotation;
+                            //weaponOutlines[hardpointSelected].SetActive(false);
                         }
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            //playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, availableWeaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
-                            weapons[hardpointSelected].SetActive(true);
+                           // weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                     case "HardPoint4":
                         hardpointSelected = 3;
                         if (!placeWeapon)
                         {
-                            weapon.transform.position = playerInv.hardPoints[hardpointSelected].position;
-                            weapon.transform.rotation = playerInv.hardPoints[hardpointSelected].rotation;
+                            //weapon.transform.position = playerInv.hardPoints[hardpointSelected].position;
+                            //weapon.transform.rotation = playerInv.hardPoints[hardpointSelected].rotation;
+                            //weaponOutlines[hardpointSelected].SetActive(false);
                         }
                         else
                         {
                             GOD.audioengine.playSFX("TerminalBtnYes");
-                            playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            //playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
+                            playerInv.EquipWeaponFromHold(hardpointSelected, availableWeaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
-                            weapons[hardpointSelected].SetActive(true);
+                            //weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                 }
@@ -254,12 +263,26 @@ public class DockManager : MonoBehaviour
                 buttonText = "------";
             if (GUI.Button(new Rect(15, 20 + i * buttonSize.y, 150, buttonSize.y), buttonText))
             {
+                if(attachingWeapon)
+                {
+                    if(playerInv.equippedWeapons[i])
+                    {
+                        playerInv.availableWeapons.Add(playerInv.equippedWeapons[i]);
+                        playerInv.availableWeapons[playerInv.availableWeapons.Count - 1].transform.position = playerInv.inventoryLoc.position;
+                        playerInv.availableWeapons[playerInv.availableWeapons.Count - 1].gameObject.GetComponent<Weapon>().enabled = false;
+                    }
+                    playerInv.equippedWeapons[i] = playerInv.availableWeapons[availableWeaponSelected];
+                    playerInv.equippedWeapons[i].transform.position = playerInv.hardPoints[i].position;
+                    playerInv.equippedWeapons[i].transform.rotation = playerInv.hardPoints[i].rotation;
+                    playerInv.equippedWeapons[i].GetComponent<Weapon>().enabled = true;
+                    playerInv.availableWeapons.Remove(playerInv.availableWeapons[availableWeaponSelected]);
 
+                }
             }
         }
         if (GUI.Button(new Rect(15,  30 + 4 * buttonSize.y, 150, buttonSize.y), "Clear All Hardpoints"))
         {
-            Debug.Log("clear all");
+            //Debug.Log("clear all");
             //for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
             //{
             //    if (playerInv.equippedWeapons[i])
@@ -267,6 +290,12 @@ public class DockManager : MonoBehaviour
             //        playerInv.UnequipWeapon(i);
             //    }
             //}
+            playerInv.UnequipWeapons();
+            for (int i = 0; i < weaponOutlines.Length; i++)
+            {
+                //weapons[i].SetActive(false);
+                weaponOutlines[i].SetActive(true);
+            }
         }
 
     }
@@ -300,7 +329,8 @@ public class DockManager : MonoBehaviour
             {
                 GOD.audioengine.playSFX("TerminalBtn");
                 attachingWeapon = true;
-                weaponSelected = i;
+                //weaponSelected = i;
+                availableWeaponSelected = i;
             }
         }
     }
@@ -311,7 +341,7 @@ public class DockManager : MonoBehaviour
         GUI.Label(new Rect(5, 70, 120, buttonSize.y + 50), "Optional Missions: ");
 
 		for (int i = 0; i < GOD.godMission.MissionName.Length; i++) {
-            Debug.Log(GOD.godMission.MissionName[i].ToString());
+            //Debug.Log(GOD.godMission.MissionName[i].ToString());
             if (GUI.Button(new Rect(5, 120 + i * (buttonSize.y + 15), 190, buttonSize.y), GOD.godMission.MissionName[i].ToString()))
             {
 				GOD.audioengine.playSFX("TerminalBtn");
