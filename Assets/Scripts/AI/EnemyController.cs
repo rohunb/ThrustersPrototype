@@ -49,11 +49,11 @@ public class EnemyController : MonoBehaviour {
 	}
     void OnGUI()
     {
-        GUILayout.BeginArea(new Rect(Screen.width-150, 10, 150, 150));
-        GUILayout.BeginVertical();
-        GUILayout.Label("Num Enemies: " + enemies.Count);
-        GUILayout.EndVertical();
-        GUILayout.EndArea();
+        //GUILayout.BeginArea(new Rect(Screen.width-150, 10, 150, 150));
+        //GUILayout.BeginVertical();
+        //GUILayout.Label("Num Enemies: " + enemies.Count);
+        //GUILayout.EndVertical();
+        //GUILayout.EndArea();
     }
     public void SpawnEnemy(int numEnemies, Vector3 spawnLoc, AI_Controller.AI_Types _ai_type, Transform _target)
     {

@@ -176,19 +176,19 @@ public class ShipAttack : MonoBehaviour {
             GUI.DrawTexture(new Rect(xMin, Screen.height - yMin, crosshair.width / 10, crosshair.height / 10), crosshair);
         }
 
-        GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
-        GUILayout.BeginVertical();
-        GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
-        GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
-        GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
-        GUILayout.Label("Credits: " + gameObject.GetComponent<PlayerInventory>().GetCredits());
-        if (target)
-        {
-            GUILayout.Label("Target: " + target.name.ToString());
-            GUILayout.Label("Angle to Target: " + Vector3.Angle(targeter.forward, target.position - transform.position).ToString());
-        }
-        GUILayout.EndVertical();
-        GUILayout.EndArea();
+        //GUILayout.BeginArea(new Rect(10, Screen.height - 140, 150, 150));
+        //GUILayout.BeginVertical();
+        //GUILayout.Label("Afterburner: " + gameObject.GetComponent<ShipMove>().currentAfterburnerLevel);
+        //GUILayout.Label("Health: " + gameObject.GetComponent<Health>().health);
+        //GUILayout.Label("Shield: " + gameObject.GetComponent<Health>().shieldStrength);
+        //GUILayout.Label("Credits: " + gameObject.GetComponent<PlayerInventory>().GetCredits());
+        //if (target)
+        //{
+        //    GUILayout.Label("Target: " + target.name.ToString());
+        //    GUILayout.Label("Angle to Target: " + Vector3.Angle(targeter.forward, target.position - transform.position).ToString());
+        //}
+        //GUILayout.EndVertical();
+        //GUILayout.EndArea();
 
         if (target)
         {
