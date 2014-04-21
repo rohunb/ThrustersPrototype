@@ -41,7 +41,7 @@ public class DockManager : MonoBehaviour
     GameObject[] weaponOutlines;
     public GameObject weaponPrefab;
     GameObject weapon;
-    GameObject[] weapons;
+    //GameObject[] weapons;
     public List<GameObject> vendorWeapons;
     int vendorWpnSelected;
 	string selectedMission;
@@ -75,14 +75,14 @@ public class DockManager : MonoBehaviour
         //availableWindow = new Rect(Screen.width - 200, Screen.height / 2 - 200, 175, 10+playerInv.availableWeapons.Count * 20);
         popupRect = new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 225, 100);
         weaponOutlines = new GameObject[playerInv.numberOfHardpoints];
-        weapons = new GameObject[playerInv.numberOfHardpoints];
+        //weapons = new GameObject[playerInv.numberOfHardpoints];
         //foreach (Transform hardpoint in playerInv.hardPoints)
         for (int i = 0; i < playerInv.numberOfHardpoints; i++)
         {
             weaponOutlines[i] = Instantiate(weaponOutlinePrefab, playerInv.hardPoints[i].position, playerInv.hardPoints[i].rotation) as GameObject;
             weaponOutlines[i].SetActive(false);
-            weapons[i] = Instantiate(weaponPrefab, playerInv.hardPoints[i].position, playerInv.hardPoints[i].rotation) as GameObject;
-            weapons[i].SetActive(false);
+            //weapons[i] = Instantiate(weaponPrefab, playerInv.hardPoints[i].position, playerInv.hardPoints[i].rotation) as GameObject;
+            //weapons[i].SetActive(false);
         }
         weapon = Instantiate(weaponPrefab) as GameObject;
         weapon.SetActive(false);
@@ -136,7 +136,7 @@ public class DockManager : MonoBehaviour
                             GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
-                            weapons[hardpointSelected].SetActive(true);
+                            //weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                     case "HardPoint2":
@@ -151,7 +151,7 @@ public class DockManager : MonoBehaviour
                             GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
-                            weapons[hardpointSelected].SetActive(true);
+                            //weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                     case "HardPoint3":
@@ -166,7 +166,7 @@ public class DockManager : MonoBehaviour
                             GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
-                            weapons[hardpointSelected].SetActive(true);
+                           // weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                     case "HardPoint4":
@@ -181,7 +181,7 @@ public class DockManager : MonoBehaviour
                             GOD.audioengine.playSFX("TerminalBtnYes");
                             playerInv.EquipWeaponFromHold(hardpointSelected, weaponSelected);
                             weaponOutlines[hardpointSelected].SetActive(false);
-                            weapons[hardpointSelected].SetActive(true);
+                            //weapons[hardpointSelected].SetActive(true);
                         }
                         break;
                 }
@@ -259,7 +259,7 @@ public class DockManager : MonoBehaviour
         }
         if (GUI.Button(new Rect(15,  30 + 4 * buttonSize.y, 150, buttonSize.y), "Clear All Hardpoints"))
         {
-            Debug.Log("clear all");
+            //Debug.Log("clear all");
             //for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
             //{
             //    if (playerInv.equippedWeapons[i])
@@ -267,6 +267,12 @@ public class DockManager : MonoBehaviour
             //        playerInv.UnequipWeapon(i);
             //    }
             //}
+            playerInv.UnequipWeapons();
+            for (int i = 0; i < weaponOutlines.Length; i++)
+            {
+                //weapons[i].SetActive(false);
+                weaponOutlines[i].SetActive(true);
+            }
         }
 
     }
