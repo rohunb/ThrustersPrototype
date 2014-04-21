@@ -20,6 +20,7 @@ public class ClusterMissile : MonoBehaviour {
     {
         Instantiate(explosion, transform.position, Quaternion.identity);
         //play cluster sound
+		GOD.audioengine.playSFX("clusterExplosion");
         Vector3 spawnPos;
         for (int i = 0; i < numberOfMissiles; i++)
         {
