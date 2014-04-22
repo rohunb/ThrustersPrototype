@@ -60,7 +60,7 @@ public class EnemyController : MonoBehaviour {
     {
         for (int i = 0; i < numEnemies; i++)
         {
-            Vector3 spawnPos = spawnLoc + Random.onUnitSphere * 250;
+            Vector3 spawnPos = spawnLoc + Random.onUnitSphere * 500;
             GameObject enemyClone = Instantiate(enemy, spawnPos, Quaternion.identity) as GameObject;
             enemyClone.GetComponent<AI_Controller>().ai_type = _ai_type;
             enemyClone.GetComponent<AI_Controller>().target = _target;
