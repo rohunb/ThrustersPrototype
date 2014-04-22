@@ -265,6 +265,7 @@ public class DockManager : MonoBehaviour
             {
                 if(attachingWeapon)
                 {
+					GOD.audioengine.playSFX("TerminalBtn");
                     if(playerInv.equippedWeapons[i])
                     {
                         playerInv.availableWeapons.Add(playerInv.equippedWeapons[i]);
@@ -282,6 +283,7 @@ public class DockManager : MonoBehaviour
         }
         if (GUI.Button(new Rect(15,  30 + 4 * buttonSize.y, 150, buttonSize.y), "Clear All Hardpoints"))
         {
+			GOD.audioengine.playSFX("TerminalBtnYes");
             //Debug.Log("clear all");
             //for (int i = 0; i < playerInv.equippedWeapons.Length; i++)
             //{

@@ -27,6 +27,7 @@ public class GameOverCamera : MonoBehaviour
 
     void AddExplosions()
     {
+		GOD.audioengine.playSFX("gameOverShipExplosion");
         Instantiate(explosion, new Vector3(0, 7.75f, 0), Quaternion.identity);
     }
 }

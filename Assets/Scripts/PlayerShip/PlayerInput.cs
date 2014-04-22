@@ -311,6 +311,7 @@ public class PlayerInput : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+			GOD.audioengine.playSFX("Target");
             shipAttack.TargetNextEnemy();
         }
         if (Input.GetKeyDown(KeyCode.T))
@@ -322,8 +323,9 @@ public class PlayerInput : MonoBehaviour {
             playerInventory.ToggleInventory();
         }
 		//FTL Drive
-		if (Input.GetKey(KeyCode.P))
+		if (Input.GetKeyDown(KeyCode.P))
 		{
+			GOD.audioengine.playSFX("FtlBtn");
             iTween.FadeTo(GameObject.Find("Fader"), iTween.Hash("alpha", 1, "time", .5, "onComplete", "LoadFTLScene", "onCompleteTarget", gameObject));
 		}
     }

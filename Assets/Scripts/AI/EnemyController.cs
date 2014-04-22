@@ -43,6 +43,7 @@ public class EnemyController : MonoBehaviour {
                     if (missionController.missionEnemies.Contains(enemy))
                         missionController.missionEnemies.Remove(enemy);
                     GameObject.Destroy(enemy);
+					GOD.audioengine.playSFX("ShipExplosion");
                 }
             }
         }

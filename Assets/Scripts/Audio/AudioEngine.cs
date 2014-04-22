@@ -46,7 +46,7 @@ public class AudioEngine : MonoBehaviour {
 		audioSource2 = aSource[2];
 
 		string[] audioTags = new string[] { 
-			"Thrusters", "Laser", "MissleLaunch", "Torpedo", "Railgun", "MiningLaser", "missionTerminalEnd", "missionTerminalEnter", "TerminalEnter", "TerminalExit", "TerminalBtnYes", "TerminalBtn", "MenuPlayBtn", "Warning", "FtlMove", "FtlAlert", "FtlFlame", "Walk", "clusterExplosion"
+			"Thrusters", "Laser", "MissleLaunch", "Torpedo", "Railgun", "MiningLaser", "missionTerminalEnd", "missionTerminalEnter", "TerminalEnter", "TerminalExit", "TerminalBtnYes", "TerminalBtn", "MenuPlayBtn", "Warning", "FtlMove", "FtlAlert", "FtlFlame", "Walk", "clusterExplosion", "Target", "FtlBtn", "ShipExplosion", "gameOverShipExplosion", "Missionsuccess", "Missionfailed"
 		};
 
 		//Dictionary
@@ -67,6 +67,8 @@ public class AudioEngine : MonoBehaviour {
 				isSfxPlaying1 = false;
 				isSfxPlaying2 = false;
 				isSfxPlaying3 = false;
+				audioSource1.Stop();
+				audioSource2.Stop();
 				bgSFX = Resources.Load<AudioClip>("Audio/Background/IntroBG");
 				audioSource1.loop = true;
 				audioSource1.clip = bgSFX;
@@ -111,6 +113,19 @@ public class AudioEngine : MonoBehaviour {
 				audioSource1.Stop();
 				audioSource2.Stop();
 				bgSFX = Resources.Load<AudioClip>("Audio/Background/FTLBg");
+				audioSource1.loop = true;
+				audioSource1.clip = bgSFX;
+				audioSource1.Play();
+				isSfxPlaying3 = true;
+			}
+		} else if(Application.loadedLevelName == "GameOverScene") {
+			if(!isSfxPlaying3) {
+				isSfxPlaying = false;
+				isSfxPlaying1 = false;
+				isSfxPlaying3 = false;
+				audioSource1.Stop();
+				audioSource2.Stop();
+				bgSFX = Resources.Load<AudioClip>("Audio/Background/EndBg");
 				audioSource1.loop = true;
 				audioSource1.clip = bgSFX;
 				audioSource1.Play();

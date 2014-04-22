@@ -54,11 +54,13 @@ public class PlayerMissionController : MonoBehaviour
         {
             if (missionController.missionComplete)
             {
+				GOD.audioengine.playSFX("Missionsuccess");
                 showMissionCompleteText = true;
                 ClearMissionInfo();
             }
             if (missionController.missionFailed)
             {
+				GOD.audioengine.playSFX("Missionfailed");
                 showMissionFailedText = true;
                 ClearMissionInfo();
             }
