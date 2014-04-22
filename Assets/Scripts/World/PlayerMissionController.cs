@@ -87,17 +87,19 @@ public class PlayerMissionController : MonoBehaviour
 	}
     void OnGUI()
     {
-        GUILayout.BeginArea(new Rect(Screen.width - 200, Screen.height - 200, 150, 150));
-        GUILayout.BeginVertical();
+        GUI.skin = guiSkin;
+
+        Rect missionsRect = new Rect(Screen.width - 260, Screen.height / 2 - 200, 250, 400);
+        GUI.Box(missionsRect, "Missions");
+        GUI.BeginGroup(missionsRect);
         if (onMission)
         {
-            
             switch (missionController.missionType)
             {
                 case MissionController.MissionType.Exterminate:
                     
-                    GUILayout.Label("Mission: Exterminate 4 enemy ships");
-                    GUILayout.Label("Enemies left: " + missionController.missionEnemies.Count);
+                    GUI.Label(new Rect(30, 60, 300, 100), "Mission: \nExterminate 4 enemy ships");
+                    GUI.Label(new Rect(30, 140, 300, 100), "Enemies left: " + missionController.missionEnemies.Count);
                     break;
                 case MissionController.MissionType.Assassinate:
                     break;
@@ -106,22 +108,22 @@ public class PlayerMissionController : MonoBehaviour
                 case MissionController.MissionType.FedEx:
                     break;
                 case MissionController.MissionType.DistressCall:
-                    GUILayout.Label("Mission: Respond to the distress call");
+                    GUI.Label(new Rect(30, 60, 300, 100), "Mission: \nRespond to the distress call");
                     if (missionController.currentVictim)
                     {
-                        GUILayout.Label("Victim Health: " + missionController.currentVictim.GetComponent<Health>().health);
-                        GUILayout.Label("Victim Shields: " + missionController.currentVictim.GetComponent<Health>().shieldStrength);
+                        GUI.Label(new Rect(30, 100, 300, 100), "Victim Health: " + missionController.currentVictim.GetComponent<Health>().health);
+                        GUI.Label(new Rect(30, 140, 300, 100), "Victim Shields: " + missionController.currentVictim.GetComponent<Health>().shieldStrength);
                     }
-                    GUILayout.Label("Enemies left: " + missionController.missionEnemies.Count);
+                    GUI.Label(new Rect(30, 200, 300, 100), "Enemies left: " + missionController.missionEnemies.Count);
                     break;
                 case MissionController.MissionType.DestroyStructure:
-                    GUILayout.Label("Mission: Destroy the enemy's space station");
+                    GUI.Label(new Rect(30, 60, 300, 100), "Mission: \nDestroy the enemy's space station");
                     if (missionController.currentEnemyStruct)
                     {
-                        GUILayout.Label("Station Health: " + missionController.currentEnemyStruct.GetComponent<Health>().health);
-                        GUILayout.Label("Station Shields: " + missionController.currentEnemyStruct.GetComponent<Health>().shieldStrength);
+                        GUI.Label(new Rect(30, 100, 300, 100), "Station Health: " + missionController.currentEnemyStruct.GetComponent<Health>().health);
+                        GUI.Label(new Rect(30, 140, 300, 100), "Station Shields: " + missionController.currentEnemyStruct.GetComponent<Health>().shieldStrength);
                     }
-                    GUILayout.Label("Enemies left: " + missionController.missionEnemies.Count);
+                    GUI.Label(new Rect(30, 200, 300, 100), "Enemies left: " + missionController.missionEnemies.Count);
                     break;
 
                 default:
@@ -129,8 +131,7 @@ public class PlayerMissionController : MonoBehaviour
             }
 
         }
-        GUILayout.EndVertical();
-        GUILayout.EndArea();
+        GUI.EndGroup();
         
         if(specialTarget && Vector3.Distance(transform.position, specialTarget.transform.position) < 3000f) 
         {
