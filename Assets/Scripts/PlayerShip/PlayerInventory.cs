@@ -340,8 +340,7 @@ public class PlayerInventory : MonoBehaviour
                 availableWindow = GUI.Window(1, availableWindow, AvailableWindow, "Available Weapons");
             }
         }
-        if(Application.loadedLevelName == "GameScene")
-            GUI.Label(new Rect(Screen.width * .14f, Screen.height * .9f, 300, 100), "Velocity:\n" + Mathf.RoundToInt(rigidbody.velocity.magnitude));
+        
 
     }
 

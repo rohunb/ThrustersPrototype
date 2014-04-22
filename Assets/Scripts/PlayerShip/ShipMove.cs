@@ -57,8 +57,8 @@ public class ShipMove : MonoBehaviour {
     }
 
     
-    //void OnGUI()
-    //{
+    void OnGUI()
+    {
     //    GUILayout.BeginArea(new Rect(10, 10, 150, 150));
     //    GUILayout.BeginVertical();
     //    GUILayout.Label("Velocity: " + rigidbody.velocity.ToString());
@@ -67,7 +67,15 @@ public class ShipMove : MonoBehaviour {
     //    GUILayout.Label("Mouse Pos: " + Camera.main.ScreenToViewportPoint(Input.mousePosition).ToString());
     //    GUILayout.EndVertical();
     //    GUILayout.EndArea();
-    //}
+
+        if (Application.loadedLevelName == "GameScene")
+        {
+            
+            GUI.Label(new Rect(Screen.width / 53.18f, Screen.height - Screen.height / 3.67f, Screen.width / 2.84f, Screen.height / 10.8f), "<size=16>Speed: " + Mathf.RoundToInt(rigidbody.velocity.magnitude) + " m/s</size>");
+            
+        }
+
+    }
 
     public void FireAfterburner()
     {

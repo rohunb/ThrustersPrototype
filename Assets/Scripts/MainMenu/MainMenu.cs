@@ -141,28 +141,8 @@ public class MainMenu : MonoBehaviour {
 
         if (showCredits)
         {
-            //Rect creditsRect = new Rect(Screen.width / 2 - 150, Screen.height / 2 - 200, 300, 400);
-
-            //GUI.Box(creditsRect, "Credits");
-            //GUI.BeginGroup(creditsRect);
-
-            //string[] names = new string[] { "McCann, Alex", "Banerji, Rohun", "Vo, David", "Powers, Geordie", "Nokes, Kyle", "Adao, Christian" };
-
-            //for (int i = 0; i < names.Length; i++)
-            //{
-            //    GUI.Label(new Rect(creditsRect.width / 2 - 80, 50 + 40 * i, 200, 40), names[i]);
-            //}
-
-            //if (GUI.Button(new Rect(creditsRect.width / 2 - 100, creditsRect.height - 80, 200, 70), "Return"))
-            //{
-            //    GOD.audioengine.playSFX("TerminalBtn");
-            //    showCredits = false;
-            //    showMainMenu = true;
-            //}
-            //GUI.EndGroup();
             float creditsWidth = Screen.width / 1.32f;
             float creditsHeight = Screen.height / 1.2f;
-            //Rect creditsRect = new Rect(Screen.width , Screen.height / 21.6f, Screen.width - Screen.width / 38.4f, Screen.height - Screen.height / 21.6f);
             Rect creditsRect = new Rect(Screen.width / 2 - creditsWidth / 2, Screen.height / 2 - creditsHeight / 2, creditsWidth, creditsHeight);
             GUI.Box(creditsRect, "Credits");
             GUI.BeginGroup(creditsRect);
@@ -174,16 +154,6 @@ public class MainMenu : MonoBehaviour {
             float labelHeightPadding = 0;// Screen.height / 108f;
 
 
-            //for (int i = 0; i < names.Length; i++)
-            //{
-            //    //GUI.Label(new Rect(creditsRect.width / 2 - 80, 50 + 40 * i, labelWidth, labelHeight), names[i]);
-            //    for (int j = 0; j < length; j++)
-            //{
-			 
-            //}
-            //    GUI.Label(new Rect(creditsRect.left+labelPadding+labelPadding*i,creditsRect.top+labelPadding))
-
-            //}
             for (int i = 0; i < work.GetLength(0); i++)
             {
                 GUI.Label(new Rect(Screen.width / 13.7f + (labelWidthPadding+labelWidth) * i, Screen.height / 13.6f, labelWidth, labelHeight),"<color=yellow>"+names[i]+"</color>");
