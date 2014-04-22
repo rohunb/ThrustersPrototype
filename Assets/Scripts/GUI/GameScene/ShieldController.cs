@@ -15,6 +15,14 @@ public class ShieldController : MonoBehaviour
 
     void Start()
     {
+        if (Screen.width > 1500)
+        {
+            transform.position = new Vector3(-7.94f, transform.position.y, transform.position.z);
+        }
+        else
+        {
+            transform.position = new Vector3(-5.75f, transform.position.y, transform.position.z);
+        }
         renderer.material.SetFloat("_Cutoff", cutoff);
         maxShield = shipHp.maxShield;
     }
