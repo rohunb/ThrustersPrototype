@@ -44,8 +44,4 @@ public class AfterburnerController : MonoBehaviour
 
         renderer.material.SetFloat("_Cutoff", cutoff);
     }
-    void OnGUI()
-    {
-        GUI.Label(new Rect(Screen.width / 12.94f, Screen.height - Screen.height / 4.3f, Screen.width / 2.84f, Screen.height / 10.8f), "<size=14>Afterburner</size>");
-    }
 }
