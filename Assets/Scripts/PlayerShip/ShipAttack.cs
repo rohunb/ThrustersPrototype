@@ -59,7 +59,8 @@ public class ShipAttack : MonoBehaviour {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
             foreach (Weapon weapon in inventory.equippedWeapons)
             {
-                weapon.AimAt(mousePos);
+                if(weapon)
+                    weapon.AimAt(mousePos);
             }
             xMin = Input.mousePosition.x - (crosshair.width / 2 / 10);
             yMin = (Screen.height - Input.mousePosition.y) - (crosshair.height / 2 / 10);

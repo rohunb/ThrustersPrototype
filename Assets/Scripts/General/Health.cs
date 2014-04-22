@@ -70,7 +70,7 @@ public class Health : MonoBehaviour {
             alive = false;
             if(gameObject.tag=="PlayerShip")
             {
-                Debug.Log("Game Over");
+                Application.LoadLevel("GameOverScene");
                 //trigger game over
             }
         }

@@ -27,7 +27,6 @@ public class PlayerInventory : MonoBehaviour
     //inventory GUI
     private bool displayInventory = false;
     private bool showAvailableWeapons = false;
-    private bool showMissionLog = true;
     private int hardpointSelected;
 
     private Rect equippedWindow;
@@ -330,7 +329,6 @@ public class PlayerInventory : MonoBehaviour
         {
             DisplayEquippedWeapons();
             //DisplayMinorOptions();
-            if (showMissionLog) DisplayMissions();
         }
 
         if (displayInventory)
@@ -342,6 +340,7 @@ public class PlayerInventory : MonoBehaviour
                 availableWindow = GUI.Window(1, availableWindow, AvailableWindow, "Available Weapons");
             }
         }
+        
 
     }
 
@@ -363,15 +362,7 @@ public class PlayerInventory : MonoBehaviour
         }
         GUI.EndGroup();
     }
-
-    void DisplayMissions()
-    {
-        Rect missionsRect = new Rect(Screen.width - 260, Screen.height / 2 - 200, 250, 400);
-        GUI.Box(missionsRect, "Missions");
-        GUI.BeginGroup(missionsRect);
-        GUI.EndGroup();
-    }
-
+    
     //void DisplayMinorOptions()
     //{
     //    if (GUI.Button(new Rect(Screen.width - 90, 0, 30, 20), "M"))
@@ -443,10 +434,5 @@ public class PlayerInventory : MonoBehaviour
     {
         displayInventory = !displayInventory;
 
-    }
-
-    public void ToggleMissionLog()
-    {
-        showMissionLog = !showMissionLog;
     }
 }

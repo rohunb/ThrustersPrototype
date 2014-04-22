@@ -321,11 +321,6 @@ public class PlayerInput : MonoBehaviour {
         {
             playerInventory.ToggleInventory();
         }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            playerInventory.ToggleMissionLog();
-        }
-
 		//FTL Drive
 		if (Input.GetKey(KeyCode.P))
 		{

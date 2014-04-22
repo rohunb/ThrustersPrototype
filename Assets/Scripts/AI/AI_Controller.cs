@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class AI_Controller : MonoBehaviour
 {
@@ -39,11 +40,11 @@ public class AI_Controller : MonoBehaviour
     public bool spotted = false;
 
     bool invokedBreakAway = false;
-    
+    MissionController missionController;
 
     void Start()
     {
-
+        missionController = GameObject.FindObjectOfType<MissionController>();
         switch (ai_type)
         {
             case AI_Types.FlyBy:
@@ -107,7 +108,18 @@ public class AI_Controller : MonoBehaviour
                 break;
             case AI_Types.Assassin:
                 if (distToTarget < sightRange)
+                {
                     spotted = true;
+                    GameObject missionEnemy = missionController.missionEnemies.FirstOrDefault(e => e == this.gameObject);
+                    if(missionEnemy)
+                    {
+                        missionController.missionEnemies
+                            .Where(e => e != this.gameObject)
+                            .ToList()
+                            .ForEach(e => e.GetComponent<AI_Controller>().spotted = true);
+                    }
+
+                }
                 if (spotted)
                 {
                     ai_type = AI_Types.FlyBy;

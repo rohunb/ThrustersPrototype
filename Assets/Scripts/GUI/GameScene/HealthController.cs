@@ -15,6 +15,15 @@ public class HealthController : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(Screen.width);
+        if(Screen.width >1500)
+        {
+            transform.position = new Vector3(-8.42f, transform.position.y, transform.position.z);
+        }
+        else
+        {
+            transform.position = new Vector3(-6.2f, transform.position.y, transform.position.z);
+        }
         renderer.material.SetFloat("_Cutoff", cutoff);
         maxHp = shipHp.health;
     }
